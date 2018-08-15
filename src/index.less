@@ -1,0 +1,55 @@
+html,
+body,
+:global(#root) {
+  height: 100%;
+}
+
+:global(.ant-layout) {
+  min-height: 100%;
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// temp fix for https://github.com/ant-design/ant-design/commit/a1fafb5b727b62cb0be29ce6e9eca8f579d4f8b7
+:global {
+  .ant-spin-container {
+    overflow: visible !important;
+  }
+
+  .global-spin {
+    width: 100%;
+    margin: 40px 0 !important;
+  }
+
+  .ant-layout-header .ant-layout-header .ant-menu-horizontal > .ant-menu-item,
+  .ant-layout-header .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu {
+  }
+
+  .ant-layout-header .ant-menu-horizontal > .ant-menu-item,
+  .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu {
+    position: relative;
+    top: 1px;
+    float: left;
+    border-bottom: 2px solid #292929;
+    width: 120px;
+    text-align: center;
+  }
+  .ant-layout-header .ant-menu-horizontal > .ant-menu-item:hover,
+  .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu:hover,
+  .ant-layout-header .ant-menu-horizontal > .ant-menu-item-active,
+  .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu-active,
+  .ant-layout-header .ant-menu-horizontal > .ant-menu-item-open,
+  .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu-open,
+  .ant-layout-header .ant-menu-horizontal > .ant-menu-item-selected,
+  .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu-selected {
+    border-bottom: 2px solid #ee5e1f;
+  }
+}
