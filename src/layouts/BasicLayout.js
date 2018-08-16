@@ -8,16 +8,17 @@ import { ContainerQuery } from 'react-container-query';
 import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import { enquireScreen, unenquireScreen } from 'enquire-js';
-import GlobalHeader from '../components/GlobalHeader';
+// import GlobalHeader from '../components/GlobalHeader';
 import GlobalFooter from '../components/GlobalFooter';
-import SiderMenu from '../components/SiderMenu';
+// import SiderMenu from '../components/SiderMenu';
+import HeaderMenu from '../components/HeaderMenu';
 import NotFound from '../routes/Exception/404';
 import { getRoutes } from '../utils/utils';
 import Authorized from '../utils/Authorized';
 import { getMenuData } from '../common/menu';
 import logo from '../assets/logo.svg';
 
-const { Content, Header, Footer } = Layout;
+const { Content, Footer } = Layout;
 const { AuthorizedRoute, check } = Authorized;
 
 /**
@@ -207,10 +208,6 @@ export default class BasicLayout extends React.PureComponent {
 
   render() {
     const {
-      currentUser,
-      collapsed,
-      fetchingNotices,
-      notices,
       routerData,
       match,
       location,
@@ -219,20 +216,19 @@ export default class BasicLayout extends React.PureComponent {
     const baseRedirect = this.getBaseRedirect();
     const layout = (
       <Layout>
-        <SiderMenu
+        <HeaderMenu
           logo={logo}
           // 不带Authorized参数的情况下如果没有权限,会强制跳到403界面
           // If you do not have the Authorized parameter
           // you will be forced to jump to the 403 interface without permission
           Authorized={Authorized}
           menuData={getMenuData()}
-          collapsed={collapsed}
           location={location}
           isMobile={mb}
           onCollapse={this.handleMenuCollapse}
         />
         <Layout>
-          <Header style={{ padding: 0 }}>
+          {/* <Header style={{ padding: 0 }}>
             <GlobalHeader
               logo={logo}
               currentUser={currentUser}
@@ -245,7 +241,7 @@ export default class BasicLayout extends React.PureComponent {
               onMenuClick={this.handleMenuClick}
               onNoticeVisibleChange={this.handleNoticeVisibleChange}
             />
-          </Header>
+          </Header> */}
           <Content style={{ margin: '24px 24px 0', height: '100%' }}>
             <Switch>
               {redirectData.map(item => (
