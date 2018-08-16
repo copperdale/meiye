@@ -1,3 +1,5 @@
+@import '~antd/lib/style/themes/default.less';
+
 html,
 body,
 :global(#root) {
@@ -29,27 +31,22 @@ body {
     margin: 40px 0 !important;
   }
 
-  // .ant-layout-header .ant-layout-header .ant-menu-horizontal > .ant-menu-item,
-  // .ant-layout-header .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu {
-  // }
+  .primary-blue{
+    color: #1890ff !important;
+  }
 
-  // .ant-layout-header .ant-menu-horizontal > .ant-menu-item,
-  // .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu {
-  //   position: relative;
-  //   top: 1px;
-  //   float: left;
-  //   border-bottom: 2px solid #292929;
-  //   width: 120px;
-  //   text-align: center;
-  // }
-  // .ant-layout-header .ant-menu-horizontal > .ant-menu-item:hover,
-  // .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu:hover,
-  // .ant-layout-header .ant-menu-horizontal > .ant-menu-item-active,
-  // .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu-active,
-  // .ant-layout-header .ant-menu-horizontal > .ant-menu-item-open,
-  // .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu-open,
-  // .ant-layout-header .ant-menu-horizontal > .ant-menu-item-selected,
-  // .ant-layout-header .ant-menu-horizontal > .ant-menu-submenu-selected {
-  //   border-bottom: 2px solid #ee5e1f;
-  // }
+  .primary-blue-button{
+    background-color: #1890ff !important;
+    color: #FFF !important;
+    &:hover {
+      background-color: #0875d4 !important;
+      border-color: #0875d4 !important;
+    }
+  }
+  .ant-pagination-item-active{
+    border-color: #1890ff !important;
+    a{
+      color: #1890ff !important;
+    }
+  }
 }

@@ -51,7 +51,7 @@ export default class Product extends Component {
                 <Breadcrumb>
                   <Breadcrumb.Item>品相列表</Breadcrumb.Item>
                   <Breadcrumb.Item>水光针</Breadcrumb.Item>
-                  <Button size="small" style={{ float: 'right' }} type="primary">新建品项</Button>
+                  <Button size="small" style={{ float: 'right' }} className="primary-blue primary-blue-button">新建品项</Button>
                 </Breadcrumb>
                 <hr />
                 <QueryForm />

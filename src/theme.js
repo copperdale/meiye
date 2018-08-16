@@ -2,4 +2,5 @@
 module.exports = {
   'primary-color': '#ee5e1f ',
   'card-actions-background': '#f5f8fa',
+  'btn-danger-color': '#1890ff',
 };

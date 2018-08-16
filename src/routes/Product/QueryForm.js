@@ -63,7 +63,7 @@ class BasicForm extends React.Component {
             )}
         </FormItem>
         <FormItem>
-          <Button size="small" type="primary" htmlType="submit">Query</Button>
+          <Button size="small" type="primary" htmlType="submit">查询</Button>
         </FormItem>
       </Form>
     );
