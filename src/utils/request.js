@@ -2,6 +2,7 @@ import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
 import store from '../index';
+import { getToken } from './authority';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -44,13 +45,17 @@ function checkStatus(response) {
  */
 export default function request(url, options) {
   const defaultOptions = {
-    // credentials: 'include',
+    // credentials: 'include'
   };
+  if (getToken()) {
+    defaultOptions.headers ? defaultOptions.headers.token = getToken() : defaultOptions.headers = { token: getToken() };
+  }
   const newOptions = { ...defaultOptions, ...options };
   if (
     newOptions.method === 'POST' ||
     newOptions.method === 'PUT' ||
-    newOptions.method === 'DELETE'
+    newOptions.method === 'DELETE' || 
+    newOptions.method === 'GET' 
   ) {
     if (!(newOptions.body instanceof FormData)) {
       newOptions.headers = {

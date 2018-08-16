@@ -1,5 +1,6 @@
 import { stringify } from 'qs';
 import request from '../utils/request';
+import { prefix } from './URL.js';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -61,7 +62,7 @@ export async function queryFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  return request('http://118.113.201.139:8090/MeiYe/login', {
+  return request(prefix + 'MeiYe/login', {
     method: 'POST',
     body: params,
   });

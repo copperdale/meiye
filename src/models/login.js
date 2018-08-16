@@ -1,7 +1,7 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import { fakeAccountLogin } from '../services/api';
-import { setAuthority, setUserInfo } from '../utils/authority';
+import { setAuthority, setUserInfo, setToken } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 import { getPageQuery } from '../utils/utils';
 
@@ -66,6 +66,7 @@ export default {
     changeLoginStatus(state, { payload }) {
       setAuthority('admin');
       setUserInfo(JSON.stringify(payload.data));
+      setToken(payload.data.token);
       return {
         ...state,
         status: payload.status,
