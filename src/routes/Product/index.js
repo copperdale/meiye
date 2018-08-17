@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import { Row, Col, Card, Button, List, Breadcrumb } from 'antd';
+import { Row, Col, Card, Button, List, Breadcrumb, Modal } from 'antd';
 import { connect } from 'dva';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import QueryForm from './QueryForm';
 import SerachResult from './SearchResult';
+import AddProductModal from './AddProductModal';
 
 @connect((state) => ({
-  productList: state.product.productList
+  productList: state.product.productList,
 }))
 export default class Product extends Component {
   // componentDidMount() {
@@ -16,15 +17,29 @@ export default class Product extends Component {
   //     type: 'product/getProductList',
   //   });
   // }
-  deleteProduct = (id) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'product/deleteProduct',
+  // deleteProduct = (id) => {
+  //   const { dispatch } = this.props;
+  //   dispatch({
+  //     type: 'product/deleteProduct',
+  //     payload: {
+  //       id
+  //     }
+  //   });
+  // }
+  toggleAddProductModal = (id) => {
+    this.props.dispatch({
+      type: 'product/updateState',
       payload: {
-        id
-      }
+        showAddModal: true,
+        addProductParentId: id,
+        addModalFormData: {
+          name: { value: '' },
+          no: { value: '' },
+        },
+      },
     });
-  } 
+  }
+
   render() {
     return (
       <PageHeaderLayout>
@@ -34,7 +49,7 @@ export default class Product extends Component {
               <h4>品项类别管理</h4>
               <div style={{ lineHeight: '32px', height: '32px' }}>
                 一级分类{this.props.productList.length}个，二级分类5个
-                <Button type="primary" style={{ float: 'right' }}>创建一级分类</Button>
+                <Button type="primary" style={{ float: 'right' }} onClick={() => { this.toggleAddProductModal()}}>创建一级分类</Button>
               </div>
               {
                 this.props.productList.map(item => (
@@ -42,7 +57,7 @@ export default class Product extends Component {
                     <div style={{ marginTop: '8px', padding: '0px 4px', backgroundColor: '#ccc', height: '32px', lineHeight: '32px', textAlign: 'right' }}>
                       <span style={{ float: 'left', marginLeft: '4px' }}>{item.name}</span>
                       <a href="javascript:void(0)">编辑</a>&nbsp;
-                      <a href="javascript:void(0)" onClick={this.deleteProduct(item.id)}>删除</a> &nbsp;
+                      <a href="javascript:void(0)" onClick={() => { this.deleteProduct(item.id) }}>删除</a> &nbsp;
                       <Button size="small" type="primary">添加下一级分类</Button>
                     </div>
                     <List
@@ -50,12 +65,13 @@ export default class Product extends Component {
                       itemLayout="horizontal"
                       split={false}
                       dataSource={item.dishBrandTypeBoList}
-                      renderItem={(item) => (
+                      renderItem={(subItem) => (
                         <List.Item actions={[
                           <a href="javascript:void(0)">编辑</a>,
-                          <a href="javascript:void(0)" onClick={this.deleteProduct(item.id)}>删除</a>
-                        ]}>
-                          <span style={{ paddingLeft: '20px' }}>{item.name}</span>
+                          <a href="javascript:void(0)" onClick={() => { this.deleteProduct(subItem.id) }}>删除</a>,
+                        ]}
+                        >
+                          <span style={{ paddingLeft: '20px' }}>{subItem.name}</span>
                         </List.Item>
                       )}
                     />
@@ -63,11 +79,11 @@ export default class Product extends Component {
                 ))
               }
               
-              <div style={{ marginTop: '8px', padding: '0px 4px 0px 16px', height: '18px', lineHeight: '18px', textAlign: 'right' }}>
+              {/* <div style={{ marginTop: '8px', padding: '0px 4px 0px 16px', height: '18px', lineHeight: '18px', textAlign: 'right' }}>
                 <span style={{ float: 'left', marginLeft: '4px' }}>护肤类</span>
                 <a href="javascript:void(0)">编辑</a>&nbsp;
                 <a href="javascript:void(0)">删除</a> &nbsp;
-              </div>
+              </div> */}
             </Card>
           </Col>
           <Col span={16}>
@@ -85,6 +101,8 @@ export default class Product extends Component {
             </Card>
           </Col>
         </Row>
+        
+        <AddProductModal />
       </PageHeaderLayout>
     );
   }

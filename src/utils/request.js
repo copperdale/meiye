@@ -45,7 +45,11 @@ function checkStatus(response) {
  */
 export default function request(url, options) {
   const defaultOptions = {
-    // credentials: 'include'
+    credentials: 'include',
+    // 'headers': {
+    //   'Access-Control-Allow-Origin': '*',
+    // },
+    'mode': 'cors',
   };
   if (getToken()) {
     defaultOptions.headers ? defaultOptions.headers.token = getToken() : defaultOptions.headers = { token: getToken() };
