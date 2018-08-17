@@ -17,24 +17,25 @@ export default class Product extends Component {
   //     type: 'product/getProductList',
   //   });
   // }
-  // deleteProduct = (id) => {
-  //   const { dispatch } = this.props;
-  //   dispatch({
-  //     type: 'product/deleteProduct',
-  //     payload: {
-  //       id
-  //     }
-  //   });
-  // }
-  toggleAddProductModal = (id) => {
+  deleteProduct = (id) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'product/deleteProduct',
+      payload: {
+        id
+      }
+    });
+  }
+  toggleAddProductModal = (id, isEditProductType = false, item = {}) => {
     this.props.dispatch({
       type: 'product/updateState',
       payload: {
         showAddModal: true,
         addProductParentId: id,
+        isEditProductType,
         addModalFormData: {
-          name: { value: '' },
-          no: { value: '' },
+          name: { value: item.name || '' },
+          no: { value: item.typeCode || '' },
         },
       },
     });
@@ -48,7 +49,7 @@ export default class Product extends Component {
             <Card bordered={false}>
               <h4>品项类别管理</h4>
               <div style={{ lineHeight: '32px', height: '32px' }}>
-                一级分类{this.props.productList.length}个，二级分类5个
+                一级分类{this.props.productList.length}个
                 <Button type="primary" style={{ float: 'right' }} onClick={() => { this.toggleAddProductModal()}}>创建一级分类</Button>
               </div>
               {
@@ -56,18 +57,21 @@ export default class Product extends Component {
                   <Fragment>
                     <div style={{ marginTop: '8px', padding: '0px 4px', backgroundColor: '#ccc', height: '32px', lineHeight: '32px', textAlign: 'right' }}>
                       <span style={{ float: 'left', marginLeft: '4px' }}>{item.name}</span>
-                      <a href="javascript:void(0)">编辑</a>&nbsp;
+                      <a href="javascript:void(0)" onClick={() => { this.toggleAddProductModal(item.id, true, item)}}>编辑</a>&nbsp;
                       <a href="javascript:void(0)" onClick={() => { this.deleteProduct(item.id) }}>删除</a> &nbsp;
-                      <Button size="small" type="primary">添加下一级分类</Button>
+                      <Button size="small" type="primary" onClick={() => { this.toggleAddProductModal(item.id)}}>添加下一级分类</Button>
                     </div>
                     <List
                       size="small"
                       itemLayout="horizontal"
                       split={false}
+                      locale={{
+                        emptyText: '暂无下级分类'
+                      }}
                       dataSource={item.dishBrandTypeBoList}
                       renderItem={(subItem) => (
                         <List.Item actions={[
-                          <a href="javascript:void(0)">编辑</a>,
+                          <a href="javascript:void(0)" onClick={() => { this.toggleAddProductModal(subItem.id, true, subItem)}}>编辑</a>,
                           <a href="javascript:void(0)" onClick={() => { this.deleteProduct(subItem.id) }}>删除</a>,
                         ]}
                         >

@@ -21,7 +21,10 @@ export default class AddProductModal extends Component {
   }
 
   handleOk = () => {
-    this.toggleShowAddModal();
+    this.props.dispatch({
+      type: 'product/addProductType'
+    });
+    // this.toggleShowAddModal();
   }
 
   render() {

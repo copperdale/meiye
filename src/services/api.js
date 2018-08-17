@@ -62,7 +62,7 @@ export async function queryFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  return request(prefix + 'MeiYe/login', {
+  return request(prefix + 'MeiYe/login?username=admin&password=123456', {
     method: 'POST',
     body: params,
   });
