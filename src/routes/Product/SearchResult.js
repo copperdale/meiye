@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Table, Divider, Icon } from 'antd';
+import { connect } from 'dva';
 
+@connect((state) => ({
+  queryResult: state.product.queryResult,
+}))
 export default class SearchResult extends Component {
   render() {
     const columns = [{
@@ -41,22 +45,7 @@ export default class SearchResult extends Component {
       ),
     }];
 
-    let data = [{
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    }, {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    }, {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-    }];
+    let data = this.props.queryResult;
     data = data.concat(data).concat(data);
     const pager = {
       pageSize: 20,

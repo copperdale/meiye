@@ -25,3 +25,15 @@ export async function editProductType({ id, name, typeCode }) {
     });
 }
 
+export async function queryProductTypes({ name, dishCode, type }) {
+    return request(`${prefix}MeiYe/public/api/part/dishShop/getDishShopPageByCriteria?token=${getToken()}`, {
+        method: 'POST',
+        body: {
+            'pageNum':1,
+            'pageSize':1000000,
+            name, dishCode, type
+        }
+    });
+}
+
+// /public/api/part/dishShop/getDishShopPageByCriteria
