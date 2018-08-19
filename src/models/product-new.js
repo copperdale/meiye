@@ -1,5 +1,4 @@
-import { getProductList, deleteProduct, addProductType, editProductType, queryProductTypes } from '../services/product';
-import { newSingleProduct, getProductById, updateSingleProduct } from '../services/product-new';
+import { newSingleProduct, getProductById, updateSingleProduct, querySingleProductItems } from '../services/product-new';
 import { routerRedux } from 'dva/router';
 import { parse } from 'qs';
 
@@ -20,21 +19,56 @@ export default {
       addons: [{ name: '测试名字', price: '测试价格' }]
     },
     setFormData: {
-        name: { value: '' },
-        code: { value: '' },
-        type: { value: '' },
-        price: { value: '' },
-        amount: { value: '' },
-        unit: { value: '' },
+      name: { value: '' },
+      code: { value: '' },
+      type: { value: '' },
+      price: { value: '' },
+      amount: { value: '' },
+      unit: { value: '' },
+      'dishSetmealGroupBos': [
+        {
+          'name': '经济套餐',
+          'orderMin': 0,
+          'orderMax': 5,
+          'dishSetmealBos': [{
+            'childDishId': 11,
+            'price': 122,
+            'isReplace': 1,
+            'isDefault': 1,
+            'isMulti': 1,
+            'leastCellNum': 1
+          }]
+        }, {
+          'name': '商务套餐',
+          'orderMin': 0,
+          'orderMax': 5,
+          'dishSetmealBos': [{
+            'childDishId': 11,
+            'price': 124,
+            'isReplace': 1,
+            'isDefault': 1,
+            'isMulti': 1,
+            'leastCellNum': 1
+          }]
+        }
+      ]
     },
+    setProductTypeToBeEdit: {
+
+    },
+    selectedSetProductType: {},
+    showSetFormBottomRightAddModal: false,
+    SetFormBottomRightAddModalTableData: [],
     addtype: '0',
+    // 用于选择构造套餐时候的子项
+    singleProductList: [],
   },
 
   effects: {
     *getProductInfo({ payload: { id } }, { call, put, select }) {
       const response = yield call(getProductById, id);
       yield put({
-        type: 'updateState',
+        type: 'product-new/updateState',
         payload: {
           singleFormData: {
             name: { value: response.data.name },
@@ -46,6 +80,15 @@ export default {
             addons: response.data.dishPropertyBos
           }
         },
+      });
+    },
+    *getSingleProductList(_, { call, put, select }) {
+      const response = yield call(querySingleProductItems);
+      yield put ({
+        type: 'product-new/updateState',
+        payload: {
+          singleProductList: response.data.content
+        }
       });
     },
     *new(_, { call, put, select }) {
@@ -67,7 +110,7 @@ export default {
       const response = yield call(newSingleProduct, param);
       routerRedux.push('/product');
     },
-    *new(_, { call, put, select }) {
+    *update(_, { call, put, select }) {
       const addtype = yield select(state => state['product-new'].addtype);
       if (addtype === '0') {
         const singleFormdata = yield select(state => state['product-new'].singleFormData);
@@ -123,6 +166,9 @@ export default {
             type: 'product-new/updateState',
             payload: result
           });
+          dispatch({
+            type: 'product-new/getSingleProductList'
+          })
 
           // dispatch({
           //   type: 'product/addProductType',

@@ -11,18 +11,19 @@ const RadioGroup = Radio.Group
 
 @connect((state) => ({
     addtype: state['product-new'].addtype,
+    isEdit: state['product-new'].isEdit
   }))
 export default class NewItem extends Component {
 
   save = () => {
     this.props.dispatch({
-      type: 'product-new/new'
+      type: 'product-new/new',
     });
 }
   render() {
       console.log(this.props.addtype)
     return (
-      <ProductTypeLayout breadcrumbs={['品项', '新建品项']} actionButtons={
+      <ProductTypeLayout breadcrumbs={['品项', this.props.isEdit ? '编辑品项' : '新建品项']} actionButtons={
         [
             <Button
                 size="small"

@@ -1,6 +1,6 @@
 // import { stringify } from 'qs';
 import request from '../utils/request';
-import { prefix } from './URL.js';
+import { prefix } from './URL';
 import { getToken } from '../utils/authority';
 
 export async function getProductList() {

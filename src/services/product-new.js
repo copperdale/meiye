@@ -58,4 +58,15 @@ export async function updateSingleProduct({
     });
 }
 
+export async function querySingleProductItems() {
+  return request(`${prefix}MeiYe/public/api/part/dishShop/getDishShopPageByCriteria?token=${getToken()}`, {
+      method: 'POST',
+      body: {
+          'pageNum':0,
+          'pageSize':1000000,
+          'type': '0'
+      }
+  });
+}
+
 // /public/api/part/dishShop/getDishShopPageByCriteria

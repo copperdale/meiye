@@ -53,7 +53,7 @@ export default class ProductTypeLayout extends Component {
   }
 
   render() {
-    console.log(this.props.selecteDishTypeId, this.props.productList)
+    // console.log(this.props.selecteDishTypeId, this.props.productList)
     return (
       <PageHeaderLayout>
         <Row gutter={16}>
