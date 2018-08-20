@@ -9,7 +9,7 @@ import SetFormBottomRightAddModalTable from './SetFormBottomRightAddModalTable';
 export default class AddProductModal extends Component {
   toggleShowAddModal = () => {
     this.props.dispatch({
-      type: 'product/updateState',
+      type: 'product-new/updateState',
       payload: {
         showSetFormBottomRightAddModal: !this.props.showSetFormBottomRightAddModal,
       },
@@ -21,9 +21,9 @@ export default class AddProductModal extends Component {
   }
 
   handleOk = () => {
-    this.props.dispatch({
-      type: 'product/addProductType'
-    });
+    // this.props.dispatch({
+    //   type: 'product/addProductType'
+    // });
     // this.toggleShowAddModal();
   }
 
@@ -34,6 +34,8 @@ export default class AddProductModal extends Component {
         visible={this.props.showSetFormBottomRightAddModal}
         onOk={this.handleOk}
         onCancel={this.handleCancel}
+        okText="保存"
+        cancelText="取消"
       >
         <SetFormBottomRightAddModalTable />
       </Modal>

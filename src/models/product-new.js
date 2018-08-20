@@ -1,6 +1,6 @@
-import { newSingleProduct, getProductById, updateSingleProduct, querySingleProductItems } from '../services/product-new';
 import { routerRedux } from 'dva/router';
 import { parse } from 'qs';
+import { newSingleProduct, getProductById, updateSingleProduct, querySingleProductItems } from '../services/product-new';
 
 
 export default {
@@ -16,7 +16,12 @@ export default {
       price: { value: '' },
       amount: { value: '' },
       unit: { value: '' },
-      addons: [{ name: '测试名字', price: '测试价格' }]
+      addons: [{ name: '测试名字', price: '测试价格' }],
+    },
+    SetFormBottomAddModalFormData: {
+      name: { value: '' },
+      orderMin: { value: '' },
+      orderMax: { value: '' },
     },
     setFormData: {
       name: { value: '' },
@@ -36,8 +41,8 @@ export default {
             'isReplace': 1,
             'isDefault': 1,
             'isMulti': 1,
-            'leastCellNum': 1
-          }]
+            'leastCellNum': 1,
+          }],
         }, {
           'name': '商务套餐',
           'orderMin': 0,
@@ -48,10 +53,10 @@ export default {
             'isReplace': 1,
             'isDefault': 1,
             'isMulti': 1,
-            'leastCellNum': 1
-          }]
-        }
-      ]
+            'leastCellNum': 1,
+          }],
+        },
+      ],
     },
     setProductTypeToBeEdit: {
 
@@ -60,11 +65,32 @@ export default {
     showSetFormBottomRightAddModal: false,
     SetFormBottomRightAddModalTableData: [],
     addtype: '0',
+
     // 用于选择构造套餐时候的子项
     singleProductList: [],
+    selectedSingleProductList: [],
+    selectedSingleProducKeytList: [],
   },
 
   effects: {
+    // 创建子品项组
+    *newSubType(_, { call, put, select }) {
+      const SetFormBottomAddModalFormData = yield select(state => state['product-new'].SetFormBottomAddModalFormData);
+      let setFormData = yield select(state => state['product-new'].setFormData);
+      setFormData = JSON.parse(JSON.stringify(setFormData));
+      setFormData.dishSetmealGroupBos.push({
+        'name': SetFormBottomAddModalFormData.name.value,
+        'orderMin': SetFormBottomAddModalFormData.orderMin.value,
+        'orderMax': SetFormBottomAddModalFormData.orderMax.value,
+        'dishSetmealBos': [],
+      });
+      yield put({
+        type: 'updateState',
+        payload: {
+          setFormData,
+        },
+      });
+    },
     *getProductInfo({ payload: { id } }, { call, put, select }) {
       const response = yield call(getProductById, id);
       yield put({
@@ -77,8 +103,8 @@ export default {
             price: { value: response.data.marketPrice },
             amount: { value: response.data.dishQty },
             unit: { value: response.data.unitName },
-            addons: response.data.dishPropertyBos
-          }
+            addons: response.data.dishPropertyBos,
+          },
         },
       });
     },
@@ -87,8 +113,8 @@ export default {
       yield put ({
         type: 'product-new/updateState',
         payload: {
-          singleProductList: response.data.content
-        }
+          singleProductList: response.data.content,
+        },
       });
     },
     *new(_, { call, put, select }) {
@@ -104,7 +130,7 @@ export default {
           unitName: singleFormdata.unit.value,
           dishQty: singleFormdata.amount.value,
           dishTypeId: selecteDishTypeId,
-          dishPropertyBos: singleFormdata.addons
+          dishPropertyBos: singleFormdata.addons,
         };
       }
       const response = yield call(newSingleProduct, param);
@@ -125,7 +151,7 @@ export default {
           unitName: singleFormdata.unit.value,
           dishQty: singleFormdata.amount.value,
           dishTypeId: selecteDishTypeId,
-          dishPropertyBos: singleFormdata.addons
+          dishPropertyBos: singleFormdata.addons,
         };
       }
       const response = yield call(updateSingleProduct, param);
@@ -148,7 +174,7 @@ export default {
         // console.log(searchParam);
         if (pathname === '/product-new') {
           const searchParam = parse(search, { ignoreQueryPrefix: true });
-          let result = {};
+          const result = {};
           if (searchParam.addtype) {
             result.addtype = searchParam.addtype;
           }
@@ -158,16 +184,16 @@ export default {
             dispatch({
               type: 'product-new/getProductInfo',
               payload: {
-                id: searchParam.id
-              }
+                id: searchParam.id,
+              },
             });
           }
           dispatch({
             type: 'product-new/updateState',
-            payload: result
+            payload: result,
           });
           dispatch({
-            type: 'product-new/getSingleProductList'
+            type: 'product-new/getSingleProductList',
           })
 
           // dispatch({

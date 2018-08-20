@@ -3,6 +3,7 @@ import { Button, Radio, Row, Col, Card, List } from 'antd';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import SetFormBottomRight from './SetFormBottomRight'
+import SetFormBottomAddModal from './SetFormBottomAddModal'
 import SetFormBottomRightAddModal from './SetFormBottomRightAddModal'
 
 
@@ -18,25 +19,37 @@ export default class NewItem extends Component {
 
   save = () => {
     this.props.dispatch({
-      type: 'product-new/new'
+      type: 'product-new/new',
     });
   }
+  
   updateSetProductTypeToBeEdit = (setProductTypeToBeEdit) => {
     this.props.dispatch({
       type: 'product-new/updateState',
       payload: {
-        setProductTypeToBeEdit
-      }
+        setProductTypeToBeEdit,
+      },
     });
   }
+  
   updateSelectedSetProductType = (selectedSetProductType) => {
     this.props.dispatch({
       type: 'product-new/updateState',
       payload: {
-        selectedSetProductType: JSON.parse(JSON.stringify(selectedSetProductType))
-      }
+        selectedSetProductType: JSON.parse(JSON.stringify(selectedSetProductType)),
+      },
     });
   }
+
+  toggleShowSetFormBottomAddModal = () => {
+    this.props.dispatch({
+      type: 'product-new/updateState',
+      payload: {
+        showSetFormBottomAddModal: !this.props.showSetFormBottomAddModal,
+      },
+    });
+  }
+
   render() {
 
     return (
@@ -46,14 +59,14 @@ export default class NewItem extends Component {
             <Fragment>
               <div style={{ marginTop: '8px', padding: '0px 4px', backgroundColor: '#ccc', height: '32px', lineHeight: '32px', textAlign: 'right' }}>
                 <span style={{ float: 'left' }}>子品项分组</span>
-                <Button size="small" type="primary" onClick={() => { this.toggleAddProductModal(item.id)}}>创建子品项</Button>
+                <Button size="small" type="primary" onClick={() => { this.toggleShowSetFormBottomAddModal()}}>创建子品项</Button>
               </div>
               <List
                 size="small"
                 itemLayout="horizontal"
                 split={false}
                 locale={{
-                  emptyText: '暂无下级分类'
+                  emptyText: '暂无下级分类',
                 }}
                 dataSource={this.props.dishSetmealGroupBos}
                 renderItem={(subItem) => (
@@ -71,7 +84,8 @@ export default class NewItem extends Component {
                         ? 'selected-type' : ''}
                       style={{ paddingLeft: '20px', cursor: 'pointer' }}
                       onClick={() => { this.updateSelectedSetProductType(subItem); }}
-                    >{subItem.name}</span>
+                    >{subItem.name}
+                    </span>
                   </List.Item>
                 )}
               />
@@ -83,6 +97,7 @@ export default class NewItem extends Component {
               <a href="javascript:void(0)">删除</a> &nbsp;
             </div> */}
           </Card>
+          <SetFormBottomAddModal />
         </Col>
         <Col span={16}>
           <Card bordered={false}>

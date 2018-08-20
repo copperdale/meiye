@@ -8,22 +8,24 @@ import SetFormBottomRightAddModal from './SetFormBottomRightAddModal'
   singleProductList: state['product-new'].singleProductList,
 }))
 export default class SearchResult extends Component {
+  
   getSingleProductItemById = (id) => {
     // debugger
     return this.props.singleProductList.filter(item => item.id)[0] || {};
   }
+
   render() {
     const columns = [{
       title: '品项名称',
       render: (text, item) => {
         // console.log('123', this.getSingleProductItemById(item.childDishId))
         return <span>{this.getSingleProductItemById(item.childDishId).name}</span>
-      }
+      },
     }, {
       title: '品项编码',
       render: (text, item) => {
         return <span>{this.getSingleProductItemById(item.childDishId).dishCode}</span>
-      }
+      },
     }, {
       title: '必选',
       render: (text, item) => {
@@ -32,7 +34,7 @@ export default class SearchResult extends Component {
             checked={item.isReplace == 1}
           />
         );
-      }
+      },
     }, {
       title: '默认选中',
       render: (text, item) => {
@@ -41,7 +43,7 @@ export default class SearchResult extends Component {
             checked={item.isDefault == 1}
           />
         );
-      }
+      },
     }, {
       title: '可复选',
       render: (text, item) => {
@@ -50,7 +52,7 @@ export default class SearchResult extends Component {
             checked={item.isMulti == 1}
           />
         );
-      }
+      },
     }, {
       title: '加价',
       dataIndex: 'address',
@@ -93,9 +95,11 @@ export default class SearchResult extends Component {
         <Button onClick={() => { 
           this.props.dispatch({ 
             type: 'product-new/updateState', 
-            payload: { showSetFormBottomRightAddModal: true } 
+            payload: { showSetFormBottomRightAddModal: true }, 
           }); 
-        }}>选择品项</Button>
+        }}
+        >编辑品项
+        </Button>
         <SetFormBottomRightAddModal />
         <Table
           columns={columns}
