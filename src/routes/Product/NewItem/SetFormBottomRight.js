@@ -1,17 +1,41 @@
 import React, { Component, Fragment } from 'react';
-import { Table, Checkbox, Button } from 'antd';
+import { Table, Checkbox, Button, Input, Icon } from 'antd';
 import { connect } from 'dva';
 import SetFormBottomRightAddModal from './SetFormBottomRightAddModal'
 
 @connect((state) => ({
   selectedSetProductType: state['product-new'].selectedSetProductType,
   singleProductList: state['product-new'].singleProductList,
+  setFormData: state['product-new'].setFormData,
+  selectedSetProductType: state['product-new'].selectedSetProductType,
 }))
 export default class SearchResult extends Component {
   
+  updatetableCell = (value, index, dataIndex) => {
+    let selectedSetProductType = JSON.parse(JSON.stringify(this.props.selectedSetProductType));
+    let setFormData = JSON.parse(JSON.stringify(this.props.setFormData));
+    selectedSetProductType.dishSetmealBos.forEach((item, cIndex) => {
+      if (index === cIndex) {
+        item[dataIndex] = value;
+      }
+    })
+    setFormData.dishSetmealGroupBos.forEach(item => {
+      if (item.name === selectedSetProductType.name) {
+        item = JSON.parse(JSON.stringify(selectedSetProductType));
+      }
+    });
+    this.props.dispatch({
+      type: 'product-new/updateState',
+      payload: {
+        selectedSetProductType,
+        setFormData
+      }
+    });
+  }
+
   getSingleProductItemById = (id) => {
     // debugger
-    return this.props.singleProductList.filter(item => item.id)[0] || {};
+    return this.props.singleProductList.filter(item => item.id === id)[0] || {};
   }
 
   render() {
@@ -28,54 +52,96 @@ export default class SearchResult extends Component {
       },
     }, {
       title: '必选',
-      render: (text, item) => {
+      render: (text, item, index) => {
         return (
           <Checkbox
             checked={item.isReplace == 1}
+            onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, index, 'isReplace') }}
           />
         );
       },
     }, {
       title: '默认选中',
-      render: (text, item) => {
+      render: (text, item, index) => {
         return (
           <Checkbox
             checked={item.isDefault == 1}
+            onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, index, 'isDefault') }}
           />
         );
       },
     }, {
       title: '可复选',
-      render: (text, item) => {
+      render: (text, item, index) => {
         return (
           <Checkbox
             checked={item.isMulti == 1}
+            onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, index, 'isMulti') }}
           />
         );
       },
     }, {
       title: '加价',
       dataIndex: 'address',
+      render: (text, item, index) => {
+        return (
+          <Input 
+            style={{ width: '60px' }} 
+            size="small"
+            value={item.address} 
+            onChange={(e) => { this.updatetableCell(e.target.value, index, 'address') }}
+          />
+        )
+      }
     }, {
       title: '起卖数',
       dataIndex: 'leastCellNum',
-      key: 'leastCellNum',
+      render: (text, item, index) => {
+        return (
+          <Input 
+            style={{ width: '60px' }} 
+            size="small"
+            value={item.leastCellNum} 
+            onChange={(e) => { this.updatetableCell(e.target.value, index, 'leastCellNum') }}
+          />
+        )
+      }
     }, {
       title: '售卖价',
       dataIndex: 'price',
-      key: 'price',
+      render: (text, item, index) => {
+        return (
+          <Input 
+            style={{ width: '60px' }} 
+            size="small"
+            value={item.price} 
+            onChange={(e) => { this.updatetableCell(e.target.value, index, 'price') }}
+          />
+        )
+      }
     }, {
-      title: '操作',
+      title: ' ',
       key: 'action',
-      render: (text, record) => (
+      render: (text, record, index) => (
         <span>
-          <a className="primary-blue" href="javascript:;">移除</a>
+          <a 
+            className="primary-blue" 
+            href="javascript:;"
+            onClick={() => { 
+              this.props.dispatch({
+                type: 'product-new/deleteSubTypeItems',
+                payload: {
+                  index
+                }
+              });
+            }}
+          ><Icon type="delete" /></a>
         </span>
       ),
     }];
 
     let data = this.props.selectedSetProductType.dishSetmealBos || [];
-    data = data.concat(data).concat(data);
+    // data = data.concat(data).concat(data);
     const pager = {
       pageSize: 20,
       showSizeChanger: true,
@@ -92,14 +158,24 @@ export default class SearchResult extends Component {
     };
     return (
       <Fragment>
-        <Button onClick={() => { 
-          this.props.dispatch({ 
-            type: 'product-new/updateState', 
-            payload: { showSetFormBottomRightAddModal: true }, 
-          }); 
-        }}
-        >编辑品项
-        </Button>
+        {
+          this.props.selectedSetProductType.name ?
+          <div style={{ height: '36px' }}>
+            <Button 
+              onClick={() => { 
+                this.props.dispatch({ 
+                  type: 'product-new/updateState', 
+                  payload: { showSetFormBottomRightAddModal: true }, 
+                }); 
+              }}
+              size='small'
+              style={{ float: 'right', marginBottom: '8px' }}
+              className="primary-blue primary-blue-button"
+            >添加品项
+            </Button>
+          </div>
+          : ''
+        }
         <SetFormBottomRightAddModal />
         <Table
           columns={columns}

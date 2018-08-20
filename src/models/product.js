@@ -1,3 +1,4 @@
+import { parse } from 'qs';
 import { getProductList, deleteProduct, addProductType, editProductType, queryProductTypes } from '../services/product';
 
 export default {
@@ -101,14 +102,21 @@ export default {
           dispatch({
             type: 'product/getProductList',
           });
-
-          // dispatch({
-          //   type: 'product/addProductType',
-          //   payload: {
-          //     id: 1
-          //   }
-          // });
         }
+
+        if (pathname !== '/product-new') {
+          const searchParam = parse(search, { ignoreQueryPrefix: true });
+          const result = {};
+          if (searchParam.selecteDishTypeId) {
+            dispatch({
+              type: 'product/updateState',
+              payload: {
+                selecteDishTypeId: searchParam.selecteDishTypeId
+              }
+            });
+          }
+        }
+        
       });
     },
   },

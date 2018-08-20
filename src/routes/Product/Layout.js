@@ -56,8 +56,8 @@ export default class ProductTypeLayout extends Component {
     // console.log(this.props.selecteDishTypeId, this.props.productList)
     return (
       <PageHeaderLayout>
-        <Row gutter={16}>
-          <Col span={8}>
+        <Row gutter={8}>
+          <Col span={7}>
             <Card bordered={false}>
               <h4>品项类别管理</h4>
               <div style={{ lineHeight: '32px', height: '32px' }}>
@@ -110,7 +110,7 @@ export default class ProductTypeLayout extends Component {
               </div> */}
             </Card>
           </Col>
-          <Col span={16}>
+          <Col span={17}>
             <Card bordered={false}>
               <div>
                 <Breadcrumb>

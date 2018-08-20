@@ -16,12 +16,19 @@ const RadioGroup = Radio.Group
 export default class NewItem extends Component {
 
   save = () => {
-    this.props.dispatch({
-      type: 'product-new/new',
-    });
-}
+    if (this.props.isEdit) {
+      this.props.dispatch({
+        type: 'product-new/update',
+      });
+    } else {
+      this.props.dispatch({
+        type: 'product-new/new',
+      });
+    }
+  }
+  
   render() {
-      console.log(this.props.addtype)
+    // console.log(this.props.addtype)
     return (
       <ProductTypeLayout breadcrumbs={['品项', this.props.isEdit ? '编辑品项' : '新建品项']} actionButtons={
         [

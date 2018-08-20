@@ -6,28 +6,28 @@ import { connect } from 'dva';
   singleProductList: state['product-new'].singleProductList,
   selectedSingleProductList: state['product-new'].selectedSingleProductList,
   selectedSingleProducKeytList: state['product-new'].selectedSingleProducKeytList,
+  
 }))
 export default class AddProductModal extends Component {
+
+  
 
   render() {
     const columns = [{
       title: '品项名称',
       dataIndex: 'name',
-      key: 'name',
     }, {
       title: '品项编码',
       dataIndex: 'dishCode',
-      key: 'dishcode',
     }, {
       title: '售卖价',
-      dataIndex: 'price',
-      key: 'price',
+      dataIndex: 'marketPrice',
     }];
 
     let data = this.props.singleProductList || [];
     data = data.concat(data).concat(data);
     const pager = {
-      pageSize: 20,
+      pageSize: 10,
       showSizeChanger: true,
       pageSizeOptions: ['2', '5', '10', '20', '30', '40', '50', '100'],
       showTotal: (total, range) => { // eslint-disable-line
@@ -48,9 +48,12 @@ export default class AddProductModal extends Component {
           bordered
           size="small"
           pagination={pager}
+          rowkey='id'
           rowSelection={{
-            selectedRowKeys: this.props.selectedSingleProductList,
+            selectedRowKeys: this.props.selectedSingleProducKeytList,
             onChange: (selectedRowKeys, selectedRows) => {
+              // selectedRowKeys = JSON.parse(JSON.stringify(selectedRowKeys));
+              // selectedRows = JSON.parse(JSON.stringify(selectedRows));
               this.props.dispatch({
                 type: 'product-new/updateState',
                 payload: {

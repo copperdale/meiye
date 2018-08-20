@@ -14,7 +14,8 @@
       'dishSetmealBos':[
         { 
           'childDishId':11,//商品ID 
-          'price':122, 'isReplace':1,// 1必选, 2非必选 
+          'price':122, 
+          'isReplace':1,// 1必选, 2非必选 
           'isDefault':1,// 1默认选中，2默认不选 
           'isMulti':1,//1可复选，2不可以 
           'leastCellNum':1 

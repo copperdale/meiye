@@ -21,10 +21,10 @@ export default class AddProductModal extends Component {
   }
 
   handleOk = () => {
-    // this.props.dispatch({
-    //   type: 'product/addProductType'
-    // });
-    // this.toggleShowAddModal();
+    this.props.dispatch({
+      type: 'product-new/addSubTypeItems'
+    });
+    this.toggleShowAddModal();
   }
 
   render() {
@@ -34,6 +34,7 @@ export default class AddProductModal extends Component {
         visible={this.props.showSetFormBottomRightAddModal}
         onOk={this.handleOk}
         onCancel={this.handleCancel}
+        width='80%'
         okText="保存"
         cancelText="取消"
       >

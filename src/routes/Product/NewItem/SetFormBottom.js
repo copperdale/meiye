@@ -4,7 +4,6 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import SetFormBottomRight from './SetFormBottomRight'
 import SetFormBottomAddModal from './SetFormBottomAddModal'
-import SetFormBottomRightAddModal from './SetFormBottomRightAddModal'
 
 
 const RadioGroup = Radio.Group
@@ -13,22 +12,13 @@ const RadioGroup = Radio.Group
     addtype: state['product-new'].addtype,
     dishSetmealGroupBos: state['product-new'].setFormData.dishSetmealGroupBos,
     selectedSetProductType: state['product-new'].selectedSetProductType,
-    setProductTypeToBeEdit: state['product-new'].setProductTypeToBeEdit,
+    setFormData: state['product-new'].setFormData,
   }))
 export default class NewItem extends Component {
 
   save = () => {
     this.props.dispatch({
       type: 'product-new/new',
-    });
-  }
-  
-  updateSetProductTypeToBeEdit = (setProductTypeToBeEdit) => {
-    this.props.dispatch({
-      type: 'product-new/updateState',
-      payload: {
-        setProductTypeToBeEdit,
-      },
     });
   }
   
@@ -41,11 +31,25 @@ export default class NewItem extends Component {
     });
   }
 
-  toggleShowSetFormBottomAddModal = () => {
+  deleteProductType = (index) => {
+    let setFormData = JSON.parse(JSON.stringify(this.props.setFormData));
+    setFormData.dishSetmealGroupBos = setFormData.dishSetmealGroupBos.filter((item, cIndex) => cIndex !== index);
+    debugger;
+    this.props.dispatch({
+      type: 'product-new/updateState',
+      payload: {
+        setFormData: JSON.parse(JSON.stringify(setFormData)),
+        selectedSetProductType: {}
+      }
+    });
+  }
+
+  toggleShowSetFormBottomAddModal = (SetFormBottomAddModalFormData) => {
     this.props.dispatch({
       type: 'product-new/updateState',
       payload: {
         showSetFormBottomAddModal: !this.props.showSetFormBottomAddModal,
+        SetFormBottomAddModalFormData: JSON.parse(JSON.stringify(SetFormBottomAddModalFormData))
       },
     });
   }
@@ -53,13 +57,24 @@ export default class NewItem extends Component {
   render() {
 
     return (
-      <Row gutter={16}>
-        <Col span={8}>
-          <Card bordered={false}>
+      <Row gutter={8}>
+        <Col span={6}>
+          <Card bordered={false} bodyStyle={{ paddingLeft: 0, paddingRight: 0 }}>
             <Fragment>
               <div style={{ marginTop: '8px', padding: '0px 4px', backgroundColor: '#ccc', height: '32px', lineHeight: '32px', textAlign: 'right' }}>
                 <span style={{ float: 'left' }}>子品项分组</span>
-                <Button size="small" type="primary" onClick={() => { this.toggleShowSetFormBottomAddModal()}}>创建子品项</Button>
+                <Button
+                  size="small" 
+                  type="primary" 
+                  onClick={() => { 
+                    this.toggleShowSetFormBottomAddModal( {
+                      name: { value: '' }, 
+                      orderMin: { value: '' },
+                      orderMax: { value: '' }
+                    })
+                    }
+                  }
+                >创建子品项</Button>
               </div>
               <List
                 size="small"
@@ -69,10 +84,26 @@ export default class NewItem extends Component {
                   emptyText: '暂无下级分类',
                 }}
                 dataSource={this.props.dishSetmealGroupBos}
-                renderItem={(subItem) => (
+                renderItem={(subItem, index) => (
                   <List.Item actions={[
-                    <a href="javascript:void(0)" onClick={() => { this.updateSetProductTypeToBeEdit(subItem)}}>编辑</a>,
-                    <a href="javascript:void(0)" onClick={() => { this.deleteProduct(subItem.id) }}>删除</a>,
+                    <a 
+                      href="javascript:void(0)" 
+                      onClick={() => { 
+                        let keys = 'name orderMin orderMax'.split(' ');
+                        const SetFormBottomAddModalFormData = {};
+                        keys.forEach(item => {
+                          SetFormBottomAddModalFormData[item] = { value: subItem[item] } ;
+                        })
+                        this.toggleShowSetFormBottomAddModal(SetFormBottomAddModalFormData)
+                        }
+                      }
+                    >编辑</a>,
+                    <a 
+                      href="javascript:void(0)" 
+                      onClick={() => { 
+                        this.deleteProductType(index)
+                      }}
+                    >删除</a>,
                   ]}
                   >
                     <span
@@ -99,10 +130,9 @@ export default class NewItem extends Component {
           </Card>
           <SetFormBottomAddModal />
         </Col>
-        <Col span={16}>
-          <Card bordered={false}>
+        <Col span={18}>
+          <Card bordered={false} bodyStyle={{ padding: 0 }}>
             <SetFormBottomRight />
-            <SetFormBottomRightAddModal />
           </Card>
         </Col>
       </Row>
