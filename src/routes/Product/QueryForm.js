@@ -10,9 +10,9 @@ class BasicForm extends React.Component {
     e.preventDefault();
 
     this.props.form.validateFields((err, fieldsValue) => {
-      if (err) {
+      if (!err) {
         this.props.dispatch({
-          type: 'queryProductType'
+          type: 'product/queryProductType'
         });
       }
 

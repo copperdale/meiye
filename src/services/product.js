@@ -29,7 +29,7 @@ export async function queryProductTypes({ name, dishCode, type }) {
     return request(`${prefix}MeiYe/public/api/part/dishShop/getDishShopPageByCriteria?token=${getToken()}`, {
         method: 'POST',
         body: {
-            'pageNum':1,
+            'pageNum':0,
             'pageSize':1000000,
             name, dishCode, type
         }

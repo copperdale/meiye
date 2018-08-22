@@ -13,6 +13,8 @@ const RadioGroup = Radio.Group
     dishSetmealGroupBos: state['product-new'].setFormData.dishSetmealGroupBos,
     selectedSetProductType: state['product-new'].selectedSetProductType,
     setFormData: state['product-new'].setFormData,
+    isView: state['product-new'].isView,
+    isEdit: state['product-new'].isEdit,
   }))
 export default class NewItem extends Component {
 
@@ -63,18 +65,22 @@ export default class NewItem extends Component {
             <Fragment>
               <div style={{ marginTop: '8px', padding: '0px 4px', backgroundColor: '#ccc', height: '32px', lineHeight: '32px', textAlign: 'right' }}>
                 <span style={{ float: 'left' }}>子品项分组</span>
-                <Button
-                  size="small" 
-                  type="primary" 
-                  onClick={() => { 
-                    this.toggleShowSetFormBottomAddModal( {
-                      name: { value: '' }, 
-                      orderMin: { value: '' },
-                      orderMax: { value: '' }
-                    })
+                {
+                  !this.props.isView
+                  &&
+                  <Button
+                    size="small" 
+                    type="primary" 
+                    onClick={() => { 
+                      this.toggleShowSetFormBottomAddModal( {
+                        name: { value: '' }, 
+                        orderMin: { value: '' },
+                        orderMax: { value: '' }
+                      })
+                      }
                     }
-                  }
-                >创建子品项</Button>
+                  >创建子品项</Button>
+                }
               </div>
               <List
                 size="small"
@@ -104,7 +110,7 @@ export default class NewItem extends Component {
                         this.deleteProductType(index)
                       }}
                     >删除</a>,
-                  ]}
+                  ].filter(item => !this.props.isView)}
                   >
                     <span
                       className={

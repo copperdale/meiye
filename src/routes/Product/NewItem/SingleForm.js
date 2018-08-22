@@ -24,7 +24,7 @@ class BasicForm extends React.Component {
 
   addAddon = () => {
     let singleFormData = JSON.parse(JSON.stringify(this.props.singleFormData));
-    singleFormData.addons.push({ name: '', reprice: '' });
+    singleFormData.addons.push({ name: '', price: '' });
     this.props.dispatch({
       type: 'product-new/updateState',
       payload: {
@@ -90,7 +90,7 @@ class BasicForm extends React.Component {
           {getFieldDecorator('name', {
             rules: [{ required: true, message: '请输入品项名称' }],
           })(
-            <Input size="small" />
+            <Input size="small" disabled={this.props.isView} />
             )}
         </FormItem>
         <FormItem
@@ -100,7 +100,7 @@ class BasicForm extends React.Component {
           {getFieldDecorator('code', {
             rules: [{ required: true, message: '请输入品项编码' }],
           })(
-            <Input size="small" />
+            <Input size="small" disabled={this.props.isView} />
             )}
         </FormItem>
         <FormItem
@@ -116,7 +116,7 @@ class BasicForm extends React.Component {
           {getFieldDecorator('price', {
             rules: [{ required: true, message: '请输入售卖价格' }],
           })(
-            <Input size="small" />
+            <Input size="small" disabled={this.props.isView} />
             )}
         </FormItem>
         <FormItem
@@ -126,14 +126,14 @@ class BasicForm extends React.Component {
           {getFieldDecorator('amount', {
             // rules: [{ required: true, message: '请输入售卖价格' }],
           })(
-            <Input size="small" type="number" style={{width: '120px'}} />
+            <Input size="small" type="number" style={{width: '120px'}} disabled={this.props.isView} />
             )}
           <span style={{ float: 'right' }}>
             单位&nbsp;
             {getFieldDecorator('unit', {
               // rules: [{ required: true, message: '请输入售卖价格' }],
             })(
-              <Input size="small" style={{width: '120px'}} />
+              <Input size="small" style={{width: '120px'}} disabled={this.props.isView} />
               )}
           </span>
         </FormItem>
@@ -143,7 +143,11 @@ class BasicForm extends React.Component {
             <span className={styles['section-title']}>加项</span>
           }
         >
-          <Button onClick={this.addAddon} className="primary-blue primary-blue-button">添加加项</Button>
+          {
+            !this.props.isView
+            &&
+            <Button onClick={this.addAddon} className="primary-blue primary-blue-button">添加加项</Button>
+          }
         </FormItem>
         {
           this.props.singleFormData.addons.map((item, index) => {
@@ -156,9 +160,10 @@ class BasicForm extends React.Component {
                 >
                   <Input 
                     size="small" 
+                    disabled={this.props.isView}
                     value={item.name}
                     onChange={(e) => {this.updateAddons(index, 'name', e.target.value)}}
-                    addonAfter={<Icon onClick={() => { this.deleteAddons(index) }} type="delete" />} 
+                    addonAfter={!this.props.isView && <Icon onClick={() => { this.deleteAddons(index) }} type="delete" />} 
                   />
                 </FormItem>
                 <FormItem
@@ -168,8 +173,9 @@ class BasicForm extends React.Component {
                 >
                   <Input
                     size="small"
-                    value={item.reprice}
-                    onChange={(e) => {this.updateAddons(index, 'reprice', e.target.value)}}
+                    disabled={this.props.isView}
+                    value={item.price}
+                    onChange={(e) => {this.updateAddons(index, 'price', e.target.value)}}
                   />
                 </FormItem>
               </Fragment>
@@ -210,6 +216,7 @@ const SingleForm = Form.create({
 export default connect((state) => {
   return {
     singleFormData: state['product-new'].singleFormData,
-    addtype: state['product-new'].addtype
+    addtype: state['product-new'].addtype,
+    isView: state['product-new'].isView,
   }
 })(SingleForm);

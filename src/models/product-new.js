@@ -9,6 +9,7 @@ import {
   getSetById, 
   querySingleProductItems 
 } from '../services/product-new';
+import { debug } from 'util';
 
 
 export default {
@@ -16,6 +17,7 @@ export default {
 
   state: {
     isEdit: false,
+    isView: false,
     id: false,
     singleFormData: {
       name: { value: '' },
@@ -39,31 +41,31 @@ export default {
       amount: { value: '' },
       unit: { value: '' },
       'dishSetmealGroupBos': [
-        // {
-        //   'name': '经济套餐',
-        //   'orderMin': 0,
-        //   'orderMax': 5,
-        //   'dishSetmealBos': [{
-        //     'childDishId': 11,
-        //     'price': 122,
-        //     'isReplace': 1,
-        //     'isDefault': 1,
-        //     'isMulti': 1,
-        //     'leastCellNum': 1,
-        //   }],
-        // }, {
-        //   'name': '商务套餐',
-        //   'orderMin': 0,
-        //   'orderMax': 5,
-        //   'dishSetmealBos': [{
-        //     'childDishId': 11,
-        //     'price': 124,
-        //     'isReplace': 1,
-        //     'isDefault': 1,
-        //     'isMulti': 1,
-        //     'leastCellNum': 1,
-        //   }],
-        // },
+        {
+          'name': '经济套餐',
+          'orderMin': 0,
+          'orderMax': 5,
+          'dishSetmealBos': [{
+            'childDishId': 11,
+            'price': 122,
+            'isReplace': 1,
+            'isDefault': 1,
+            'isMulti': 1,
+            'leastCellNum': 1,
+          }],
+        }, {
+          'name': '商务套餐',
+          'orderMin': 0,
+          'orderMax': 5,
+          'dishSetmealBos': [{
+            'childDishId': 11,
+            'price': 124,
+            'isReplace': 1,
+            'isDefault': 1,
+            'isMulti': 1,
+            'leastCellNum': 1,
+          }],
+        },
       ],
     },
     selectedSetProductType: {},
@@ -116,10 +118,10 @@ export default {
         return {
           childDishId: item.id,
           price: item.marketPrice,
-          isReplace: item.isReplace,
-          isDefault: item.isDefault,
-          isMulti: item.isMulti,
-          leastCellNum: ''
+          isReplace: 1,
+          isDefault: 1,
+          isMulti: 1,
+          leastCellNum: 1,
         };
       });
       let setFormData = yield select(state =>state['product-new'].setFormData);
@@ -127,10 +129,11 @@ export default {
       setFormData = JSON.parse(JSON.stringify(setFormData));
       selectedSetProductType = JSON.parse(JSON.stringify(selectedSetProductType));
       selectedSetProductType.dishSetmealBos = selectedSetProductType.dishSetmealBos.concat(addedItems);
-      setFormData.dishSetmealGroupBos.forEach(item => {
+      setFormData.dishSetmealGroupBos = setFormData.dishSetmealGroupBos.map(item => {
         if (item.name === selectedSetProductType.name) {
           item = JSON.parse(JSON.stringify(selectedSetProductType));
         }
+        return item;
       });
       // console.log(selectedSetProductType, setFormData, addedItems);
       yield put({
@@ -213,9 +216,9 @@ export default {
     },
     *new(_, { call, put, select }) {
       const addtype = yield select(state => state['product-new'].addtype);
+      const selecteDishTypeId = yield select(state => state.product.selecteDishTypeId)
       if (addtype === '0') {
         const singleFormdata = yield select(state => state['product-new'].singleFormData);
-        const selecteDishTypeId = yield select(state => state.product.selecteDishTypeId)
         const param = {
           type: addtype,
           name: singleFormdata.name.value,
@@ -230,25 +233,27 @@ export default {
         routerRedux.push('/product');
       } else if (addtype === '1') {
         const setFormdata = yield select(state => state['product-new'].setFormData);
+        // debugger;
         const param = Object.assign({}, setFormdata, {
           type: addtype,
-          name: setleFormdata.name.value,
-          dishCode: setleFormdata.code.value,
-          marketPrice: setleFormdata.price.value,
-          unitName: setleFormdata.unit.value,
-          dishQty: setleFormdata.amount.value,
+          name: setFormdata.name.value,
+          dishCode: setFormdata.code.value,
+          marketPrice: setFormdata.price.value,
+          unitName: setFormdata.unit.value,
+          dishQty: setFormdata.amount.value,
           dishTypeId: selecteDishTypeId,
         });
-        const response = yield call(newSetProduct, setFormdata);
+        // debugger;
+        const response = yield call(newSetProduct, param);
         routerRedux.push('/product');
       }
     },
     *update(_, { call, put, select }) {
       const addtype = yield select(state => state['product-new'].addtype);
+      const selecteDishTypeId = yield select(state => state.product.selecteDishTypeId)
+      const id = yield select(state => state['product-new'].id);
       if (addtype === '0') {
         const singleFormdata = yield select(state => state['product-new'].singleFormData);
-        const id = yield select(state => state['product-new'].id);
-        const selecteDishTypeId = yield select(state => state.product.selecteDishTypeId)
         const param = {
           id,
           type: addtype,
@@ -263,15 +268,13 @@ export default {
         const response = yield call(updateSingleProduct, param);
       } else if (addtype === '1') {
         const setFormdata = yield select(state => state['product-new'].setFormData);
-        const id = yield select(state => state['product-new'].id);
-        const selecteDishTypeId = yield select(state => state.product.selecteDishTypeId)
         const param = Object.assign({}, setFormdata, {
           type: addtype,
-          name: setleFormdata.name.value,
-          dishCode: setleFormdata.code.value,
-          marketPrice: setleFormdata.price.value,
-          unitName: setleFormdata.unit.value,
-          dishQty: setleFormdata.amount.value,
+          name: setFormdata.name.value,
+          dishCode: setFormdata.code.value,
+          marketPrice: setFormdata.price.value,
+          unitName: setFormdata.unit.value,
+          dishQty: setFormdata.amount.value,
           dishTypeId: selecteDishTypeId,
         });
         const response = yield call(updateSetProduct, param);
@@ -300,9 +303,26 @@ export default {
         if (searchParam.addtype) {
           result.addtype = searchParam.addtype;
         }
+        if (searchParam.id) {
+          result.id = searchParam.id;
+        }
         if (searchParam.isEdit === '1' && searchParam.id) {
           result.isEdit = true;
-          result.id = search.id;
+          result.isView = false;
+          const getTypeMapping = {
+            0: 'getProductInfo', // 单品的初始化
+            1: 'getSetInfo', // 套餐的初始化
+          };
+          dispatch({
+            type: `product-new/${getTypeMapping[searchParam.addtype]}`,
+            payload: {
+              id: searchParam.id,
+            },
+          });
+        }
+        if (searchParam.isView === '1' && searchParam.id) {
+          result.isView = true;
+          result.isEdit = false;
           const getTypeMapping = {
             0: 'getProductInfo', // 单品的初始化
             1: 'getSetInfo', // 套餐的初始化

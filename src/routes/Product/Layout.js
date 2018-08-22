@@ -67,10 +67,10 @@ export default class ProductTypeLayout extends Component {
               {
                 this.props.productList.map(item => (
                   <Fragment>
-                    <div style={{ marginTop: '8px', padding: '0px 4px', backgroundColor: '#ccc', height: '32px', lineHeight: '32px', textAlign: 'right' }}>
+                    <div style={{ marginTop: '8px', padding: '0px 4px 0 0', backgroundColor: '#ccc', height: '32px', lineHeight: '32px', textAlign: 'right' }}>
                       <span
                         className={this.props.selecteDishTypeId == item.id ? 'selected-type' : ''}
-                        style={{ float: 'left', marginLeft: '4px', cursor: 'pointer' }}
+                        style={{ float: 'left', paddingLeft: '4px', borderLeft: '4px solid transparent', cursor: 'pointer' }}
                         onClick={() => { this.updateSelecteDishTypeId(item.id, item.name, false) }}
                       >{item.name}</span>
                       <a href="javascript:void(0)" onClick={() => { this.toggleAddProductModal(item.id, true, item)}}>编辑</a>&nbsp;
@@ -93,7 +93,7 @@ export default class ProductTypeLayout extends Component {
                         >
                           <span
                             className={this.props.selecteDishTypeId == subItem.id ? 'selected-type' : ''}
-                            style={{ paddingLeft: '20px', cursor: 'pointer' }}
+                            style={{ paddingLeft: '4px', borderLeft: '4px solid transparent', cursor: 'pointer' }}
                             onClick={() => { this.updateSelecteDishTypeId(subItem.id, subItem.name, true); }}
                           >{subItem.name}</span>
                         </List.Item>

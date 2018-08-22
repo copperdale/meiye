@@ -22,10 +22,16 @@ body {
 
 // temp fix for https://github.com/ant-design/ant-design/commit/a1fafb5b727b62cb0be29ce6e9eca8f579d4f8b7
 :global {
+  #root{
+    background-color: #f0f2f5 !important;
+  }
   .ant-spin-container {
     overflow: visible !important;
   }
 
+  .ant-layout{
+    background-color: #f0f2f5;
+  }
   .global-spin {
     width: 100%;
     margin: 40px 0 !important;
@@ -55,5 +61,6 @@ body {
 
   .selected-type {
     color: @primary-color !important;
+    border-left: 4px solid @primary-color !important;
   }
 }
