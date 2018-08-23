@@ -29,7 +29,7 @@ const menuData = [
   {
     name: '员工',
     icon: 'idcard',
-    path: 'idcard',
+    path: 'employee',
   },
   {
     name: '设置',
