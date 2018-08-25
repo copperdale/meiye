@@ -11,6 +11,7 @@ module.exports = {
   },
   rules: {
     'generator-star-spacing': [0],
+    'react/sort-comp': [0],
     'linebreak-style': [0],
     'no-script-url': [0],
     'react/destructuring-assignment': [0],

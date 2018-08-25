@@ -3,7 +3,6 @@ import { Breadcrumb } from 'antd';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import NewEmployeeForm from './NewEmployeeForm';
-// import SerachResult from './SearchResult';
 
 
 @connect((state) => ({

@@ -3,15 +3,15 @@ import { Button } from 'antd';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import ProductTypeLayout from './Layout';
-// import QueryForm from './QueryForm';
-// import SerachResult from './SearchResult';
+import QueryForm from './QueryForm';
+// import SearchResult from './SearchResult';
 
 
 @connect((state) => ({
   showNewButton: state.product.showNewButton,
   selectedDishName: state.product.selectedDishName
 }))
-export default class Product extends Component {
+export default class Employee extends Component {
 
   render() {
     return (
@@ -25,8 +25,8 @@ export default class Product extends Component {
           onClick={() => { this.props.dispatch(routerRedux.push('/product-new')); }}
         >新建品项</Button>
       }>
-        {/* <QueryForm />
-        <SerachResult /> */}
+        <QueryForm />
+        {/* <SearchResult /> */}
       </ProductTypeLayout>
     );
   }
