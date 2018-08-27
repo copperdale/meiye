@@ -9,6 +9,8 @@ import AddEmployeeModal from './AddEmployeeModal';
 @connect((state) => ({
   // productList: state.product.productList,
   // selecteDishTypeId: state.product.selecteDishTypeId,
+  EmployeeRoleList: state.employee.EmployeeRoleList || [],
+  showAddModal: state.employee.showAddModal,
 }))
 export default class ProductTypeLayout extends Component {
   // componentDidMount() {
@@ -27,7 +29,8 @@ export default class ProductTypeLayout extends Component {
       }
     });
   }
-  toggleAddEmployeeModal = (id, isEditProductType = false, item = {}) => {
+
+  toggleAddEmployeeModal = (id, isEdit = false, item = {}) => {
     this.props.dispatch({
       type: 'employee/updateState',
       payload: {
@@ -41,14 +44,15 @@ export default class ProductTypeLayout extends Component {
       },
     });
   }
+
   updateSelecteDishTypeId = (id, selectedDishName,  showNewButton) => {
     this.props.dispatch({
       type: 'employee/updateState',
       payload: {
         selecteDishTypeId: id,
         selectedDishName,
-        showNewButton
-      }
+        showNewButton,
+      },
     });
   }
 
@@ -63,34 +67,29 @@ export default class ProductTypeLayout extends Component {
                 员工角色管理
                 <Button type="primary" style={{ float: 'right' }} onClick={() => { this.toggleAddEmployeeModal()}}>创建角色</Button>
               </div>
-              {
-                (this.props.productList || []).map(item => (
-                  <Fragment>
-                    <List
-                      size="small"
-                      itemLayout="horizontal"
-                      split={false}
-                      locale={{
-                        emptyText: '暂无下级分类'
-                      }}
-                      dataSource={item.dishBrandTypeBoList}
-                      renderItem={(subItem) => (
-                        <List.Item actions={[
-                          <a href="javascript:void(0)" onClick={() => { this.toggleAddProductModal(subItem.id, true, subItem)}}>编辑</a>,
-                          <a href="javascript:void(0)" onClick={() => { this.deleteProduct(subItem.id) }}>删除</a>,
-                        ]}
-                        >
-                          <span
-                            className={this.props.selecteDishTypeId == subItem.id ? 'selected-type' : ''}
-                            style={{ paddingLeft: '4px', borderLeft: '4px solid transparent', cursor: 'pointer' }}
-                            onClick={() => { this.updateSelecteDishTypeId(subItem.id, subItem.name, true); }}
-                          >{subItem.name}</span>
-                        </List.Item>
-                      )}
-                    />
-                  </Fragment>
-                ))
-              }
+              <List
+                size="small"
+                itemLayout="horizontal"
+                split={false}
+                locale={{
+                  emptyText: '暂无下级分类',
+                }}
+                dataSource={this.props.EmployeeRoleList}
+                renderItem={(subItem) => (
+                  <List.Item actions={[
+                    <a href="javascript:void(0)" onClick={() => { this.toggleAddProductModal(subItem.id, true, subItem)}}>编辑</a>,
+                    <a href="javascript:void(0)" onClick={() => { this.deleteProduct(subItem.id) }}>删除</a>,
+                  ]}
+                  >
+                    <span
+                      // className={this.props.selecteDishTypeId == subItem.id ? 'selected-type' : ''}
+                      style={{ paddingLeft: '4px', borderLeft: '4px solid transparent', cursor: 'pointer' }}
+                      onClick={() => { this.updateSelecteDishTypeId(subItem.id, subItem.name, true); }}
+                    >{subItem.name}
+                    </span>
+                  </List.Item>
+                )}
+              />
               
               {/* <div style={{ marginTop: '8px', padding: '0px 4px 0px 16px', height: '18px', lineHeight: '18px', textAlign: 'right' }}>
                 <span style={{ float: 'left', marginLeft: '4px' }}>护肤类</span>

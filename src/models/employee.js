@@ -7,13 +7,13 @@ export default {
   state: {
     EmployeeRoleList: [],
     showAddModal: false,
-
-    addProductParentId: null,
-    isEditProductType: false,
-    addModalFormData: {
+    addEmployeeModalFormData: {
       name: { value: '' },
       no: { value: '' },
     },
+
+    addProductParentId: null,
+    isEditProductType: false,
     queryFormData: {
       name: { value: '' },
       dishCode: { value: '' },

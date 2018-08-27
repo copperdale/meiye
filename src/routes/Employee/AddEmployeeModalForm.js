@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
 import { connect } from 'dva';
 
@@ -33,7 +33,7 @@ class BasicForm extends React.Component {
 
   handleOk = () => {
     this.props.dispatch({
-      type: 'employee/addProductType'
+      type: 'employee/addProductType',
     });
     // this.toggleShowAddModal();
   }
@@ -76,46 +76,47 @@ class BasicForm extends React.Component {
         <FormItem
           {...formItemLayout}
           label={
-            <span>角色权限</span>
+            <span className="section-title">角色权限</span>
           }
-        >
-        </FormItem>
+        />
         <FormItem
           // {...formItemLayout}
-          labelCol= {{
+          labelCol={{
             xs: { span: 24 },
             sm: { span: 8 },
           }}
-          wrapperCol= {{
+          wrapperCol={{
             xs: { span: 24 },
             sm: { span: 24 },
           }}
           colon={false}
-          label="商家后台操作权限"
+          label={
+            <span style={{ textAlign: 'left' }}>商家后台操作权限</span>
+          }
         >
           {getFieldDecorator('no', {
             // rules: [{ required: true, message: 'Please input your note!' }],
           })(
             <Checkbox.Group style={{ width: '100%' }}>
               <Row>
-                <Col span={8}><Checkbox value="A">登陆</Checkbox></Col>
+                <Col span={6} offset={2}><Checkbox value="A">登陆</Checkbox></Col>
                 <Col span={8}><Checkbox value="B">查看品项</Checkbox></Col>
                 <Col span={8}><Checkbox value="C">添加品项</Checkbox></Col>
-                <Col span={8}><Checkbox value="D">编辑品项</Checkbox></Col>
+                <Col span={6} offset={2}><Checkbox value="D">编辑品项</Checkbox></Col>
                 <Col span={8}><Checkbox value="E">报表查看</Checkbox></Col>
                 <Col span={8}><Checkbox value="F">创建角色</Checkbox></Col>
-                <Col span={8}><Checkbox value="G">添加员工</Checkbox></Col>
+                <Col span={6} offset={2}><Checkbox value="G">添加员工</Checkbox></Col>
               </Row>
             </Checkbox.Group>
           )}
         </FormItem>
         <FormItem
           {...formItemLayout}
-          labelCol= {{
+          labelCol={{
             xs: { span: 24 },
             sm: { span: 8 },
           }}
-          wrapperCol= {{
+          wrapperCol={{
             xs: { span: 24 },
             sm: { span: 24 },
           }}
@@ -127,13 +128,13 @@ class BasicForm extends React.Component {
           })(
             <Checkbox.Group style={{ width: '100%' }}>
               <Row>
-                <Col span={8}><Checkbox value="A">登陆</Checkbox></Col>
+                <Col span={6} offset={2}><Checkbox value="A">登陆</Checkbox></Col>
                 <Col span={8}><Checkbox value="B">查看品项</Checkbox></Col>
                 <Col span={8}><Checkbox value="C">添加品项</Checkbox></Col>
-                <Col span={8}><Checkbox value="D">编辑品项</Checkbox></Col>
+                <Col span={6} offset={2}><Checkbox value="D">编辑品项</Checkbox></Col>
                 <Col span={8}><Checkbox value="E">报表查看</Checkbox></Col>
                 <Col span={8}><Checkbox value="F">创建角色</Checkbox></Col>
-                <Col span={8}><Checkbox value="G">添加员工</Checkbox></Col>
+                <Col span={6} offset={2}><Checkbox value="G">添加员工</Checkbox></Col>
               </Row>
             </Checkbox.Group>
           )}
@@ -143,9 +144,9 @@ class BasicForm extends React.Component {
           label=" "
           style={{ textAlign: 'right' }}
         >
-          <Button size="small" onClick={this.toggleShowAddModal}>Cancel</Button>
+          <Button onClick={this.toggleShowAddModal}>取消</Button>
           &nbsp;
-          <Button size="small" type="primary" htmlType="submit">Save</Button>
+          <Button type="primary" htmlType="submit">保存</Button>
         </FormItem>
       </Form>
     );

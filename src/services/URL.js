@@ -1,2 +1,2 @@
-export const prefix = 'http://118.122.98.115:8090/';
+export const prefix = 'http://118.113.201.253:8090/';
 // export const prefix = '/';
