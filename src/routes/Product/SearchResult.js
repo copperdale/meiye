@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Divider, Icon } from 'antd';
+import { Table, Divider } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 
@@ -28,25 +28,32 @@ export default class SearchResult extends Component {
     }, {
       title: '类型',
       dataIndex: 'type',
-      render: text => text === '0' ? '单品' : '套餐'
+      render: text => text === '0' ? '单品' : '套餐',
     }, {
       title: '操作',
       key: 'action',
       render: (text, record) => (
         <span>
-          <Link className="primary-blue" href="javascript:;"
+          <Link
+            className="primary-blue"
+            href="javascript:;"
             to={{
               pathname: '/product-new',
-              search: `isView=1&id=${record.id}&addtype=${record.type}`
+              search: `isView=1&id=${record.id}&addtype=${record.type}`,
             }}
-          >查看</Link>
+          >查看
+          </Link>
           <Divider type="vertical" />
-          <Link className="primary-blue" href="javascript:;"
+          <Link
+            className="primary-blue"
+            href="javascript:;"
             to={{
               pathname: '/product-new',
-              search: `isEdit=1&id=${record.id}&addtype=${record.type}`
+              search: `isEdit=1&id=${record.id}&addtype=${record.type}`,
             }}
-          >编辑</Link>
+          >
+          编辑
+          </Link>
           <Divider type="vertical" />
           <a className="primary-blue" href="javascript:;">删除</a>
         </span>

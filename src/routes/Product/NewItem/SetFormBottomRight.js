@@ -7,33 +7,32 @@ import SetFormBottomRightAddModal from './SetFormBottomRightAddModal'
   selectedSetProductType: state['product-new'].selectedSetProductType,
   singleProductList: state['product-new'].singleProductList,
   setFormData: state['product-new'].setFormData,
-  selectedSetProductType: state['product-new'].selectedSetProductType,
   isEdit: state['product-new'].isEdit,
   isView: state['product-new'].isView,
 }))
 export default class SearchResult extends Component {
   
-  updatetableCell = (value, index, dataIndex) => {
-    debugger;
-    let selectedSetProductType = JSON.parse(JSON.stringify(this.props.selectedSetProductType));
-    let setFormData = JSON.parse(JSON.stringify(this.props.setFormData));
-    selectedSetProductType.dishSetmealBos.forEach((item, cIndex) => {
-      if (index === cIndex) {
-        item[dataIndex] = value;
+  updatetableCell = (value, item, dataIndex) => {
+    // debugger;
+    const selectedSetProductType = JSON.parse(JSON.stringify(this.props.selectedSetProductType));
+    const setFormData = JSON.parse(JSON.stringify(this.props.setFormData));
+    selectedSetProductType.dishSetmealBos.forEach((cItem, cIndex) => {
+      if (item.id === cItem.id) {
+        cItem[dataIndex] = value;
       }
     })
-    setFormData.dishSetmealGroupBos = setFormData.dishSetmealGroupBos.map(item => {
-      if (item.name === selectedSetProductType.name) {
-        item = { ...item, ...JSON.parse(JSON.stringify(selectedSetProductType))};
+    setFormData.dishSetmealGroupBos = setFormData.dishSetmealGroupBos.map(cItem => {
+      if (cItem.name === selectedSetProductType.name) {
+        cItem = { ...cItem, ...JSON.parse(JSON.stringify(selectedSetProductType))};
       }
-      return item;
+      return cItem;
     });
     this.props.dispatch({
       type: 'product-new/updateState',
       payload: {
         selectedSetProductType,
-        setFormData
-      }
+        setFormData,
+      },
     });
   }
 
@@ -61,7 +60,7 @@ export default class SearchResult extends Component {
           <Checkbox
             disabled={this.props.isView}
             checked={item.isReplace == 1}
-            onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, index, 'isReplace') }}
+            onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, item, 'isReplace') }}
           />
         );
       },
@@ -72,7 +71,7 @@ export default class SearchResult extends Component {
           <Checkbox
             disabled={this.props.isView}
             checked={item.isDefault == 1}
-            onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, index, 'isDefault') }}
+            onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, item, 'isDefault') }}
           />
         );
       },
@@ -83,7 +82,7 @@ export default class SearchResult extends Component {
           <Checkbox
             disabled={this.props.isView}
             checked={item.isMulti == 1}
-            onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, index, 'isMulti') }}
+            onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, item, 'isMulti') }}
           />
         );
       },
@@ -96,7 +95,7 @@ export default class SearchResult extends Component {
     //         style={{ width: '60px' }} 
     //         size="small"
     //         value={item.address} 
-    //         onChange={(e) => { this.updatetableCell(e.target.value, index, 'address') }}
+    //         onChange={(e) => { this.updatetableCell(e.target.value, item, 'address') }}
     //       />
     //     )
     //   }
@@ -110,10 +109,10 @@ export default class SearchResult extends Component {
             disabled={this.props.isView}
             size="small"
             value={item.leastCellNum} 
-            onChange={(e) => { this.updatetableCell(e.target.value, index, 'leastCellNum') }}
+            onChange={(e) => { this.updatetableCell(e.target.value, item, 'leastCellNum') }}
           />
         )
-      }
+      },
     }, {
       title: '售卖价',
       dataIndex: 'price',
@@ -124,10 +123,10 @@ export default class SearchResult extends Component {
             disabled={this.props.isView}
             size="small"
             value={item.price} 
-            onChange={(e) => { this.updatetableCell(e.target.value, index, 'price') }}
+            onChange={(e) => { this.updatetableCell(e.target.value, item, 'price') }}
           />
         )
-      }
+      },
     }, {
       title: ' ',
       key: 'action',
@@ -140,16 +139,17 @@ export default class SearchResult extends Component {
               this.props.dispatch({
                 type: 'product-new/deleteSubTypeItems',
                 payload: {
-                  index
-                }
+                  index,
+                },
               });
             }}
-          ><Icon type="delete" /></a>
+          ><Icon type="delete" />
+          </a>
         </span>
       ),
     }].filter(item => item.key !== 'action' || !this.props.isView );
 
-    let data = this.props.selectedSetProductType.dishSetmealBos || [];
+    const data = this.props.selectedSetProductType.dishSetmealBos || [];
     // data = data.concat(data).concat(data);
     const pager = {
       pageSize: 20,
@@ -168,26 +168,28 @@ export default class SearchResult extends Component {
     return (
       <Fragment>
         {
-          this.props.selectedSetProductType.name ?
-          <div style={{ height: '36px' }}>
-            {
-              !this.props.isView
-              &&
-              <Button 
-                onClick={() => { 
-                  this.props.dispatch({ 
-                    type: 'product-new/updateState', 
-                    payload: { showSetFormBottomRightAddModal: true }, 
-                  }); 
-                }}
-                size='small'
-                style={{ float: 'right', marginBottom: '8px' }}
-                className="primary-blue primary-blue-button"
-              >添加品项
-              </Button>
-            }
-          </div>
-          : ''
+          this.props.selectedSetProductType.name ? (
+            <div style={{ height: '36px' }}>
+              {
+                !this.props.isView
+                &&
+                (
+                  <Button
+                    onClick={() => {
+                      this.props.dispatch({
+                        type: 'product-new/updateState',
+                        payload: { showSetFormBottomRightAddModal: true },
+                      });
+                    }}
+                    size='small'
+                    style={{ float: 'right', marginBottom: '8px' }}
+                    className="primary-blue primary-blue-button"
+                  >添加品项
+                  </Button>
+                )
+              }
+            </div>
+          ): ''
         }
         <SetFormBottomRightAddModal />
         <Table
