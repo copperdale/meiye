@@ -27,6 +27,7 @@ export default class ProductTypeLayout extends Component {
       }
     });
   }
+
   toggleAddProductModal = (id, isEditProductType = false, item = {}) => {
     this.props.dispatch({
       type: 'product/updateState',
@@ -41,6 +42,7 @@ export default class ProductTypeLayout extends Component {
       },
     });
   }
+  
   updateSelecteDishTypeId = (id, selectedDishName,  showNewButton) => {
     this.props.dispatch({
       type: 'product/updateState',

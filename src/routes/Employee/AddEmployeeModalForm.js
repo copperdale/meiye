@@ -185,5 +185,6 @@ const AddProductModalForm = Form.create({
 export default connect((state) => {
   return {
     addEmployeeModalFormData: state.employee.addEmployeeModalFormData,
+    showAddModal: state.employee.showAddModal,
   }
 })(AddProductModalForm);

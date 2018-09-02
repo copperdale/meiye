@@ -8,6 +8,19 @@ import AddEmployeeModalForm from './AddEmployeeModalForm';
 }))
 export default class AddEployeeModal extends Component {
 
+  toggleShowAddModal = () => {
+    this.props.dispatch({
+      type: 'employee/updateState',
+      payload: {
+        showAddModal: !this.props.showAddModal,
+      },
+    });
+  }
+
+  handleCancel = () => {
+    this.toggleShowAddModal();
+  }
+
   render() {
     return (
       <Modal

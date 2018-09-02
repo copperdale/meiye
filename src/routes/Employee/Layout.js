@@ -20,13 +20,13 @@ export default class ProductTypeLayout extends Component {
   //     type: 'product/getProductList',
   //   });
   // }
-  deleteProduct = (id) => {
+  deleteEmployeeRole = (id) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'employee/deleteProduct',
+      type: 'employee/deleteEmployeeRole',
       payload: {
-        id
-      }
+        id,
+      },
     });
   }
 
@@ -77,8 +77,8 @@ export default class ProductTypeLayout extends Component {
                 dataSource={this.props.EmployeeRoleList}
                 renderItem={(subItem) => (
                   <List.Item actions={[
-                    <a href="javascript:void(0)" onClick={() => { this.toggleAddProductModal(subItem.id, true, subItem)}}>编辑</a>,
-                    <a href="javascript:void(0)" onClick={() => { this.deleteProduct(subItem.id) }}>删除</a>,
+                    <a href="javascript:void(0)" onClick={() => { this.toggleAddEmployeeModal(subItem.id, true, subItem)}}>编辑</a>,
+                    <a href="javascript:void(0)" onClick={() => { this.deleteEmployeeRole(subItem.id) }}>删除</a>,
                   ]}
                   >
                     <span

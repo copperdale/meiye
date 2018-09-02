@@ -35,7 +35,7 @@ const menuData = [
     name: '设置',
     icon: 'setting',
     path: 'setting',
-    authority: 'guest',
+    // authority: 'guest',
   },
   {
     name: '人效',
