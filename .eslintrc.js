@@ -10,6 +10,7 @@ module.exports = {
     jasmine: true,
   },
   rules: {
+    'prefer-destructuring': [0],
     'generator-star-spacing': [0],
     'prefer-destructuring': [0],
     'react/sort-comp': [0],

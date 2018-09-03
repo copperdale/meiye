@@ -5,9 +5,9 @@ export default {
   namespace: 'setting',
 
   state: {
-    tableArea: [],
-    selectedTableArea: { id: 2 },
-    tables: [],
+    tableArea: [{ name: 'area1', id: 1 }, { name: 'area2', id: 2 }],
+    selectedTableAreaId: 2,
+    tables: [{ name: '1', id: 1 }, { name: '2', id: 2 }],
   },
 
   effects: {
