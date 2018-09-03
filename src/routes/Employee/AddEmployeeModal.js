@@ -5,6 +5,7 @@ import AddEmployeeModalForm from './AddEmployeeModalForm';
 
 @connect((state) => ({
   showAddModal: state.employee.showAddModal,
+  isEditing: state.employee.isEditing,
 }))
 export default class AddEployeeModal extends Component {
 
@@ -22,15 +23,19 @@ export default class AddEployeeModal extends Component {
   }
 
   render() {
+    let title = '创建角色';
+    if (this.props.isEditing) {
+      title = '更新角色';
+    }
     return (
       <Modal
-        title="创建角色"
+        title={title}
         visible={this.props.showAddModal}
-        onOk={this.handleOk}
         onCancel={this.handleCancel}
         // okText="保存"
         // cancelText="取消"
         footer={null}
+        width={900}
       >
         <AddEmployeeModalForm />
       </Modal>

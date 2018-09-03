@@ -18,3 +18,21 @@ export async function addEmployeeRole(param) {
         body: param,
     });
 }
+
+export async function updateEmployeeRole(param) {
+    return request(`${prefix}MeiYe/public/api/role/authRole/update?token=${getToken()}`, {
+        method: 'POST',
+        body: param,
+    });
+}
+
+export async function getAllPermission() {
+    return request(`${prefix}MeiYe/public/api/role/authPermission/findAll?token=${getToken()}`, { method: 'GET' });
+}
+
+export async function getEmployees(params) {
+    return request(`${prefix}MeiYe/public/api/role/authUser/getUserPage?token=${getToken()}`, { 
+        method: 'POSt',
+        body: {pageNum: 0, pageSize: 99999999, ...params },
+    });
+}

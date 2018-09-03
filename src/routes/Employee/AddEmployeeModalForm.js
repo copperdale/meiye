@@ -8,14 +8,16 @@ class BasicForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    // this.props.form.validateFields((err, fieldsValue) => {
-    //   if (err) {
+    this.props.form.validateFields((err) => {
+      if (!err) {
+        this.props.dispatch({
+          type: 'employee/saveEmployeeRole',
+        })
+      }
 
-    //   }
+      // Should format date value before submit.
 
-    //   // Should format date value before submit.
-
-    // });
+    });
   }
 
   toggleShowAddModal = () => {
@@ -37,6 +39,32 @@ class BasicForm extends React.Component {
     });
     // this.toggleShowAddModal();
   }
+
+  getPermissionCheckBoxes = (platform) => {
+    return this.props.permissions.filter(item => item.platform === platform).map((item, index) => {
+      return (
+        // <Col span={20} offset={2}><Checkbox value={item.id}>{item.name}</Checkbox></Col>
+        <Checkbox
+          checked={item.checked !== 0}
+          style={{ marginRight: '4px', marginLeft: '0px' }} 
+          onChange={(e) => {
+            const cPermissions = this.props.permissions;
+            cPermissions.forEach((permission) => {
+              if (permission.id == item.id) {
+                permission.checked = e.target.checked ? 1 : 0;
+              }
+            })
+            this.props.dispatch({
+              type: 'employee/updateState',
+              payload: {
+                permissions: JSON.parse(JSON.stringify(cPermissions)),
+              },
+            });
+          }}
+        >{item.name}</Checkbox>
+      );
+    });
+  } 
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -67,7 +95,7 @@ class BasicForm extends React.Component {
           {...formItemLayout}
           label="角色编码"
         >
-          {getFieldDecorator('no', {
+          {getFieldDecorator('code', {
             // rules: [{ required: true, message: 'Please input your note!' }],
           })(
             <Input size="small" style={{ width: '100%' }} />
@@ -94,21 +122,12 @@ class BasicForm extends React.Component {
             <span style={{ textAlign: 'left' }}>商家后台操作权限</span>
           }
         >
-          {getFieldDecorator('no', {
-            // rules: [{ required: true, message: 'Please input your note!' }],
-          })(
-            <Checkbox.Group style={{ width: '100%' }}>
-              <Row>
-                <Col span={6} offset={2}><Checkbox value="A">登陆</Checkbox></Col>
-                <Col span={8}><Checkbox value="B">查看品项</Checkbox></Col>
-                <Col span={8}><Checkbox value="C">添加品项</Checkbox></Col>
-                <Col span={6} offset={2}><Checkbox value="D">编辑品项</Checkbox></Col>
-                <Col span={8}><Checkbox value="E">报表查看</Checkbox></Col>
-                <Col span={8}><Checkbox value="F">创建角色</Checkbox></Col>
-                <Col span={6} offset={2}><Checkbox value="G">添加员工</Checkbox></Col>
-              </Row>
-            </Checkbox.Group>
-          )}
+         
+          <Row>
+            <Col span={20} offset={2}>
+              {this.getPermissionCheckBoxes(1)}
+            </Col>
+          </Row>
         </FormItem>
         <FormItem
           {...formItemLayout}
@@ -123,21 +142,11 @@ class BasicForm extends React.Component {
           colon={false}
           label="POS前端操作权限"
         >
-          {getFieldDecorator('no', {
-            // rules: [{ required: true, message: 'Please input your note!' }],
-          })(
-            <Checkbox.Group style={{ width: '100%' }}>
-              <Row>
-                <Col span={6} offset={2}><Checkbox value="A">登陆</Checkbox></Col>
-                <Col span={8}><Checkbox value="B">查看品项</Checkbox></Col>
-                <Col span={8}><Checkbox value="C">添加品项</Checkbox></Col>
-                <Col span={6} offset={2}><Checkbox value="D">编辑品项</Checkbox></Col>
-                <Col span={8}><Checkbox value="E">报表查看</Checkbox></Col>
-                <Col span={8}><Checkbox value="F">创建角色</Checkbox></Col>
-                <Col span={6} offset={2}><Checkbox value="G">添加员工</Checkbox></Col>
-              </Row>
-            </Checkbox.Group>
-          )}
+          <Row>
+            <Col span={20} offset={2}>
+              {this.getPermissionCheckBoxes(2)}
+            </Col>
+          </Row>
         </FormItem>
         <FormItem
           {...formItemLayout}
@@ -146,7 +155,7 @@ class BasicForm extends React.Component {
         >
           <Button onClick={this.toggleShowAddModal}>取消</Button>
           &nbsp;
-          <Button type="primary" htmlType="submit">保存</Button>
+          <Button type="primary" htmlType="submit">{this.props.isEditing ? '更新' : '保存'}</Button>
         </FormItem>
       </Form>
     );
@@ -167,7 +176,7 @@ const AddProductModalForm = Form.create({
     })
   },
   mapPropsToFields(props) {
-    const fields = 'name no'.split(' ');
+    const fields = 'name code'.split(' ');
     const result = {};
     fields.forEach((key) => {
       result[key] = Form.createFormField({
@@ -186,5 +195,7 @@ export default connect((state) => {
   return {
     addEmployeeModalFormData: state.employee.addEmployeeModalFormData,
     showAddModal: state.employee.showAddModal,
+    permissions: state.employee.permissions,
+    isEditing: state.employee.isEditing,
   }
 })(AddProductModalForm);

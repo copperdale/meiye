@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Radio, Tabs, Card, Icon, Row, Col } from 'antd';
+import { Button, Radio, Tabs, Card, Icon, Input } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router'
 import { routerRedux } from 'dva/router';
@@ -39,36 +39,101 @@ export default class NewItem extends Component {
   }
   
   render() {
-    // console.log(this.props.addtype)
+    console.log(this.props.tables)
     return (
       <Tabs
-        defaultActiveKey={this.props.selectedTableAreaId}
-        onChange={(activeKey) => { this.props.dispatch({ type: 'setting/updateState', payload: { selectedTableAreaId: activeKey } }) }}
+        defaultActiveKey={this.props.selectedTableAreaCode}
+        onChange={(activeKey) => {
+          this.props.dispatch({
+            type: 'setting/updateState',
+            payload: { selectedTableAreaId: activeKey },
+          });
+          this.props.dispatch({
+            type: 'setting/loadTablesByAreaId',
+          });
+        }}
         onEdit={this.onEdit}
       >
         {
           this.props.tableArea.map((area) => {
             return (
-              <TabPane tab={area.name} key={area.id || '-1'}>
+              <TabPane tab={area.areaName} key={area.id || '-1'}>
                 {
                   `${area.id}` === `${this.props.selectedTableAreaId}`
-                  ?
-
+                  &&
                   this.props.tables.map((table) => {
-                    return (
-                      <Card
-                        title={table.name}
-                        bordered={false}
-                        style={{ width: 120, display: 'inline-block', marginTop: '16px', marginRight: '16px' }}
-                        actions={[
-                          <Icon type="edit" theme="twoTone" />,
-                          <Icon type="delete" theme="twoTone" />,
-                        ]}
-                      />
-                    )
+                    if (table.id) {
+                      return (
+                        <Card
+                          title={<span title={table.tableName}>{table.tableName}</span>}
+                          bordered={false}
+                          style={{ width: 120, display: 'inline-block', marginTop: '16px', marginRight: '16px' }}
+                        >
+                          <Icon style={{ fontSize: '26px', cursor: 'pointer', color: '#ee5e1f' }} type="edit" theme="twoTone" />
+                          &nbsp;
+                          &nbsp;
+                          <Icon style={{ fontSize: '26px', cursor: 'pointer', color: '#ee5e1f' }} type="delete" theme="twoTone" />
+                        </Card>
+                      )
+                    } else {
+                      return (
+                        <Card
+                          title={
+                            <Input
+                              size="small"
+                              value={table.tableName}
+                              onChange={(e) => {
+                                let cTables = this.props.tables;
+                                cTables = cTables.map((item) => {
+                                  if (!item.id) {
+                                    item.tableName = e.target.value;
+                                  }
+                                  return item;
+                                });
+                                this.props.dispatch({
+                                  type: 'setting/updateState',
+                                  payload: {
+                                    tables: JSON.parse(JSON.stringify(cTables)),
+                                  },
+                                });
+                              }}
+                            />
+                          }
+                          bordered={false}
+                          style={{ width: 120, display: 'inline-block', marginTop: '16px', marginRight: '16px' }}
+                        >
+                          <Icon style={{ fontSize: '26px', cursor: 'pointer', color: '#ee5e1f' }} type="edit" theme="twoTone" />
+                          &nbsp;
+                          &nbsp;
+                          <Icon style={{ fontSize: '26px', cursor: 'pointer', color: '#ee5e1f' }} type="delete" theme="twoTone" />
+                        </Card>
+                      )
+                    }
                   })
-                  :
-                  ''
+                }
+                
+                {
+                  this.props.tables.filter((item) => {
+                    return !item.id;
+                  }).length === 0
+                  &&
+                  (
+                    <Icon
+                      onClick={() => {
+                        const cTables = this.props.tables;
+                        cTables.push({ tableName: '' });
+                        this.props.dispatch({
+                          type: 'setting/updateState',
+                          payload: {
+                            tables: JSON.parse(JSON.stringify(cTables)),
+                          },
+                        });
+                      }}
+                      style={{ fontSize: '48px', cursor: 'pointer', color: '#ee5e1f' }}
+                      type="plus-circle"
+                      theme="twoTone"
+                    />
+                  )
                 }
               </TabPane>
             );

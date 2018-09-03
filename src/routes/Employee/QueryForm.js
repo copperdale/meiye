@@ -9,10 +9,10 @@ class BasicForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.props.form.validateFields((err, fieldsValue) => {
+    this.props.form.validateFields((err) => {
       if (!err) {
         this.props.dispatch({
-          type: 'product/queryProductType'
+          type: 'employee/queryEmployee',
         });
       }
 
@@ -39,17 +39,18 @@ class BasicForm extends React.Component {
           {...formItemLayout}
           label="员工类型"
         >
-          {getFieldDecorator('type', {
+          {getFieldDecorator('jobEmployeeType', {
             // rules: [{ required: true, message: 'Please input your note!' }],
-            initialValue: '0'
+            initialValue: '1',
           })(
             <Select size="small" style={{ width: '120px' }}>
-              <Option value='0'>单品</Option>
-              <Option value='1'>套餐</Option>
+              <Option value="1">试用期</Option>
+              <Option value="2">正式</Option>
+              <Option value="3">外聘</Option>
             </Select>
             )}
         </FormItem>
-        <FormItem
+        {/* <FormItem
           {...formItemLayout}
           label="状态"
         >
@@ -58,12 +59,12 @@ class BasicForm extends React.Component {
           })(
             <Input size="small" style={{ width: '120px' }} />
             )}
-        </FormItem>
+        </FormItem> */}
         <FormItem
           {...formItemLayout}
           label="员工名称"
         >
-          {getFieldDecorator('dishCode', {
+          {getFieldDecorator('name', {
             // rules: [{ required: true, message: 'Please input your note!' }],
           })(
             <Input size="small" style={{ width: '120px' }} />
@@ -84,27 +85,27 @@ const QueryForm = Form.create({
       queryFormData[key] = changedFields[key];
     })
     props.dispatch({
-      type: 'product/updateState',
+      type: 'employee/updateState',
       payload: {
         queryFormData,
       },
     })
   },
   mapPropsToFields(props) {
-    // const fields = 'name dishCode type'.split(' ');
-    // const result = {};
-    // fields.forEach((key) => {
-    //   result[key] = Form.createFormField({
-    //     ...props.queryFormData[key],
-    //     value: props.queryFormData[key].value,
-    //   })
-    // })
-    // return result;
+    const fields = 'name jobEmployeeType'.split(' ');
+    const result = {};
+    fields.forEach((key) => {
+      result[key] = Form.createFormField({
+        ...props.queryFormData[key],
+        value: props.queryFormData[key].value,
+      })
+    })
+    return result;
   },
 })(BasicForm);
 
 export default connect((state) => {
   return {
-    // queryFormData: state.product.queryFormData,
+    queryFormData: state.employee.queryFormData,
   }
 })(QueryForm);

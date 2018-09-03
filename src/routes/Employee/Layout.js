@@ -11,6 +11,8 @@ import AddEmployeeModal from './AddEmployeeModal';
   // selecteDishTypeId: state.product.selecteDishTypeId,
   EmployeeRoleList: state.employee.EmployeeRoleList || [],
   showAddModal: state.employee.showAddModal,
+  addEmployeeModalFormData: state.employee.addEmployeeModalFormData,
+  permissions: state.employee.permissions,
 }))
 export default class ProductTypeLayout extends Component {
   // componentDidMount() {
@@ -30,11 +32,30 @@ export default class ProductTypeLayout extends Component {
     });
   }
 
-  toggleAddEmployeeModal = (id, isEdit = false, item = {}) => {
+  toggleAddEmployeeModal = (isEditing = false, item = {}) => {
+    let addEmployeeModalFormData = this.props.addEmployeeModalFormData;
+    let permissions = this.props.permissions;
+    permissions.forEach((permission) => {
+      permission.checked = 0;
+    });
+    (item.authRolePermissions || []).forEach((itemPermission) => {
+      permissions.forEach((permission) => {
+        if (itemPermission.permissionId == permission.id) {
+          permission.checked = 1;
+        }
+      })
+    })
     this.props.dispatch({
       type: 'employee/updateState',
       payload: {
         showAddModal: true,
+        editingRole: item,
+        isEditing,
+        permissions: JSON.parse(JSON.stringify(permissions)),
+        addEmployeeModalFormData: {
+          code: { value: item.code || '' },
+          name: { value: item.name || '' },
+        },
         // addProductParentId: id,
         // isEditProductType,
         // addModalFormData: {
@@ -77,7 +98,7 @@ export default class ProductTypeLayout extends Component {
                 dataSource={this.props.EmployeeRoleList}
                 renderItem={(subItem) => (
                   <List.Item actions={[
-                    <a href="javascript:void(0)" onClick={() => { this.toggleAddEmployeeModal(subItem.id, true, subItem)}}>编辑</a>,
+                    <a href="javascript:void(0)" onClick={() => { this.toggleAddEmployeeModal(true, subItem)}}>编辑</a>,
                     <a href="javascript:void(0)" onClick={() => { this.deleteEmployeeRole(subItem.id) }}>删除</a>,
                   ]}
                   >

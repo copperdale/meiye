@@ -15,16 +15,22 @@ export default class Employee extends Component {
 
   render() {
     return (
-      <ProductTypeLayout breadcrumbs={['品项列表', this.props.selectedDishName]} actionButtons={
-        this.props.showNewButton
-        &&
-        <Button
-          size="small" 
-          style={{ float: 'right' }} 
-          className="primary-blue primary-blue-button"
-          onClick={() => { this.props.dispatch(routerRedux.push('/product-new')); }}
-        >新建品项</Button>
-      }>
+      <ProductTypeLayout
+        breadcrumbs={['品项列表', this.props.selectedDishName]}
+        actionButtons={
+          this.props.showNewButton
+          &&
+          (
+            <Button
+              size="small" 
+              style={{ float: 'right' }} 
+              className="primary-blue primary-blue-button"
+              onClick={() => { this.props.dispatch(routerRedux.push('/product-new')); }}
+            >新建品项
+            </Button>
+          )
+        }
+      >
         <QueryForm />
         {/* <SearchResult /> */}
       </ProductTypeLayout>
