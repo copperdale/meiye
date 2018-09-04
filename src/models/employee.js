@@ -25,6 +25,9 @@ export default {
       name: { value: '' }, 
       jobEmployeeType: { value: '' },
     },
+    queryResult: {
+      content: [],
+    },
   },
 
   effects: {
@@ -44,7 +47,7 @@ export default {
       const queryFormData = yield select(state => state.employee.queryFormData);
       const params = {
         name: queryFormData.name.value,
-        jobEmployeeType: queryFormData.name.jobEmployeeType,
+        jobEmployeeType: queryFormData.jobEmployeeType.value,
       }
       const response = yield call(getEmployees, params);
     //   if (!response) {
@@ -53,7 +56,7 @@ export default {
       yield put({
         type: 'updateState',
         payload: {
-            EmployeeRoleList: JSON.stringify(response.data) === '{}' ? [] : response.data,
+          queryResult: JSON.stringify(response.data) === '{}' ? [] : response.data,
         },
       });
     },

@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 
 @connect((state) => ({
-  // queryResult: state.product.queryResult,
+  queryResult: state['employee'].queryResult,
 }))
 export default class SearchResult extends Component {
   render() {
@@ -14,47 +14,52 @@ export default class SearchResult extends Component {
       key: 'name',
     }, {
       title: '工号',
-      dataIndex: 'skuKey',
-      key: 'skuKey',
+      dataIndex: 'jobNumber',
+      key: 'jobNumber',
     }, {
       title: '员工类型',
-      dataIndex: 'marketPrice',
+      dataIndex: 'jobEmployeeType',
     }, {
       title: '入职日期',
-      dataIndex: 'currRemainTotal',
+      dataIndex: 'jobEntryTime',
     }, {
       title: '状态',
-      dataIndex: 'unitName',
+      dataIndex: 'statusFlag',
     }, {
       title: '职位',
-      dataIndex: 'type',
-      render: text => text === '0' ? '单品' : '套餐'
+      dataIndex: 'jobPosition',
     }, {
       title: '操作',
       key: 'action',
       render: (text, record) => (
         <span>
-          <Link className="primary-blue" href="javascript:;"
+          <Link
+            className="primary-blue"
+            href="javascript:;"
             to={{
-              pathname: '/product-new',
-              search: `isView=1&id=${record.id}&addtype=${record.type}`
+              pathname: '/employee-new',
+              search: `isView=true&isEdit=false&id=${record.id}`,
             }}
-          >查看</Link>
+          >查看
+          </Link>
           <Divider type="vertical" />
-          <Link className="primary-blue" href="javascript:;"
+          <Link
+            className="primary-blue"
+            href="javascript:;"
             to={{
               pathname: '/product-new',
-              search: `isEdit=1&id=${record.id}&addtype=${record.type}`
+              search: `isView=true&isEdit=true&id=${record.id}`,
             }}
-          >编辑</Link>
+          >编辑
+          </Link>
           <Divider type="vertical" />
           <a className="primary-blue" href="javascript:;">删除</a>
         </span>
       ),
     }];
 
-    let data = this.props.queryResult || [];
-    data = data.concat(data).concat(data);
+    let data = this.props.queryResult.content || [];
+    // data = data.concat(data).concat(data);
     const pager = {
       pageSize: 10,
       showSizeChanger: true,

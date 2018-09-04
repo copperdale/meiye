@@ -1,13 +1,15 @@
 import React from 'react';
 import { Form, Input, Row, Col, Radio, DatePicker, Select, Button } from 'antd';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import styles from '../../Product/NewItem/index.less';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const Option = Select.Option;
 
-export const getFieldsConfig = (props = {}) => {
+export const getFieldsConfig = (props = { latestEmployee: {} }) => {
+  const latestInfo = `上一名加入我公司的${props.latestEmployee.name} ${props.latestEmployee.jobNumber}`;
   const result = [{
     sectionTitle: '基础信息',
     fields: [{
@@ -41,7 +43,7 @@ export const getFieldsConfig = (props = {}) => {
     },{
       label: '身份证号',
       placeholder: '请输入身份证号码',
-      dataIndex: 'identity_card',
+      dataIndex: 'identityCard',
       // rules: [{ required: true, message: '请输入姓名' }], 
       render:<Input size="small" maxLength={20} />,
     },{
@@ -62,19 +64,19 @@ export const getFieldsConfig = (props = {}) => {
     },{
       label: '毕业学校',
       placeholder: '请输入毕业学校',
-      dataIndex: 'graduate_school',
+      dataIndex: 'graduateSchool',
       // rules: [{ required: true, message: '请输入姓名' }], 
       render:<Input size="small" maxLength={40} />,
     },{
       label: '参加工作时间',
       placeholder: '请选择日期',
-      dataIndex: 'into_work_date',
+      dataIndex: 'intoWorkDate',
       // rules: [{ required: true, message: '请输入姓名' }], 
       render:<DatePicker size="small" style={{ width: '100%' }} />,
     },{
       label: '婚姻状况',
       placeholder: '',
-      dataIndex: 'is_marry',
+      dataIndex: 'isMarry',
       // rules: [{ required: true, message: '请输入姓名' }], 
       render: (
         <Select size="small" style={{ width: '100%' }}>
@@ -89,7 +91,7 @@ export const getFieldsConfig = (props = {}) => {
     fields: [{
       label: '工号',
       placeholder: '请输入员工工号',
-      dataIndex: 'job_number',
+      dataIndex: 'jobNumber',
       rules: [{ required: true, message: '请输入工号' }],
       render:<Input size="small" maxLength={10} />,
     },{
@@ -97,11 +99,11 @@ export const getFieldsConfig = (props = {}) => {
       placeholder: ' ',
       dataIndex: '',
       // rules: [{ required: true, message: '请输入姓名' }],
-      render: '上一名加入我公司的赵店长',
+      render: latestInfo,
     },{
       label: '员工类型',
       placeholder: '',
-      dataIndex: 'job_employee_type',
+      dataIndex: 'jobEmployeeType',
       rules: [{ required: true, message: '请输入员工类型' }], 
       render: (
         <Select size="small" style={{ width: '100%' }}>
@@ -113,19 +115,19 @@ export const getFieldsConfig = (props = {}) => {
     },{
       label: '入职时间',
       placeholder: '请选择日期',
-      dataIndex: 'job_entry_time',
+      dataIndex: 'jobEntryTime',
       rules: [{ required: true, message: '请输入入职时间' }], 
       render:<DatePicker size="small" style={{ width: '100%' }} />,
     },{
       label: '转正时间',
       placeholder: '请选择日期',
-      dataIndex: 'job_positive_time',
+      dataIndex: 'jobPositiveTime',
       // rules: [{ required: true, message: '请输入姓名' }], 
       render:<DatePicker size="small" style={{ width: '100%' }} />,
     },{
       label: '职位',
       placeholder: '',
-      dataIndex: 'job_position',
+      dataIndex: 'jobPosition',
       rules: [{ required: true, message: '请输入职位' }], 
       render: (
         <Select size="small" style={{ width: '100%' }}>
@@ -141,13 +143,13 @@ export const getFieldsConfig = (props = {}) => {
     },{
       label: '职级',
       placeholder: '请输入职级',
-      dataIndex: 'job_grade',
+      dataIndex: 'jobGrade',
       // rules: [{ required: true, message: '请输入姓名' }],
       render:<Input size="small" maxLength={10} />,
     },{
       label: '工作地点',
       placeholder: '请输入工作地点',
-      dataIndex: 'job_address',
+      dataIndex: 'jobAddress',
       // rules: [{ required: true, message: '请输入姓名' }],
       render:<Input size="small" maxLength={40} />,
     }],
@@ -167,8 +169,8 @@ export const getFieldsConfig = (props = {}) => {
       render:<Input size="small" maxLength={40} />,
     }, {
       label: 'QQ',
-      placeholder: '请输入QQ',
-      dataIndex: 'QQ',
+      placeholder: '请输入QQ', 
+      dataIndex: 'qQ',
       // rules: [{ required: true, message: '请输入QQ' }],
       render:<Input size="small" maxLength={20} />,
     }, {
@@ -183,19 +185,19 @@ export const getFieldsConfig = (props = {}) => {
     fields: [{
       label: '记薪方式',
       placeholder: '请输入记薪方式',
-      dataIndex: 'salary_calc_mode',
+      dataIndex: 'salaryCalcMode',
       rules: [{ required: true, message: '请输入记薪方式' }],
       render: '月薪',
     }, {
       label: '基本工资',
       placeholder: '请输入基本工资',
-      dataIndex: 'salary_base',
+      dataIndex: 'salaryBase',
       rules: [{ required: true, message: '请输入基本工资' }],
       render:<Input size="small" maxLength={10} addonBefore="￥" />,
     }, {
       label: '岗位工资',
       placeholder: '请输入岗位工资',
-      dataIndex: 'salary_post',
+      dataIndex: 'salaryPost',
       // rules: [{ required: true, message: '请输入岗位工资' }],
       render:<Input size="small" maxLength={10} addonBefore="￥" />,
     }],
@@ -204,25 +206,25 @@ export const getFieldsConfig = (props = {}) => {
     fields: [{
       label: '姓名',
       placeholder: '请输入姓名',
-      dataIndex: 'ec_name',
+      dataIndex: 'ecName',
       rules: [{ required: true, message: '请输入姓名' }],
       render:<Input size="small" maxLength={10} />,
     }, {
       label: '关系',
       placeholder: '请输入关系',
-      dataIndex: 'ec_relation',
+      dataIndex: 'ecRelation',
       rules: [{ required: true, message: '请输入关系' }],
       render:<Input size="small" maxLength={10} />,
     }, {
       label: '联系电话',
       placeholder: '请输入联系电话',
-      dataIndex: 'ec_mobile',
+      dataIndex: 'ecMobile',
       rules: [{ required: true, message: '请输入联系电话' }],
       render:<Input size="small" maxLength={20} type="number" />,
     }, {
       label: '备用电话',
       placeholder: '请输入备用电话',
-      dataIndex: 'ec_mobile_reserve',
+      dataIndex: 'ecMobileReserve',
       rules: [{ required: true, message: '请输入备用电话' }],
       render:<Input size="small" maxLength={20} type="number" />,
     }],
@@ -238,13 +240,13 @@ export const getFieldsConfig = (props = {}) => {
       label: '登录密码',
       placeholder: '请输入登录密码',
       dataIndex: 'password',
-      rules: [{ validator: (val) => { return val.length === 6 && (/\d/gi).test(val) },  message: '只能输入数字，长度为6位数字' }],
+      // rules: [{ validator: (val) => { return val.length === 6 && (/\d/gi).test(val) },  message: '只能输入数字，长度为6位数字' }],
       render:<Input size="small" maxLength={6} />,
     }, {
       label: '确认密码',
       placeholder: '请输入确认密码',
-      dataIndex: 'password_num',
-      rules: [{ validator: (val) => { return val.length === 6 && (/\d/gi).test(val) },  message: '只能输入数字，长度为6位数字' }],
+      dataIndex: 'passwordNum',
+      // rules: [{ validator: (val) => { return val.length === 6 && (/\d/gi).test(val) },  message: '只能输入数字，长度为6位数字' }],
       render:<Input size="small" maxLength={6} />,
     }],
   }];
@@ -256,11 +258,11 @@ class BasicForm extends React.Component {
     e.preventDefault();
 
     this.props.form.validateFieldsAndScroll((err) => {
-      // if (!err) {
-      //   // this.props.dispatch({
-      //   //   type: 'employee-new/newOrUpdateEmployee',
-      //   // });
-      // }
+      if (!err) {
+        this.props.dispatch({
+          type: 'employee-new/newOrUpdateEmployee',
+        });
+      }
     });
   }
 
@@ -346,19 +348,31 @@ class BasicForm extends React.Component {
     };
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Row gutter={16}>
-          <Col span={12} offset={12}>
-            <FormItem
-              {...formItemLayout}
-              label=" "
-              style={{ textAlign: 'right' }}
-            >
-              <Button size="small">取消</Button>
-              &nbsp;
-              <Button htmlType="submit" type="primary" size="small">保存</Button>
-            </FormItem>
-          </Col>
-        </Row>
+        {
+          !this.props.isView
+          &&
+          (
+            <Row gutter={16}>
+              <Col span={12} offset={12}>
+                <FormItem
+                  {...formItemLayout}
+                  label=" "
+                  style={{ textAlign: 'right' }}
+                >
+                  <Button
+                    size="small"
+                    onClick={() => {
+                      this.props.dispatch(routerRedux.push('/employee'))
+                    }}
+                  >取消
+                  </Button>
+                  &nbsp;
+                  <Button htmlType="submit" type="primary" size="small">保存</Button>
+                </FormItem>
+              </Col>
+            </Row>
+          )
+        }
         {
           this.getFormContent()
         }
@@ -410,5 +424,7 @@ export default connect((state) => {
   return {
     newEmployeeFormData: state['employee-new'].newEmployeeFormData,
     EmployeeRoleList: state.employee.EmployeeRoleList,
+    latestEmployee: state['employee-new'].latestEmployee || {},
+    isView: state['employee-new'].isView,
   }
 })(NewEmployeeForm);

@@ -31,8 +31,10 @@ export async function getAllPermission() {
 }
 
 export async function getEmployees(params) {
+    params.pageNum = 0;
+    params.pageSize = 100000;
     return request(`${prefix}MeiYe/public/api/role/authUser/getUserPage?token=${getToken()}`, { 
-        method: 'POSt',
-        body: {pageNum: 0, pageSize: 99999999, ...params },
+        method: 'POST',
+        body: params,
     });
 }
