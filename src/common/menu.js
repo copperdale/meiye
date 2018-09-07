@@ -40,7 +40,7 @@ const menuData = [
   {
     name: '人效',
     icon: 'rocket',
-    path: 'rocket',
+    path: 'commission',
   },
 ];
 // const menuData = [
