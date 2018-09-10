@@ -1,27 +1,35 @@
 import { parse } from 'qs';
-// import { 
-//   getTableArea, loadTablesByAreaId,
-//   addTable, updateTable, deleteTable,
-
-//   addArea, updateArea, deleteArea,
-// } from '../services/setting';
+import { 
+  queryPlan,
+} from '../services/commission';
 
 export default {
-  namespace: 'setting',
+  namespace: 'commission',
 
   state: {
     queryFormData: {
       planState: { value: '' },
       planPype: { value: '' },
     },
-    // tableArea: [{ areaName: 'area1', id: 1 }, { areaName: 'area2', id: 2 }],
-    // selectedTableAreaId: null,
-    // tables: [{ tableName: '1', tableNum: 1 }, { tableName: '2', tableNum: 2 }],
+    searchResult: {
+      content: [],
+    },
   },
 
   effects: {
-    *getTableArea(_, { call, put, select }) {
-      
+    *queryPlan(_, { call, put, select }) {
+      const queryFormData = yield select(state => state.commission.queryFormData);
+      const params = {
+        planState: queryFormData.planState.value,
+        planPype: queryFormData.planPype.value,
+      };
+      const response = yield call(queryPlan, params);
+      yield put({
+        type: 'commission/updateState',
+        payload: {
+          searchResult: response.data,
+        },
+      })
     },
   },
 

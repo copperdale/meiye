@@ -116,7 +116,10 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['setting'], () => import('../routes/Setting/index.js')),
     },
     '/commission': {
-      component: dynamicWrapper(app, [], () => import('../routes/Commission/index.js')),
+      component: dynamicWrapper(app, ['commission'], () => import('../routes/Commission/index.js')),
+    },
+    '/commission-new': {
+      component: dynamicWrapper(app, ['commission-new'], () => import('../routes/Commission/NewCommission/index')),
     },
     // '/user/:id': {
     //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),

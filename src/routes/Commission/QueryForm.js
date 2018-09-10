@@ -1,9 +1,9 @@
 import React from 'react';
-import { Form, Input, Select, Button } from 'antd';
+import { Form, Select, Button } from 'antd';
 import { connect } from 'dva';
+import CommissionTypesSelect from './CommissionComponent/CommissionTypesSelect'
 
 const FormItem = Form.Item;
-const Option = Select.Option;
 
 class BasicForm extends React.Component {
   handleSubmit = (e) => {
@@ -12,7 +12,7 @@ class BasicForm extends React.Component {
     this.props.form.validateFields((err) => {
       if (!err) {
         this.props.dispatch({
-          type: 'employee/queryEmployee',
+          type: 'commission/queryPlan',
         });
       }
 
@@ -37,17 +37,13 @@ class BasicForm extends React.Component {
       <Form onSubmit={this.handleSubmit} layout="inline">
         <FormItem
           {...formItemLayout}
-          label="员工类型"
+          label="类型"
         >
-          {getFieldDecorator('jobEmployeeType', {
+          {getFieldDecorator('planType', {
             // rules: [{ required: true, message: 'Please input your note!' }],
-            initialValue: '1',
+            initialValue: '',
           })(
-            <Select size="small" style={{ width: '120px' }}>
-              <Option value="1">试用期</Option>
-              <Option value="2">正式</Option>
-              <Option value="3">外聘</Option>
-            </Select>
+            <CommissionTypesSelect needAll />
             )}
         </FormItem>
         {/* <FormItem
@@ -62,12 +58,17 @@ class BasicForm extends React.Component {
         </FormItem> */}
         <FormItem
           {...formItemLayout}
-          label="员工名称"
+          label="状态"
         >
-          {getFieldDecorator('name', {
+          {getFieldDecorator('planState', {
+            initialValue: '',
             // rules: [{ required: true, message: 'Please input your note!' }],
           })(
-            <Input size="small" style={{ width: '120px' }} />
+            <Select size="small" style={{ width: '120px' }}>
+              <Select.Option value="">全部</Select.Option>
+              <Select.Option value="1">启用</Select.Option>
+              <Select.Option value="2">禁用</Select.Option>
+            </Select>
             )}
         </FormItem>
         <FormItem>
@@ -85,7 +86,7 @@ const QueryForm = Form.create({
       queryFormData[key] = changedFields[key];
     })
     props.dispatch({
-      type: 'employee/updateState',
+      type: 'commission/updateState',
       payload: {
         queryFormData,
       },
@@ -106,6 +107,6 @@ const QueryForm = Form.create({
 
 export default connect((state) => {
   return {
-    // queryFormData: state.employee.queryFormData,
+    queryFormData: state.commission.queryFormData,  
   }
 })(QueryForm);
