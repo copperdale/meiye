@@ -43,7 +43,7 @@ class BasicForm extends React.Component {
             // rules: [{ required: true, message: 'Please input your note!' }],
             initialValue: '',
           })(
-            <CommissionTypesSelect needAll />
+            <CommissionTypesSelect needAll style={{ width: '120px' }} />
             )}
         </FormItem>
         {/* <FormItem

@@ -3,6 +3,7 @@ import { Form, Input, Row, Col, Radio, DatePicker, Select, Button } from 'antd';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import styles from '../../Product/NewItem/index.less';
+import CommissionTypeSelect from '../CommissionComponent/CommissionTypesSelect.js'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -23,11 +24,7 @@ export const getFieldsConfig = (props = { }) => {
       dataIndex: 'gender',
       // rules: [{ required: true, message: '请输入姓名' }],
       render:(
-        <Select size="small" style={{ width: '100%' }}>
-          <Option value="1">试用期</Option>
-          <Option value="2">正式</Option>
-          <Option value="3">外聘</Option>
-        </Select>
+        <CommissionTypeSelect style={{ width: '100%' }} />
       ),
     }],
   },
@@ -35,77 +32,30 @@ export const getFieldsConfig = (props = { }) => {
     sectionTitle: '提成分配',
     fields: [{
       label: '选择参与提成分配身份',
-      placeholder: '请输入员工工号',
-      dataIndex: 'jobNumber',
-      rules: [{ required: true, message: '请输入工号' }],
-      render:<Input size="small" maxLength={10} />,
-    },{
-      label: ' ',
-      placeholder: ' ',
-      dataIndex: '',
-      // rules: [{ required: true, message: '请输入姓名' }],
-      render: latestInfo,
-    },{
-      label: '员工类型',
       placeholder: '',
-      dataIndex: 'jobEmployeeType',
-      rules: [{ required: true, message: '请输入员工类型' }], 
-      render: (
+      dataIndex: 'jobNumber',
+      // rules: [{ required: true, message: '请输入工号' }],
+      render:(
         <Select size="small" style={{ width: '100%' }}>
           <Option value="1">试用期</Option>
           <Option value="2">正式</Option>
           <Option value="3">外聘</Option>
         </Select>
       ),
-    },{
-      label: '入职时间',
-      placeholder: '请选择日期',
-      dataIndex: 'jobEntryTime',
-      rules: [{ required: true, message: '请输入入职时间' }], 
-      render:<DatePicker size="small" style={{ width: '100%' }} />,
-    },{
-      label: '转正时间',
-      placeholder: '请选择日期',
-      dataIndex: 'jobPositiveTime',
-      // rules: [{ required: true, message: '请输入姓名' }], 
-      render:<DatePicker size="small" style={{ width: '100%' }} />,
-    },{
-      label: '职位',
-      placeholder: '',
-      dataIndex: 'jobPosition',
-      rules: [{ required: true, message: '请输入职位' }], 
-      render: (
-        <Select size="small" style={{ width: '100%' }}>
-          {
-            (props.EmployeeRoleList || []).map(role => {
-              return (
-                <Option value={role.id}>{role.name}</Option>
-              );
-            })
-          }
-        </Select>
-      ),
-    },{
-      label: '职级',
-      placeholder: '请输入职级',
-      dataIndex: 'jobGrade',
-      // rules: [{ required: true, message: '请输入姓名' }],
-      render:<Input size="small" maxLength={10} />,
-    },{
-      label: '工作地点',
-      placeholder: '请输入工作地点',
-      dataIndex: 'jobAddress',
-      // rules: [{ required: true, message: '请输入姓名' }],
-      render:<Input size="small" maxLength={40} />,
     }],
   },{
-    sectionTitle: '联系方式',
+    sectionTitle: '提成算法',
     fields: [{
-      label: '手机号',
-      placeholder: '请输入手机号',
+      label: '提成方式',
+      placeholder: '',
       dataIndex: 'mobile',
       rules: [{ required: true, message: '请输入手机号' }],
-      render:<Input size="small" type='number' />,
+      render: (
+        <Select size="small" style={{ width: '100%' }}>
+          <Option value="1">固定金额提成</Option>
+          <Option value="2">消费比例提成</Option>
+        </Select>
+      ),
     }, {
       label: '邮箱',
       placeholder: '请输入邮箱',
