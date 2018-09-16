@@ -1,6 +1,7 @@
 import { parse } from 'qs';
+import { cloneDeep } from 'lodash/lang';
 import { 
-  queryPlan,
+  queryPlan, deleteCommission, setCommissionStatus
 } from '../services/commission';
 
 export default {
@@ -9,7 +10,7 @@ export default {
   state: {
     queryFormData: {
       planState: { value: '' },
-      planPype: { value: '' },
+      planType: { value: '' },
     },
     searchResult: {
       content: [],
@@ -21,7 +22,7 @@ export default {
       const queryFormData = yield select(state => state.commission.queryFormData);
       const params = {
         planState: queryFormData.planState.value,
-        planPype: queryFormData.planPype.value,
+        planType: queryFormData.planType.value,
       };
       const response = yield call(queryPlan, params);
       yield put({
@@ -30,6 +31,32 @@ export default {
           searchResult: response.data,
         },
       })
+    },
+    *deleteCommission({ payload: { id } }, { call, put, select }) {
+      yield call(deleteCommission, id);
+      const searchResult = yield select(state => state.commission.searchResult);
+      searchResult.content = searchResult.content.filter(item => `${item.id}` !== `${id}`);
+      yield put({
+        type: 'commission/updateState',
+        payload: {
+          searchResult: cloneDeep(searchResult),
+        },
+      });
+    },
+    *setCommissionStatus({ payload: { id, status } }, { call, put, select }) {
+      yield call(setCommissionStatus, { id, status });
+      const searchResult = yield select(state => state.commission.searchResult);
+      searchResult.content.forEach((item) => {
+        if (`${item.id}` === `${id}`) {
+          item.planState = status; // eslint-disable-line
+        }
+      });
+      yield put({
+        type: 'commission/updateState',
+        payload: {
+          searchResult: cloneDeep(searchResult),
+        },
+      });
     },
   },
 

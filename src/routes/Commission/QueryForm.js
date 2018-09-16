@@ -93,7 +93,7 @@ const QueryForm = Form.create({
     })
   },
   mapPropsToFields(props) {
-    const fields = 'planPype planState'.split(' ');
+    const fields = 'planType planState'.split(' ');
     const result = {};
     fields.forEach((key) => {
       result[key] = Form.createFormField({

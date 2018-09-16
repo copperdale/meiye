@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Breadcrumb } from 'antd';
+import { Breadcrumb, Spin } from 'antd';
 import { connect } from 'dva';
 // import { routerRedux } from 'dva/router';
 import NewCommissionSolutionForm from './NewCommissionSolutionForm';
@@ -8,6 +8,7 @@ import NewCommissionSolutionForm from './NewCommissionSolutionForm';
 @connect((state) => ({
   // showNewButton: state.product.showNewButton,
   // selectedDishName: state.product.selectedDishName
+  loading: !!state.loading.models['commission-new'],
 }))
 export default class NewCommission extends Component {
 
@@ -20,7 +21,9 @@ export default class NewCommission extends Component {
           <Breadcrumb.Item>创建方案</Breadcrumb.Item>
         </Breadcrumb>
         <hr />
-        <NewCommissionSolutionForm />
+        <Spin spinning={this.props.loading}>
+          <NewCommissionSolutionForm />
+        </Spin>
       </div>
     );
   }

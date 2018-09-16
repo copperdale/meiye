@@ -1,13 +1,34 @@
 import React, { Component } from 'react';
-import { Table, Divider } from 'antd';
+import { Table, Divider, Popconfirm, Spin } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import moment from 'moment'
 
 @connect((state) => ({
   searchResult: state.commission.searchResult,
+  loading: !!state.loading.models.commission,
 }))
 export default class SearchResult extends Component {
+
+  deleteCommission = (id) => {
+    this.props.dispatch({
+      type: 'commission/deleteCommission',
+      payload: {
+        id,
+      },
+    });
+  }
+
+  setStatus = (id, status) => {
+    this.props.dispatch({
+      type: 'commission/setCommissionStatus',
+      payload: {
+        id,
+        status,
+      },
+    });
+  }
+
   render() {
     const columns = [{
       title: '方案名称',
@@ -15,17 +36,25 @@ export default class SearchResult extends Component {
     }, {
       title: '类型',
       dataIndex: 'planType',
+      render: (text) => {
+        const typeText = {
+          1: '消费提成',
+          2: '服务项目提成',
+          3: '储值提成',
+        };
+        return typeText[text] || '其它';
+      },
     }, {
       title: '创建时间',
       dataIndex: 'serverCreateTime',
       render: (text) => {
-        return moment(text);
+        return moment(Number(text)).format('YYYY-MM-DD HH:mm');
       },
     }, {
       title: '启动时间',
       dataIndex: 'serverUpdateTime',
       render: (text) => {
-        return moment(text);
+        return moment(Number(text)).format('YYYY-MM-DD HH:mm');
       },
     }, {
       title: '状态',
@@ -38,20 +67,39 @@ export default class SearchResult extends Component {
       key: 'action',
       render: (text, record) => (
         <span>
-          <a className="primary-blue" href="javascript:;">启用/停用</a>
+          <a
+            className="primary-blue"
+            href="javascript:;"
+            onClick={() => { this.setStatus(record.id, record.planState === 1 ? 2 : 1) }}
+          >
+            {
+              record.planState !== 1 ? '启用' : '禁用'
+            }
+          </a>
           <Divider type="vertical" />
           <Link
             className="primary-blue"
             href="javascript:;"
             to={{
-              pathname: '/product-new',
-              search: `isEdit=1&id=${record.id}&addtype=${record.type}`,
+              pathname: '/commission-new',
+              search: `isEdit=true&id=${record.id}`,
             }}
           >
           编辑
           </Link>
           <Divider type="vertical" />
-          <a className="primary-blue" href="javascript:;">删除</a>
+          <Popconfirm
+            title="Are you sure delete this task?" 
+            onConfirm={() => {this.deleteCommission(record.id)}}
+            okText="删除"
+            cancelText="取消"
+          >
+            <a 
+              className="primary-blue"
+              href="javascript:;"
+            >删除
+            </a>
+          </Popconfirm>
         </span>
       ),
     }];
@@ -71,14 +119,17 @@ export default class SearchResult extends Component {
       showQuickJumper: true,
       size: 'small',
     };
+    // console.log(!!this.props.loadding);
     return (
-      <Table
-        columns={columns}
-        dataSource={data.content}
-        bordered
-        size="small"
-        pagination={pager}
-      />
+      <Spin spinning={this.props.loading}>
+        <Table
+          columns={columns}
+          dataSource={data.content}
+          bordered
+          size="small"
+          pagination={pager}
+        />
+      </Spin>
     )
   }
 }
