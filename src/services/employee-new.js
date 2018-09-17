@@ -25,4 +25,11 @@ export async function addNewEmployee(params) {
   });
 }
 
+export async function updateNewEmployee(params) {
+  return request(`${prefix}MeiYe/public/api/role/authUser/updateAuthUser?token=${getToken()}`, {
+      method: 'POST',
+      body: params,
+  });
+}
+
 // /public/api/part/dishShop/getDishShopPageByCriteria

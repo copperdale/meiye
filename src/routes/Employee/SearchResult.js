@@ -47,8 +47,8 @@ export default class SearchResult extends Component {
             className="primary-blue"
             href="javascript:;"
             to={{
-              pathname: '/product-new',
-              search: `isView=true&isEdit=true&id=${record.id}`,
+              pathname: '/employee-new',
+              search: `isView=false&isEdit=true&id=${record.id}`,
             }}
           >编辑
           </Link>

@@ -9,10 +9,10 @@ class BasicForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.props.form.validateFields((err, fieldsValue) => {
+    this.props.form.validateFields((err) => {
       if (!err) {
         this.props.dispatch({
-          type: 'product/queryProductType'
+          type: 'product/queryProductType',
         });
       }
 
@@ -41,7 +41,7 @@ class BasicForm extends React.Component {
         >
           {getFieldDecorator('type', {
             // rules: [{ required: true, message: 'Please input your note!' }],
-            initialValue: '0'
+            initialValue: '0',
           })(
             <Select size="small" style={{ width: '120px' }}>
               <Option value='0'>单品</Option>

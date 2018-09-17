@@ -14,8 +14,8 @@ export default class SearchResult extends Component {
       key: 'name',
     }, {
       title: '品项编码',
-      dataIndex: 'skuKey',
-      key: 'skuKey',
+      dataIndex: 'dishCode',
+      key: 'dishCode',
     }, {
       title: '价格',
       dataIndex: 'marketPrice',
@@ -82,6 +82,7 @@ export default class SearchResult extends Component {
         dataSource={data}
         bordered
         size="small"
+        rowKey="id"
         pagination={pager}
       />
     )

@@ -12,7 +12,8 @@ export default {
   namespace: 'employee',
 
   state: {
-    EmployeeRoleList: [{ "code": "test1111", "id": 1, "name": "店长" }, { "code": "test1111", "id": 2, "name": "店长2" } ],
+    // EmployeeRoleList: [{ "code": "test1111", "id": 1, "name": "店长" }, { "code": "test1111", "id": 2, "name": "店长2" } ],
+    EmployeeRoleList: [],
     showAddModal: false,
     editingRole: {},
     isEditing: false,
@@ -23,7 +24,7 @@ export default {
     permissions: [],
     queryFormData: {
       name: { value: '' }, 
-      jobEmployeeType: { value: '' },
+      jobEmployeeType: { value: '1' },
     },
     queryResult: {
       content: [],
