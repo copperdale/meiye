@@ -16,13 +16,15 @@ export default class SearchResult extends Component {
     // debugger;
     const selectedSetProductType = JSON.parse(JSON.stringify(this.props.selectedSetProductType));
     const setFormData = JSON.parse(JSON.stringify(this.props.setFormData));
-    selectedSetProductType.dishSetmealBos.forEach((cItem, cIndex) => {
+    selectedSetProductType.dishSetmealBos.forEach((cItem) => {
       if (item.id === cItem.id) {
+        // eslint-disable-next-line
         cItem[dataIndex] = value;
       }
     })
     setFormData.dishSetmealGroupBos = setFormData.dishSetmealGroupBos.map(cItem => {
       if (cItem.name === selectedSetProductType.name) {
+        // eslint-disable-next-line
         cItem = { ...cItem, ...JSON.parse(JSON.stringify(selectedSetProductType))};
       }
       return cItem;
@@ -55,33 +57,33 @@ export default class SearchResult extends Component {
       },
     }, {
       title: '必选',
-      render: (text, item, index) => {
+      render: (text, item) => {
         return (
           <Checkbox
             disabled={this.props.isView}
-            checked={item.isReplace == 1}
+            checked={`${item.isReplace}` === 'i'}
             onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, item, 'isReplace') }}
           />
         );
       },
     }, {
       title: '默认选中',
-      render: (text, item, index) => {
+      render: (text, item) => {
         return (
           <Checkbox
             disabled={this.props.isView}
-            checked={item.isDefault == 1}
+            checked={`${item.isDefault}` === `1`}
             onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, item, 'isDefault') }}
           />
         );
       },
     }, {
       title: '可复选',
-      render: (text, item, index) => {
+      render: (text, item,) => {
         return (
           <Checkbox
             disabled={this.props.isView}
-            checked={item.isMulti == 1}
+            checked={`${item.isMulti}` === `1`}
             onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, item, 'isMulti') }}
           />
         );
@@ -102,7 +104,7 @@ export default class SearchResult extends Component {
     }, {
       title: '起卖数',
       dataIndex: 'leastCellNum',
-      render: (text, item, index) => {
+      render: (text, item) => {
         return (
           <Input 
             style={{ width: '60px' }}
@@ -116,7 +118,7 @@ export default class SearchResult extends Component {
     }, {
       title: '售卖价',
       dataIndex: 'price',
-      render: (text, item, index) => {
+      render: (text, item) => {
         return (
           <Input 
             style={{ width: '60px' }} 
