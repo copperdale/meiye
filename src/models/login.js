@@ -14,10 +14,7 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      debugger;
       const response = yield call(fakeAccountLogin, payload);
-      console.log(response);
-      debugger;
       yield put({
         type: 'changeLoginStatus',
         payload: response,
@@ -40,7 +37,7 @@ export default {
             return;
           }
         }
-        yield put(routerRedux.replace(redirect || '/'));
+        yield put(routerRedux.replace(redirect || '/product'));
       }
     },
     *logout(_, { put }) {

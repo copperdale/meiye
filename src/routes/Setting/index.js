@@ -264,6 +264,7 @@ export default class NewItem extends Component {
   }
   
   render() {
+    console.log(this.props.tableArea, this.props.tables);
     return (
       <Fragment>
         <div style={{ textAlign: 'right' }}>
@@ -360,7 +361,7 @@ export default class NewItem extends Component {
                                   style={{ fontSize: '26px', cursor: 'pointer', color: '#ee5e1f' }}
                                   type="rollback"
                                   title="放弃当前操作"
-                                  theme="twoTone"
+                                  theme="outlined"
                                   onClick={() => {
                                     this.cancelTableEditable();
                                   }}
@@ -371,7 +372,7 @@ export default class NewItem extends Component {
                                 <Icon
                                   style={{ fontSize: '26px', cursor: 'pointer', color: '#ee5e1f' }}
                                   type="edit"
-                                  theme="twoTone"
+                                  theme="outlined"
                                   onClick={() => {
                                     this.setTableEditable(table.id);
                                   }}
@@ -383,7 +384,7 @@ export default class NewItem extends Component {
                             <Icon
                               style={{ fontSize: '26px', cursor: 'pointer', color: '#ee5e1f' }}
                               type="delete"
-                              theme="twoTone"
+                              theme="outlined"
                               onClick={() => {
                                 this.deleteTable(table);
                               }}
@@ -409,7 +410,7 @@ export default class NewItem extends Component {
                             <Icon
                               style={{ fontSize: '26px', cursor: 'pointer', color: '#ee5e1f' }}
                               type="delete"
-                              theme="twoTone"
+                              theme="outlined"
                               onClick={() => {
                                 this.deleteTable(table);
                               }}
@@ -431,7 +432,7 @@ export default class NewItem extends Component {
                         style={{ fontSize: '48px', cursor: 'pointer' }}
                         className="primary-blue"
                         type="plus-circle"
-                        theme="twoTone"
+                        theme="outlined"
                         title="添加工作台"
                       />
                     )
@@ -456,7 +457,7 @@ export default class NewItem extends Component {
                             size="small"
                             type="rollback"
                             title="放弃当前操作"
-                            theme="twoTone"
+                            theme="outlined"
                             onClick={() => {
                               this.deleteArea(area);
                             }}

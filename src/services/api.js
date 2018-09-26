@@ -11,7 +11,7 @@ export async function fakeAccountLogin(params) {
   }
   return request(`${prefix}MeiYe/login?${stringify(params)}`, {
     method: 'POST',
-    body: params,
+    body: {},
   });
   // return request(prefix + 'MeiYe/login', {
   //   method: 'POST',
