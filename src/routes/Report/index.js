@@ -3,9 +3,9 @@ import { connect } from 'dva';
 import IframeWrap from '../../components/IframeWrap'
 
 @connect((state) => ({
-  htmlString: state.home.htmlString || '<b>hello</b>',
+  htmlString: state.report.htmlString || '<b>hello</b>',
 }))
-export default class NewItem extends Component {
+export default class Report extends Component {
 
   render() {
     return (
