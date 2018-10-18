@@ -233,12 +233,11 @@ export default class HeaderMenu extends PureComponent {
         width={256}
         className={styles.sider}
       >
-        {/* <div className={styles.logo} key="logo">
+        <div className={styles.logo} key="logo">
           <Link to="/">
             <img src={logo} alt="logo" />
-            <h1>Ant Design Pro</h1>
           </Link>
-        </div> */}
+        </div>
         <Menu
           key="Menu"
           theme="dark"

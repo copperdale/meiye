@@ -28,7 +28,8 @@ function generator({ defaultProps, defaultRules, type }) {
 
       componentDidMount() {
         const { updateActive } = this.context;
-        const { name } = this.props;
+        const { name, verifyCode } = this.props;
+        console.log(verifyCode);
         if (updateActive) {
           updateActive(name);
         }
@@ -38,20 +39,11 @@ function generator({ defaultProps, defaultRules, type }) {
         clearInterval(this.interval);
       }
 
-      onGetCaptcha = () => {
-        let count = 59;
-        this.setState({ count });
-        const { onGetCaptcha } = this.props;
-        if (onGetCaptcha) {
-          onGetCaptcha();
-        }
-        this.interval = setInterval(() => {
-          count -= 1;
-          this.setState({ count });
-          if (count === 0) {
-            clearInterval(this.interval);
-          }
-        }, 1000);
+      onGetCaptcha = (disptach) => {
+        // debugger;
+        disptach({
+          type: 'login/getVerifyCode'
+        });
       };
 
       render() {
@@ -84,9 +76,9 @@ function generator({ defaultProps, defaultRules, type }) {
                     disabled={count}
                     className={styles.getCaptcha}
                     size="large"
-                    onClick={this.onGetCaptcha}
+                    onClick={() => { this.onGetCaptcha(otherProps.disptach) }}
                   >
-                    {count ? `${count} s` : buttonText}
+                    {count ? `${count} s` : this.props.verifyCode}
                   </Button>
                 </Col>
               </Row>

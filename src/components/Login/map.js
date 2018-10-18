@@ -70,6 +70,8 @@ const map = {
       size: 'large',
       prefix: <Icon type="mail" className={styles.prefixIcon} />,
       placeholder: 'captcha',
+      verifyCode: '123456',
+      dispatch: () => { console.log('no dispatch'); }
     },
     rules: [
       {

@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
-import { fakeAccountLogin } from '../services/api';
+import { fakeAccountLogin, getVerifyCode } from '../services/api';
 import { setAuthority, setUserInfo, setToken } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 import { getPageQuery } from '../utils/utils';
@@ -10,6 +10,8 @@ export default {
 
   state: {
     status: undefined,
+    verifyImage: '',
+    verifyCode: '',
   },
 
   effects: {
@@ -37,7 +39,7 @@ export default {
             return;
           }
         }
-        yield put(routerRedux.replace(redirect || '/product'));
+        yield put(routerRedux.replace(redirect || '/home'));
       }
     },
     *logout(_, { put }) {
@@ -58,6 +60,16 @@ export default {
         })
       );
     },
+    *getVerifyCode(_, { put, call }) {
+      const response = yield call(getVerifyCode, payload);
+      yield put({
+        type: 'login/updateState',
+        payload: {
+          verifyCode: response.data.verifyCode,
+          verifyImage: response.data.verifyImage,
+        }
+      });
+    },
   },
 
   reducers: {
@@ -72,5 +84,23 @@ export default {
         // type: payload.type,
       };
     },
+    updateState(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
   },
+  subscriptions: {
+    setup({ history, dispatch }) {
+      // Subscribe history(url) change, trigger `load` action if pathname is `/`
+      return history.listen(({ pathname, search }) => {
+        if (pathname === '/user/login') {
+          dispatch({
+            type: 'login/getVerifyCode',
+          });
+        }
+      })
+    }
+  }
 };

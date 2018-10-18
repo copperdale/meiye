@@ -6,11 +6,13 @@ import Login from 'components/Login';
 import styles from './Login.less';
 import { getToken } from '../../utils/authority';
 
-const { Shop, UserName, Password, Submit } = Login;
+const { Shop, UserName, Password, Submit, Captcha } = Login;
 
 @connect(({ login, loading }) => ({
   login,
   submitting: loading.effects['login/login'],
+  verifyCode: login.verifyCode,
+  verifyImage: login.verifyImage,
 }))
 export default class LoginPage extends Component {
 
@@ -71,6 +73,12 @@ export default class LoginPage extends Component {
           <Shop name="shop" placeholder="请输入商户名称" />
           <UserName name="userName" placeholder="请输入用户名" />
           <Password name="password" placeholder="请输入密码" />
+          <Captcha
+            name="verifyCode"
+            placeholder="请输入验证码23"
+            verifyCode={'ddddd' || this.props.verifyCode}
+            disptach={this.props.disptach}
+          />
           <Submit loading={submitting}>登录</Submit>
           <Link className={styles.register} to="/user/register">
             注册账户
