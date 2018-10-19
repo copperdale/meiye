@@ -1,7 +1,8 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
-import { fakeAccountLogin, getVerifyCode } from '../services/api';
-import { setAuthority, setUserInfo, setToken } from '../utils/authority';
+import { notification } from 'antd';
+import { login, getVerifyCode } from '../services/api';
+import { setUserInfo, setToken, removeToken, removeUserInfo } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 import { getPageQuery } from '../utils/utils';
 
@@ -15,8 +16,19 @@ export default {
   },
 
   effects: {
-    *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+    *login({ payload }, { call, put, select }) {
+      const verifyCode = yield select(state => state.login.verifyCode);
+      if (verifyCode !== payload.verifyCode) {
+        notification.error({
+          message: '登录错误',
+          description: '请输入正确的验证码',
+        });
+        yield put({
+          type: 'login/getVerifyCode',
+        });
+        return;
+      }
+      const response = yield call(login, payload);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
@@ -43,14 +55,8 @@ export default {
       }
     },
     *logout(_, { put }) {
-      yield put({
-        type: 'changeLoginStatus',
-        payload: {
-          status: false,
-          currentAuthority: 'guest',
-        },
-      });
-      reloadAuthorized();
+      removeToken();
+      removeUserInfo();
       yield put(
         routerRedux.push({
           pathname: '/user/login',
@@ -61,13 +67,13 @@ export default {
       );
     },
     *getVerifyCode(_, { put, call }) {
-      const response = yield call(getVerifyCode, payload);
+      const response = yield call(getVerifyCode);
       yield put({
         type: 'login/updateState',
         payload: {
           verifyCode: response.data.verifyCode,
           verifyImage: response.data.verifyImage,
-        }
+        },
       });
     },
   },

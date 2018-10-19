@@ -66,20 +66,18 @@ function generator({ defaultProps, defaultRules, type }) {
           return (
             <FormItem>
               <Row gutter={8}>
-                <Col span={16}>
+                <Col span={12}>
+                  <div
+                    className={styles.getCaptcha}
+                    onClick={() => { this.onGetCaptcha(otherProps.dispatch) }}
+                  >
+                    <img alt="" src={`data:image/png;base64,${otherProps.verifyImage}`} style={{ height: '40px', width: '100%' }} />
+                  </div>
+                </Col>
+                <Col span={12}>
                   {getFieldDecorator(name, options)(
                     <WrappedComponent {...defaultProps} {...inputProps} />
                   )}
-                </Col>
-                <Col span={8}>
-                  <Button
-                    disabled={count}
-                    className={styles.getCaptcha}
-                    size="large"
-                    onClick={() => { this.onGetCaptcha(otherProps.disptach) }}
-                  >
-                    {count ? `${count} s` : this.props.verifyCode}
-                  </Button>
                 </Col>
               </Row>
             </FormItem>

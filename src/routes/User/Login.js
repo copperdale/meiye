@@ -36,22 +36,22 @@ export default class LoginPage extends Component {
     const { type } = this.state;
     const { dispatch } = this.props;
 
-    dispatch({
-      type: 'login/login',
-      payload: {
-        ...values,
-        type,
-      },
-    });
-    // if (!err) {
-    //   dispatch({
-    //     type: 'login/login',
-    //     payload: {
-    //       ...values,
-    //       type,
-    //     },
-    //   });
-    // }
+    // dispatch({
+    //   type: 'login/login',
+    //   payload: {
+    //     ...values,
+    //     type,
+    //   },
+    // });
+    if (!err) {
+      dispatch({
+        type: 'login/login',
+        payload: {
+          ...values,
+          type,
+        },
+      });
+    }
   };
 
   changeAutoLogin = e => {
@@ -75,9 +75,10 @@ export default class LoginPage extends Component {
           <Password name="password" placeholder="请输入密码" />
           <Captcha
             name="verifyCode"
-            placeholder="请输入验证码23"
-            verifyCode={'ddddd' || this.props.verifyCode}
-            disptach={this.props.disptach}
+            placeholder="请输入验证码"
+            verifyCode={this.props.verifyCode}
+            verifyImage={this.props.verifyImage}
+            dispatch={this.props.dispatch}
           />
           <Submit loading={submitting}>登录</Submit>
           <Link className={styles.register} to="/user/register">
