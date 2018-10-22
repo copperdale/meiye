@@ -81,7 +81,6 @@ export default {
   reducers: {
     changeLoginStatus(state, { payload }) {
       // setAuthority('admin');
-      debugger;
       console.log(payload);
       setUserInfo(JSON.stringify(payload.data));
       setToken(payload.data.token);
@@ -107,7 +106,17 @@ export default {
             type: 'login/getVerifyCode',
           });
         }
-      })
+
+        window.addEventListener('message',function(e){
+          if (e.data === 'logout') {
+            dispatch({
+              type: 'login/logout'
+            });
+          }
+        },false);
+
+      });
+
     }
   }
 };
