@@ -19,7 +19,7 @@ const getCreatorId = () => {
 export const prefix = window.PREFIX || 'http://47.105.100.99:8090/';
 // export const prefix = '/';
 
-const iframeUrlPrefix = 'http://47.105.100.99';
+const iframeUrlPrefix = 'http://mk.zhongmeiyunfu.com/marketing';
 
 // 首页
 export const homePage = `${iframeUrlPrefix}/internal/report/main?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
@@ -27,6 +27,8 @@ export const homePage = `${iframeUrlPrefix}/internal/report/main?brandIdenty=${g
 // 报表
 export const reportPage = `${iframeUrlPrefix}/internal/report/salesReport?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
 
+// 订单
+export const getOrderPage = `${iframeUrlPrefix}/internal/trade/listData?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
 // 营销
 export const getMarketingPage = `${iframeUrlPrefix}/internal?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
 

@@ -2,7 +2,7 @@
 @ease-in-out-circ: cubic-bezier(0.78, 0.14, 0.15, 0.86);
 .logo {
   height: 64px;
-  position: fixed;
+  position: absolute;
   line-height: 64px;
   width: 64px;
   top: 0;
@@ -123,5 +123,8 @@
   .ant-menu-submenu-title .sider-menu-item-img + span {
     transition: opacity 0.3s @ease-in-out, width 0.3s @ease-in-out;
     opacity: 1;
+  }
+  .ant-layout-header .ant-menu-dark .ant-menu-submenu-title{
+    color: rgba(255, 255, 255, 0.65);
   }
 }

@@ -23,8 +23,13 @@ const menuData = [
   },
   {
     name: '报表',
-    icon: 'area-chart',
+    icon: 'line-chart',
     path: 'report',
+  },
+  {
+    name: '订单',
+    icon: 'profile',
+    path: 'order',
   },
   {
     name: '员工',
