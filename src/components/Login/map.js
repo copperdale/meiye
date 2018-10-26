@@ -27,7 +27,7 @@ const map = {
     rules: [
       {
         required: true,
-        message: 'Please enter username!',
+        message: '请输入用户名!',
       },
     ],
   },
@@ -42,7 +42,7 @@ const map = {
     rules: [
       {
         required: true,
-        message: 'Please enter password!',
+        message: '请输入密码!',
       },
     ],
   },
@@ -76,7 +76,7 @@ const map = {
     rules: [
       {
         required: true,
-        message: 'Please enter Captcha!',
+        message: '请输入验证码!',
       },
     ],
   },
