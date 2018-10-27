@@ -7,6 +7,7 @@ import styles from './UserLayout.less';
 import logo from '../assets/logo.svg';
 import { getRoutes, getPageQuery, getQueryPath } from '../utils/utils';
 import bgImage from '../assets/login-bg.png';
+import qrcode from '../assets/qrcode.png';
 
 // const copyright = (
 //   <Fragment>
@@ -26,9 +27,9 @@ class UserLayout extends React.PureComponent {
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
-    let title = 'Ant Design Pro';
+    let title = '众美云服';
     if (routerData[pathname] && routerData[pathname].name) {
-      title = `${routerData[pathname].name} - Ant Design Pro`;
+      title = `${routerData[pathname].name} - 众美云服`;
     }
     return title;
   }
@@ -41,10 +42,13 @@ class UserLayout extends React.PureComponent {
         <div className={styles.container} style={{ backgroundImage: `url(${bgImage})` }}>
           <div className={styles['desc-left']} />
           <div className={styles.desc}>
-            <div className={styles.qrcode}>扫一扫，关注官方微信</div>
+            <div className={styles.qrcode}>
+              扫一扫，关注官方微信
+              <img src={qrcode} style={{ width: '100%' }} />
+            </div>
             <div className={styles.qrlabel}>
               <div
-                style={{ color: '#FFF', fontSize: '33px', lineHeight: '44px', fontWeight: 'bold' }}
+                style={{ marginTop: '24px', color: '#FFF', fontSize: '33px', lineHeight: '44px', fontWeight: 'bold' }}
               >
                 全智能管理业务线
               </div>
@@ -56,7 +60,7 @@ class UserLayout extends React.PureComponent {
           <div className={styles.content}>
             <div className={styles.top}>
               <div className={styles.header}>
-                <span className={styles.title}>登陆</span>
+                <span className={styles.title}>登录</span>
               </div>
             </div>
             <Switch>

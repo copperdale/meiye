@@ -4,12 +4,12 @@ import { prefix } from './URL.js';
 
 export async function login(params) {
   // eslint-disable-next-line
-  params = {"userName":"admin",
-    "password":"123456",
-    "storeId":"1",
-    "verifyCode":"ab1255",
-  }
-  console.log(params);
+  // params = {"userName":"admin",
+  //   "password":"123456",
+  //   "storeId":"1",
+  //   "verifyCode":"ab1255",
+  // }
+  // console.log(params);
   return request(`${prefix}MeiYe/login?${stringify(params)}`, {
     method: 'POST',
     body: {},

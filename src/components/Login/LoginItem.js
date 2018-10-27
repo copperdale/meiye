@@ -71,7 +71,7 @@ function generator({ defaultProps, defaultRules, type }) {
                     className={styles.getCaptcha}
                     onClick={() => { this.onGetCaptcha(otherProps.dispatch) }}
                   >
-                    <img alt="" src={`data:image/png;base64,${otherProps.verifyImage}`} style={{ height: '40px', width: '100%' }} />
+                    <img alt="" src={`data:image/png;base64,${otherProps.verifyImage}`} style={{ height: '40px', width: '100%', marginTop: '8px' }} />
                   </div>
                 </Col>
                 <Col span={12}>

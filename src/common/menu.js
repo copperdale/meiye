@@ -27,14 +27,14 @@ const menuData = [
     path: 'report',
   },
   {
-    name: '订单',
-    icon: 'profile',
-    path: 'order',
-  },
-  {
     name: '员工',
     icon: 'idcard',
     path: 'employee',
+  },
+  {
+    name: '订单',
+    icon: 'profile',
+    path: 'order',
   },
   {
     name: '设置',

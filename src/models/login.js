@@ -44,7 +44,7 @@ export default {
         payload: response,
       });
       // Login successfully
-      if (response.statusCode === 200) {
+      if (response.statusCode === 200 && response.messageType === 'ignore') {
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();

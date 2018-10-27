@@ -1,25 +1,25 @@
 import { getToken, getUserInfo } from '../utils/authority';
 
 const getCreatorName = () => {
-	return getUserInfo() && getUserInfo().user.creatorName;
+	return getUserInfo() && getUserInfo().user && getUserInfo().user.username;
 }
 
 const getBrandIdenty = () => {
-	return getUserInfo() && getUserInfo().user.storeBo.brandId;
+	return getUserInfo() && getUserInfo().user && getUserInfo().user.storeBo && getUserInfo().user.storeBo.brandId;
 }
 
 const getShopIdenty = () => {
-	return getUserInfo() && getUserInfo().user.storeBo.brandBo.id;
+	return getUserInfo() && getUserInfo().user && getUserInfo().user.storeBo && getUserInfo().user.storeBo.commercialId;
 }
 
 const getCreatorId = () => {
-	return getUserInfo() && getUserInfo().user.creatorId;
+	return getUserInfo() && getUserInfo().user && getUserInfo().user && getUserInfo().user.id;
 }
 
-export const prefix = window.PREFIX || 'http://47.105.100.99:8090/';
+export const prefix = window.PREFIX || 'http://b.zhongmeiyunfu.com/';
 // export const prefix = '/';
 
-const iframeUrlPrefix = 'http://mk.zhongmeiyunfu.com/marketing';
+const iframeUrlPrefix = 'http://mk.zhongmeiyunfu.com';
 
 // 首页
 export const homePage = `${iframeUrlPrefix}/internal/report/main?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
@@ -30,7 +30,7 @@ export const reportPage = `${iframeUrlPrefix}/internal/report/salesReport?brandI
 // 订单
 export const getOrderPage = `${iframeUrlPrefix}/internal/trade/listData?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
 // 营销
-export const getMarketingPage = `${iframeUrlPrefix}/internal?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
+export const getMarketingPage = `${iframeUrlPrefix}/internal/?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
 
 // 会员
 export const vipUser = `${iframeUrlPrefix}/internal/customer?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
