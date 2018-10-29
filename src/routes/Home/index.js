@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'dva';
+// import { connect } from 'dva';
 import IframeWrap from '../../components/IframeWrap'
 import { homePage } from '../../services/URL';
 
@@ -12,7 +12,7 @@ export default class NewItem extends Component {
     return (
       <div style={{ position: 'fixed', top: '64px', left: 0, right: 0, bottom: 0 }}>
       	<IframeWrap
-	      	src={homePage}
+	      	src={homePage()}
 	      />
       </div>
     );
