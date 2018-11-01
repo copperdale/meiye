@@ -3,9 +3,13 @@ import { Table, Divider, Popconfirm } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 
-@connect((state) => ({
-  queryResult: state.product.queryResult,
-}))
+@connect((state) => {
+  console.log(state.loading);
+  return {
+    queryResult: state.product.queryResult,
+    loading: !!state.loading.effects['product/getProductList'],
+  }
+})
 export default class SearchResult extends Component {
 
   deleteDishShop = (id) => {
@@ -38,10 +42,11 @@ export default class SearchResult extends Component {
     }, {
       title: '类型',
       dataIndex: 'type',
-      render: text => text === '0' ? '单品' : '套餐',
+      render: text => `${text}` === '0' ? '单品' : '套餐',
     }, {
       title: '操作',
       key: 'action',
+      width: 140,
       render: (text, record) => (
         <span>
           <Link
@@ -106,6 +111,7 @@ export default class SearchResult extends Component {
         size="small"
         rowKey="id"
         pagination={pager}
+        loading={this.props.loading}
       />
     )
   }

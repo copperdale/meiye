@@ -10,11 +10,12 @@ import { commercialSetting } from '../../services/URL';
 export default class Report extends Component {
 
   render() {
+console.log('##################', commercialSetting);
     return (
       <div style={{ position: 'fixed', top: '64px', left: 0, right: 0, bottom: 0 }}>
         <IframeWrap
           // srcDoc="数据玩儿命加载中"
-          src={commercialSetting}
+          src={commercialSetting()}
         />
       </div>
     );

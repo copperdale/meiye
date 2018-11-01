@@ -50,7 +50,7 @@ class UserLayout extends React.PureComponent {
               <div
                 style={{ marginTop: '24px', color: '#FFF', fontSize: '33px', lineHeight: '44px', fontWeight: 'bold' }}
               >
-                全智能管理业务线
+                智能管理业务系统
               </div>
               <div style={{ color: '#FFF', fontSize: '22px', lineHeight: '44px' }}>
                 让每一笔财富看得见

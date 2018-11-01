@@ -37,6 +37,11 @@ const menuData = [
     path: 'order',
   },
   {
+    name: '人效',
+    icon: 'rocket',
+    path: 'commission',
+  },
+  {
     name: '设置',
     icon: 'setting',
     path: 'setting',
@@ -55,11 +60,6 @@ const menuData = [
         path: 'commercialSetting',
       },
     ]
-  },
-  {
-    name: '人效',
-    icon: 'rocket',
-    path: 'commission',
   },
 ];
 // const menuData = [

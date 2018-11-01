@@ -32,7 +32,7 @@ const getCreatorId = () => {
 export const prefix = window.PREFIX || 'http://b.zhongmeiyunfu.com/';
 // export const prefix = '/';
 
-const iframeUrlPrefix = 'http://mk.zhongmeiyunfu.com';
+const iframeUrlPrefix = 'http://mk.zhongmeiyunfu.com/marketing';
 
 // 首页
 export const homePage = () => {
@@ -64,6 +64,7 @@ export const vipUser = () => {
 export const commercialSetting = () => {
 	return `${iframeUrlPrefix}/internal/commercial/settingPage?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
 }
+
 // 会员设置：
 export const customerSetting = () => {
 	return `${iframeUrlPrefix}/internal/customerLevelRule/gotoPage?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;

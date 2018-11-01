@@ -70,16 +70,16 @@ export default class LoginPage extends Component {
     return (
       <div className={styles.main}>
         <Login defaultActiveKey={type} onTabChange={this.onTabChange} onSubmit={this.handleSubmit}>
-          <Shop name="storeId" placeholder="请输入商户名称" style={{ marginTop: '8px' }} />
-          <UserName name="userName" placeholder="请输入用户名" style={{ marginTop: '8px' }} />
-          <Password name="password" placeholder="请输入密码" style={{ marginTop: '8px' }} />
+          <Shop name="storeId" placeholder="请输入商户名称" style={{ marginTop: '16px' }} />
+          <UserName name="userName" placeholder="请输入用户名" style={{ marginTop: '16px' }} />
+          <Password name="password" placeholder="请输入密码" style={{ marginTop: '16px' }} />
           <Captcha
             name="verifyCode"
             placeholder="请输入验证码"
             verifyCode={this.props.verifyCode}
             verifyImage={this.props.verifyImage}
             dispatch={this.props.dispatch}
-          style={{ marginTop: '8px' }} />
+          style={{ marginTop: '16px' }} />
           <Submit loading={submitting}>登录</Submit>
           <Link className={styles.register} to="/user/register">
             

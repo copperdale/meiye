@@ -44,6 +44,20 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
   }
   
   updateSelecteDishTypeId = (id, selectedDishName,  showNewButton) => {
+    if (`${this.props.selecteDishTypeId}` === `${id}`) {
+      this.props.dispatch({
+      type: 'product/updateState',
+      payload: {
+          selecteDishTypeId: false,
+          selectedDishName,
+          showNewButton,
+        },
+      });
+      this.props.dispatch({
+        type: 'product/queryProductType',
+      });
+      return;
+    }
     this.props.dispatch({
       type: 'product/updateState',
       payload: {
@@ -51,6 +65,12 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
         selectedDishName,
         showNewButton,
       },
+    });
+    this.props.dispatch({
+      type: 'product/queryProductType',
+      payload: {
+        selecteDishTypeId: id
+      }
     });
   }
 
@@ -74,7 +94,7 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
                         <span
                           className={`${this.props.selecteDishTypeId}` === `${item.id}` ? 'selected-type' : ''}
                           style={{ float: 'left', paddingLeft: '4px', borderLeft: '4px solid transparent', cursor: 'pointer' }}
-                          onClick={() => { this.updateSelecteDishTypeId(item.id, item.name, false) }}
+                          // onClick={() => { this.updateSelecteDishTypeId(item.id, item.name, false) }}
                         >{item.name}
                         </span>
                         <a href="javascript:void(0)" onClick={() => { this.toggleAddProductModal(item.id, true, item)}}>编辑</a>&nbsp;

@@ -48,7 +48,12 @@ class BasicForm extends React.Component {
           label="品项名称"
         >
           {getFieldDecorator('name', {
-            rules: [{ required: true, message: '请输入品项名称' }],
+            rules: [
+              { required: true, message: '请输入品项名称' },
+              { validator: (value, rule, callback) => {
+                callback('2323');
+              } },
+            ],
           })(
             <Input disabled={this.props.isView} />
             )}
