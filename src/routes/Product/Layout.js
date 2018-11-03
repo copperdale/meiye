@@ -46,8 +46,8 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
   updateSelecteDishTypeId = (id, selectedDishName,  showNewButton) => {
     if (`${this.props.selecteDishTypeId}` === `${id}`) {
       this.props.dispatch({
-      type: 'product/updateState',
-      payload: {
+        type: 'product/updateState',
+        payload: {
           selecteDishTypeId: false,
           selectedDishName,
           showNewButton,

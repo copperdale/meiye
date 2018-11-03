@@ -300,7 +300,15 @@ export default class NewItem extends Component {
                         onChange={(e) => {
                           this.updateAreaName(e.target.value, area);
                         }}
-                        onPressEnter={(e) => { this.updateArea(e.target.value, area); }}
+                        // onPressEnter={}
+                        addonAfter={
+                          <Icon 
+                            type="check" 
+                            onClick={
+                              () => { this.updateArea(area.areaName, area); }
+                            }
+                          />
+                        }
                       />
                     )
                   }
@@ -336,9 +344,17 @@ export default class NewItem extends Component {
                                   onChange={(e) => {
                                     this.updateTableName(e.target.value, table);
                                   }}
-                                  onPressEnter={(e) => {
-                                    this.updateTable(e.target.value, table);
-                                  }}
+                                  // onPressEnter={(e) => {
+                                  //   this.updateTable(e.target.value, table);
+                                  // }}
+                                  addonAfter={
+                                    <Icon 
+                                      type="check" 
+                                      onClick={
+                                        () => { this.updateTable(table.tableName, table); }
+                                      }
+                                    />
+                                  }
                                 />
                               )
                               :
@@ -398,7 +414,15 @@ export default class NewItem extends Component {
                                 onChange={(e) => {
                                   this.updateTableName(e.target.value, table);
                                 }}
-                                onPressEnter={(e) => { this.addTable(e.target.value); }}
+                                // onPressEnter={(e) => { this.addTable(e.target.value); }}
+                                addonAfter={
+                                  <Icon 
+                                    type="check" 
+                                    onClick={
+                                      () => { this.addTable(table.tableName); }
+                                    }
+                                  />
+                                }
                               />
                             }
                             bordered={false}
@@ -447,7 +471,15 @@ export default class NewItem extends Component {
                         onChange={(e) => {
                           this.updateAreaName(e.target.value, area);
                         }}
-                        onPressEnter={(e) => { this.addArea(e.target.value); }}
+                        // onPressEnter={(e) => { this.addArea(e.target.value); }}
+                        addonAfter={
+                          <Icon 
+                            type="check" 
+                            onClick={
+                              () => { this.addArea(area.areaName); }
+                            }
+                          />
+                        }
                         addonAfter={
                           <Icon
                             type="rollback"

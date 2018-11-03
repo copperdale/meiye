@@ -7,8 +7,8 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import AddEmployeeModal from './AddEmployeeModal';
 
 @connect((state) => ({
-  // productList: state.product.productList,
-  // selecteDishTypeId: state.product.selecteDishTypeId,
+  // productList: state.employee.productList,
+  selectedRoleId: state.employee.selectedRoleId,
   EmployeeRoleList: state.employee.EmployeeRoleList || [],
   showAddModal: state.employee.showAddModal,
   addEmployeeModalFormData: state.employee.addEmployeeModalFormData,
@@ -19,7 +19,7 @@ export default class ProductTypeLayout extends Component {
   //   debugger;
   //   const { dispatch } = this.props;
   //   dispatch({
-  //     type: 'product/getProductList',
+  //     type: 'employee/getProductList',
   //   });
   // }
   deleteEmployeeRole = (id) => {
@@ -66,19 +66,39 @@ export default class ProductTypeLayout extends Component {
     });
   }
 
-  updateSelecteDishTypeId = (id, selectedDishName,  showNewButton) => {
+  updateSelectedRoleId = (id, selectedRoleName,  showNewButton) => {
+    if (`${this.props.selectedRoleId}` === `${id}`) {
+      this.props.dispatch({
+        type: 'employee/updateState',
+        payload: {
+          selectedRoleId: false,
+          selectedRoleName: '',
+          showNewButton: false,
+        },
+      });
+      this.props.dispatch({
+        type: 'employee/queryEmployee'
+      })
+      return;
+    }
     this.props.dispatch({
       type: 'employee/updateState',
       payload: {
-        selecteDishTypeId: id,
-        selectedDishName,
+        selectedRoleId: id,
+        selectedRoleName,
         showNewButton,
       },
     });
+    this.props.dispatch({
+      type: 'employee/queryEmployee',
+      payload: {
+        selectedRoleId: id
+      }
+    })
   }
 
   render() {
-    // console.log(this.props.selecteDishTypeId, this.props.productList)
+    console.log(this.props.selectedRoleId, this.props.productList)
     return (
       <PageHeaderLayout>
         <Row gutter={8}>
@@ -103,9 +123,9 @@ export default class ProductTypeLayout extends Component {
                   ]}
                   >
                     <span
-                      // className={this.props.selecteDishTypeId == subItem.id ? 'selected-type' : ''}
+                      className={this.props.selectedRoleId == subItem.id ? 'selected-type' : ''}
                       style={{ paddingLeft: '4px', borderLeft: '4px solid transparent', cursor: 'pointer' }}
-                      onClick={() => { this.updateSelecteDishTypeId(subItem.id, subItem.name, true); }}
+                      onClick={() => { this.updateSelectedRoleId(subItem.id, subItem.name, true); }}
                     >{subItem.name}
                     </span>
                   </List.Item>

@@ -227,11 +227,14 @@ export default {
           marketPrice: singleFormdata.price.value,
           unitName: singleFormdata.unit.value,
           dishQty: singleFormdata.amount.value,
-          dishTypeId: selecteDishTypeId,
           dishPropertyBos: singleFormdata.addons,
+          enabledFlag: '1'
         };
+        if (selecteDishTypeId) {
+          param.dishTypeId = selecteDishTypeId
+        }
         const response = yield call(newSingleProduct, param);
-        routerRedux.push('/product');
+        yield put(routerRedux.push('/product'));
       } else if (addtype === '1') {
         const setFormdata = yield select(state => state['product-new'].setFormData);
         // debugger;
@@ -242,11 +245,15 @@ export default {
           marketPrice: setFormdata.price.value,
           unitName: setFormdata.unit.value,
           dishQty: setFormdata.amount.value,
-          dishTypeId: selecteDishTypeId,
+          // dishTypeId: selecteDishTypeId,
+          enabledFlag: '1'
         });
+        if (selecteDishTypeId) {
+          param.dishTypeId = selecteDishTypeId
+        }
         // debugger;
         const response = yield call(newSetProduct, param);
-        routerRedux.push('/product');
+        yield put(routerRedux.push('/product'));
       }
     },
     *update(_, { call, put, select }) {
@@ -263,9 +270,11 @@ export default {
           marketPrice: singleFormdata.price.value,
           unitName: singleFormdata.unit.value,
           dishQty: singleFormdata.amount.value,
-          dishTypeId: selecteDishTypeId,
           dishPropertyBos: singleFormdata.addons,
         };
+        if (selecteDishTypeId) {
+          param.dishTypeId = selecteDishTypeId
+        }
         const response = yield call(updateSingleProduct, param);
       } else if (addtype === '1') {
         const setFormdata = yield select(state => state['product-new'].setFormData);
@@ -276,11 +285,13 @@ export default {
           marketPrice: setFormdata.price.value,
           unitName: setFormdata.unit.value,
           dishQty: setFormdata.amount.value,
-          dishTypeId: selecteDishTypeId,
         });
+        if (selecteDishTypeId) {
+          param.dishTypeId = selecteDishTypeId
+        }
         const response = yield call(updateSetProduct, param);
       }
-      routerRedux.push('/product');
+      yield put(routerRedux.push('/product'));
     },
   },
 
@@ -298,9 +309,8 @@ export default {
       return history.listen(({ pathname, search }) => {
         // console.log(searchParam);
         if (pathname !== '/product-new') return; 
-        
+        let result = {};
         const searchParam = parse(search, { ignoreQueryPrefix: true });
-        const result = {};
         if (searchParam.addtype) {
           result.addtype = searchParam.addtype;
         }

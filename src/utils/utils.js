@@ -180,3 +180,40 @@ const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(
 export function isUrl(path) {
   return reg.test(path);
 }
+
+export const checkPriceIsValid = (rule, value, callback) => {
+  const msg = '最多输入10位数字，最多保留两位小数';
+
+  const checkIsValid = (value = '') => {
+    if (value.length > 10) return false;
+    if (!Number(value)) return false;
+    if (value.split('.').length > 2) return false;
+    if (value.indexOf('.') === 0) return false;
+    return true;
+   }
+
+  if (checkIsValid(value)) {
+      callback();
+  } else {
+      callback(msg);
+  }
+};
+
+export const checkAmountIsValid = (rule, value, callback) => {
+  const msg = '请输入不多于10位的数字';
+
+  const checkIsValid = (value = '') => {
+    if (value.length > 10) return false;
+    if (!Number(value)) return false;
+    if (value.split('.').length > 1) return false;
+    if (value.indexOf('.') === 0) return false;
+    if (value.indexOf('-') === 0) return false;
+    return true;
+   }
+
+  if (checkIsValid(value)) {
+      callback();
+  } else {
+      callback(msg);
+  }
+};

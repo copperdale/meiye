@@ -70,7 +70,7 @@ export default class LoginPage extends Component {
     return (
       <div className={styles.main}>
         <Login defaultActiveKey={type} onTabChange={this.onTabChange} onSubmit={this.handleSubmit}>
-          <Shop name="storeId" placeholder="请输入商户名称" style={{ marginTop: '16px' }} />
+          <Shop name="storeId" placeholder="请输入商户门店编号" style={{ marginTop: '16px' }} />
           <UserName name="userName" placeholder="请输入用户名" style={{ marginTop: '16px' }} />
           <Password name="password" placeholder="请输入密码" style={{ marginTop: '16px' }} />
           <Captcha

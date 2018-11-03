@@ -44,7 +44,7 @@ class BasicForm extends React.Component {
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="至少比选"
+          label="至少必选"
         >
           {getFieldDecorator('orderMin', {
             // rules: [{ required: true, message: 'Please input your note!' }],

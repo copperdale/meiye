@@ -16,14 +16,15 @@ export default class SearchResult extends Component {
     // debugger;
     const selectedSetProductType = JSON.parse(JSON.stringify(this.props.selectedSetProductType));
     const setFormData = JSON.parse(JSON.stringify(this.props.setFormData));
+    debugger;
     selectedSetProductType.dishSetmealBos.forEach((cItem) => {
-      if (item.id === cItem.id) {
+      if (item.childDishId + '' === cItem.childDishId + '') {
         // eslint-disable-next-line
         cItem[dataIndex] = value;
       }
     })
     setFormData.dishSetmealGroupBos = setFormData.dishSetmealGroupBos.map(cItem => {
-      if (cItem.name === selectedSetProductType.name) {
+      if (cItem.name + '' === selectedSetProductType.name + '') {
         // eslint-disable-next-line
         cItem = { ...cItem, ...JSON.parse(JSON.stringify(selectedSetProductType))};
       }
@@ -61,7 +62,7 @@ export default class SearchResult extends Component {
         return (
           <Checkbox
             disabled={this.props.isView}
-            checked={`${item.isReplace}` === 'i'}
+            checked={`${item.isReplace}` === '1'}
             onChange={(e) => { this.updatetableCell(e.target.checked ? 1 : 2, item, 'isReplace') }}
           />
         );

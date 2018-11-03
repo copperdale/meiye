@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Table, Divider, Popconfirm } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
+import moment from 'moment';
 
 @connect((state) => ({
   queryResult: state.employee.queryResult,
+  EmployeeRoleList: state.employee.EmployeeRoleList,
 }))
 export default class SearchResult extends Component {
   
@@ -34,12 +36,21 @@ export default class SearchResult extends Component {
     }, {
       title: '入职日期',
       dataIndex: 'jobEntryTime',
+      render: (text) => {
+        return moment(Number(text)).format('YYYY-MM-DD');
+      }
     }, {
       title: '状态',
       dataIndex: 'statusFlag',
+      render: (text) => {
+        return 
+      }
     }, {
       title: '职位',
-      dataIndex: 'jobPosition',
+      dataIndex: 'roleId',
+      render: (text) => {
+        return ((this.props.EmployeeRoleList || []).filter(item => `${item.id}` === `${text}`)[0] || {}).name || '';
+      }
     }, {
       title: '操作',
       key: 'action',

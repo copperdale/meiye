@@ -16,7 +16,7 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       label: '姓名',
       placeholder: '请输入姓名',
       dataIndex: 'name',
-      rules: [{ required: true, message: '请输入姓名' }],
+      rules: [{ required: true, max: 10, message: '请输入姓名(最多10个字符)' }],
       render:<Input />,
     },{
       label: '性别',
@@ -44,7 +44,7 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       label: '身份证号',
       placeholder: '请输入身份证号码',
       dataIndex: 'identityCard',
-      // rules: [{ required: true, message: '请输入姓名' }], 
+      rules: [{  max: 20, message: '最多20个字符' }], 
       render:<Input maxLength={20} />,
     },{
       label: '学历',
@@ -65,7 +65,7 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       label: '毕业学校',
       placeholder: '请输入毕业学校',
       dataIndex: 'graduateSchool',
-      // rules: [{ required: true, message: '请输入姓名' }], 
+      rules: [{ max: 40, message: '最多40个字符' }], 
       render:<Input maxLength={40} />,
     },{
       label: '参加工作时间',
@@ -92,8 +92,8 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       label: '工号',
       placeholder: '请输入员工工号',
       dataIndex: 'jobNumber',
-      rules: [{ required: true, message: '请输入工号' }],
-      render:<Input maxLength={10} />,
+      rules: [{ required: true, max: 10, message: '请输入工号（最多10个字符）' }],
+      render:<Input />,
     },{
       label: ' ',
       placeholder: ' ',
@@ -127,7 +127,7 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
     },{
       label: '职位',
       placeholder: '',
-      dataIndex: 'jobPosition',
+      dataIndex: 'roleId',
       rules: [{ required: true, message: '请输入职位' }], 
       render: (
         <Select style={{ width: '100%' }}>
@@ -144,13 +144,13 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       label: '职级',
       placeholder: '请输入职级',
       dataIndex: 'jobGrade',
-      // rules: [{ required: true, message: '请输入姓名' }],
+      rules: [{ max: 10, message: '最多10个字符' }],
       render:<Input maxLength={10} />,
     },{
       label: '工作地点',
       placeholder: '请输入工作地点',
       dataIndex: 'jobAddress',
-      // rules: [{ required: true, message: '请输入姓名' }],
+      rules: [{ max: 40, message: '最多40个字符' }],
       render:<Input maxLength={40} />,
     }],
   },{
@@ -165,20 +165,20 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       label: '邮箱',
       placeholder: '请输入邮箱',
       dataIndex: 'email',
-      // rules: [{ required: true, message: '请输入姓名' }],
-      render:<Input maxLength={40} />,
+      rules: [{ max: 40, message: '最多40个字符' }],
+      render:<Input  />,
     }, {
       label: 'QQ',
       placeholder: '请输入QQ', 
       dataIndex: 'qQ',
-      // rules: [{ required: true, message: '请输入QQ' }],
-      render:<Input maxLength={20} />,
+      rules: [{ max: 20, message: '最多20个字符' }],
+      render:<Input  />,
     }, {
       label: '现住址',
       placeholder: '请输入现住址',
       dataIndex: 'address',
-      // rules: [{ required: true, message: '请输入QQ' }],
-      render:<Input maxLength={50} />,
+      rules: [{ max: 50, message: '最多50个字符' }],
+      render:<Input />,
     }],
   },{
     sectionTitle: '薪资',
@@ -192,13 +192,13 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       label: '基本工资',
       placeholder: '请输入基本工资',
       dataIndex: 'salaryBase',
-      rules: [{ required: true, message: '请输入基本工资' }],
+      rules: [{ max: 10, message: '最多10个字符' }],
       render:<Input maxLength={10} addonBefore="￥" />,
     }, {
       label: '岗位工资',
       placeholder: '请输入岗位工资',
       dataIndex: 'salaryPost',
-      // rules: [{ required: true, message: '请输入岗位工资' }],
+      rules: [{ max: 10, message: '最多10个字符' }],
       render:<Input maxLength={10} addonBefore="￥" />,
     }],
   },{
@@ -207,25 +207,25 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       label: '姓名',
       placeholder: '请输入姓名',
       dataIndex: 'ecName',
-      rules: [{ required: true, message: '请输入姓名' }],
+      rules: [{ max: 10, message: '最多10个字符' }],
       render:<Input maxLength={10} />,
     }, {
       label: '关系',
       placeholder: '请输入关系',
       dataIndex: 'ecRelation',
-      rules: [{ required: true, message: '请输入关系' }],
+      rules: [{ max: 10, message: '最多10个字符' }],
       render:<Input maxLength={10} />,
     }, {
       label: '联系电话',
       placeholder: '请输入联系电话',
       dataIndex: 'ecMobile',
-      rules: [{ required: true, message: '请输入联系电话' }],
+      rules: [{ max: 20, message: '最多20个字符' }],
       render:<Input maxLength={20} type="number" />,
     }, {
       label: '备用电话',
       placeholder: '请输入备用电话',
       dataIndex: 'ecMobileReserve',
-      rules: [{ required: true, message: '请输入备用电话' }],
+      rules: [{ max: 20, message: '最多20个字符' }],
       render:<Input maxLength={20} type="number" />,
     }],
   },{
@@ -235,19 +235,39 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       placeholder: '请输入登陆账号',
       dataIndex: 'account',
       rules: [{ required: true, message: '请输入登陆账号' }],
-      render: <Input maxLength={20} type="number" />,
+      render: <Input maxLength={20} />,
     }, {
       label: '登录密码',
       placeholder: '请输入登录密码',
       dataIndex: 'password',
-      // rules: [{ validator: (val) => { return val.length === 6 && (/\d/gi).test(val) },  message: '只能输入数字，长度为6位数字' }],
-      render:<Input maxLength={6} />,
+      rules: [{
+        validator: (rule, value = '', callback) => {
+          if (value.length === 6 && (/\d/gi).test(value)) { 
+            callback() 
+          } else if(value.length === 0 ) {
+            callback() 
+          } else { 
+            callback('只能输入数字，长度为6位数字') 
+          } 
+        }
+      }],
+      render:<Input />,
     }, {
       label: '确认密码',
       placeholder: '请输入确认密码',
       dataIndex: 'passwordNum',
-      // rules: [{ validator: (val) => { return val.length === 6 && (/\d/gi).test(val) },  message: '只能输入数字，长度为6位数字' }],
-      render:<Input maxLength={6} />,
+      rules: [{
+        validator: (rule, value = '', callback) => {
+          if (value.length === 6 && (/\d/gi).test(value)) { 
+            callback() 
+          } else if(value.length === 0 ) {
+            callback() 
+          } else { 
+            callback('只能输入数字，长度为6位数字') 
+          } 
+        }
+      }],
+      render:<Input />,
     }],
   }];
   return result;

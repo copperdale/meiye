@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { Form, Input, Select, Button, Icon } from 'antd';
 import { connect } from 'dva';
 import styles from './index.less'
+import { checkPriceIsValid, checkAmountIsValid } from '../../../utils/utils.js'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -88,7 +89,7 @@ class BasicForm extends React.Component {
           label="品项名称"
         >
           {getFieldDecorator('name', {
-            rules: [{ required: true, message: '请输入品项名称' }],
+            rules: [{ required: true, max: 20, message: '请输入品项名称(最多20个字符)' }],
           })(
             <Input disabled={this.props.isView} />
             )}
@@ -98,7 +99,7 @@ class BasicForm extends React.Component {
           label="品项编码"
         >
           {getFieldDecorator('code', {
-            rules: [{ required: true, message: '请输入品项编码' }],
+            rules: [{ required: true, max: 20, message: '请输入品项编码(最多20个字符)' }],
           })(
             <Input disabled={this.props.isView} />
             )}
@@ -114,7 +115,10 @@ class BasicForm extends React.Component {
           label="售卖价格"
         >
           {getFieldDecorator('price', {
-            rules: [{ required: true, message: '请输入售卖价格' }],
+            rules: [
+              { required: true, message: '请输入售卖价格' },
+              { validator: checkPriceIsValid }
+            ],
           })(
             <Input disabled={this.props.isView} />
             )}
@@ -124,14 +128,14 @@ class BasicForm extends React.Component {
           label="库存数量"
         >
           {getFieldDecorator('amount', {
-            // rules: [{ required: true, message: '请输入售卖价格' }],
+            rules: [{ validator: checkAmountIsValid }],
           })(
-            <Input type="number" style={{width: '120px'}} disabled={this.props.isView} />
+            <Input style={{width: '120px'}} disabled={this.props.isView} />
             )}
           <span style={{ float: 'right' }}>
             单位&nbsp;
             {getFieldDecorator('unit', {
-              // rules: [{ required: true, message: '请输入售卖价格' }],
+              rules: [{ max: 4, message: '最多输入4个字符' }],
             })(
               <Input style={{width: '120px'}} disabled={this.props.isView} />
               )}
@@ -159,7 +163,6 @@ class BasicForm extends React.Component {
                   required
                 >
                   <Input 
-                    
                     disabled={this.props.isView}
                     value={item.name}
                     onChange={(e) => {this.updateAddons(index, 'name', e.target.value)}}

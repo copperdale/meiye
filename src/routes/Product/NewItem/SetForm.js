@@ -49,10 +49,7 @@ class BasicForm extends React.Component {
         >
           {getFieldDecorator('name', {
             rules: [
-              { required: true, message: '请输入品项名称' },
-              { validator: (value, rule, callback) => {
-                callback('2323');
-              } },
+              { required: true, max: 20, message: '请输入品项名称(最多输入20个字符)' }
             ],
           })(
             <Input disabled={this.props.isView} />
@@ -63,7 +60,7 @@ class BasicForm extends React.Component {
           label="品项编码"
         >
           {getFieldDecorator('code', {
-            rules: [{ required: true, message: '请输入品项编码' }],
+            rules: [{ required: true, max: 20, message: '请输入品项编码(最多输入20个字符)' }],
           })(
             <Input disabled={this.props.isView} />
             )}

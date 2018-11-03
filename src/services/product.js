@@ -8,6 +8,7 @@ export async function getProductList() {
 }
 
 export async function deleteProduct(id) {
+    debugger;
     return request(`${prefix}MeiYe/public/api/part/deleteBrandType/${id}?token=${getToken()}`, { method: 'GET' });
 }
 
@@ -37,6 +38,6 @@ export async function queryProductTypes(params) {
 }
 
 export async function deleteDishShop(id) {
-    return request(`${prefix}MeiYe/public/api/part/dishShop/delete/3/${id}?token=${getToken()}`, { method: 'GET' });
+    return request(`${prefix}MeiYe/public/api/part/dishShop/delete/${id}?token=${getToken()}`, { method: 'GET' });
 }
 // /public/api/part/dishShop/getDishShopPageByCriteria

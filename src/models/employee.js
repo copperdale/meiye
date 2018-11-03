@@ -47,9 +47,20 @@ export default {
     },
     *queryEmployee(_, { call, put, select }) {
       const queryFormData = yield select(state => state.employee.queryFormData);
+      const selectedRoleId = yield select(state => state.employee.selectedRoleId);
+      let roleId = selectedRoleId;
+
       const params = {
         name: queryFormData.name.value,
         jobEmployeeType: queryFormData.jobEmployeeType.value,
+      }
+      if (roleId) {
+        params.roleId = roleId;
+      }
+      if (_.payload && _.payload.selectedRole) {
+        parameter = {
+          roleId: _.payload.selectedRoleId
+        }
       }
       const response = yield call(getEmployees, params);
     //   if (!response) {
