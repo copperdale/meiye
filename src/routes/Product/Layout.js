@@ -3,6 +3,7 @@ import { Row, Col, Card, Button, List, Breadcrumb, Spin } from 'antd';
 import { connect } from 'dva';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import AddProductModal from './AddProductModal';
+import { hasAuthrity } from '../../utils/authority';
 
 @connect((state) => ({
   productList: state.product.productList,
@@ -69,8 +70,8 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
     this.props.dispatch({
       type: 'product/queryProductType',
       payload: {
-        selecteDishTypeId: id
-      }
+        selecteDishTypeId: id,
+      },
     });
   }
 
@@ -85,7 +86,11 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
                 <h4>品项类别管理</h4>
                 <div style={{ lineHeight: '32px', height: '32px' }}>
                   一级分类{this.props.productList.length}个
-                  <Button type="primary" style={{ float: 'right' }} onClick={() => { this.toggleAddProductModal()}}>创建一级分类</Button>
+                  {
+                    hasAuthrity('DISH_ADD_GROUP')
+                    && 
+                    <Button type="primary" style={{ float: 'right' }} onClick={() => { this.toggleAddProductModal()}}>创建一级分类</Button>
+                  }
                 </div>
                 {
                   this.props.productList.map(item => (
@@ -97,9 +102,23 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
                           // onClick={() => { this.updateSelecteDishTypeId(item.id, item.name, false) }}
                         >{item.name}
                         </span>
-                        <a href="javascript:void(0)" onClick={() => { this.toggleAddProductModal(item.id, true, item)}}>编辑</a>&nbsp;
-                        <a href="javascript:void(0)" onClick={() => { this.deleteProduct(item.id) }}>删除</a> &nbsp;
-                        <Button size="small" type="primary" onClick={() => { this.toggleAddProductModal(item.id)}}>添加下一级分类</Button>
+                        {
+                          hasAuthrity('DISH_MODIFY')
+                          &&
+                          <a href="javascript:void(0)" onClick={() => { this.toggleAddProductModal(item.id, true, item)}}>编辑</a>
+                        }
+                        &nbsp;
+                        {
+                          hasAuthrity('DISH_DELETE')
+                          &&
+                          <a href="javascript:void(0)" onClick={() => { this.deleteProduct(item.id) }}>删除</a>
+                        }
+                        &nbsp;
+                        {
+                          hasAuthrity('DISH_ADD')
+                          &&
+                          <Button size="small" type="primary" onClick={() => { this.toggleAddProductModal(item.id)}}>添加下一级分类</Button>
+                        }
                       </div>
                       <List
                         size="small"

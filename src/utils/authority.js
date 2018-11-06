@@ -32,6 +32,20 @@ export function getToken() {
   return window.localStorage.getItem('token');
 }
 
+export function getAuthorities() {
+  const authorities = getUserInfo().user.authorities || [];
+  if (!authorities) {
+    return [];
+  }
+
+  authorities.map(item => item.authPermissionBo.code);
+  return authorities;
+}
+
+export function hasAuthrity(authorityCode = '') {
+  return getAuthorities().some(item => item === authorityCode);
+}
+
 export function setToken(token) {
   return window.localStorage.setItem('token', token);
 }

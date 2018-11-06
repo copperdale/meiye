@@ -5,6 +5,7 @@ import { routerRedux } from 'dva/router';
 import ProductTypeLayout from './Layout';
 import QueryForm from './QueryForm';
 import SearchResult from './SearchResult';
+import { hasAuthrity } from '../../utils/authority'
 
 
 @connect((state) => ({
@@ -18,6 +19,8 @@ export default class Employee extends Component {
       <ProductTypeLayout
         breadcrumbs={['店长', '员工列表']}
         actionButtons={
+          hasAuthrity('USER_ADD')
+          &&
           (
             <Button
               size="small" 

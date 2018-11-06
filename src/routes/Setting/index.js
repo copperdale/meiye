@@ -3,6 +3,7 @@ import { Button, Radio, Tabs, Card, Icon, Input, Modal } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router'
 import { routerRedux } from 'dva/router';
+import { hasAuthrity } from '../../utils/authority'
 
 const RadioGroup = Radio.Group;
 const TabPane = Tabs.TabPane;
@@ -268,7 +269,11 @@ export default class NewItem extends Component {
     return (
       <Fragment>
         <div style={{ textAlign: 'right' }}>
-          <Button onClick={this.addTempArea} className="primary-blue primary-blue-button">添加区域</Button>
+          {
+            hasAuthrity('DISK_MODIFY')
+            &&  
+            <Button onClick={this.addTempArea} className="primary-blue primary-blue-button">添加区域</Button>
+          }
         </div>
         <Tabs
           activeKey={`${this.props.selectedTableAreaId}`}
@@ -302,6 +307,8 @@ export default class NewItem extends Component {
                         }}
                         // onPressEnter={}
                         addonAfter={
+                          hasAuthrity('DISK_MODIFY')
+                          &&
                           <Icon 
                             type="check" 
                             onClick={
@@ -318,6 +325,8 @@ export default class NewItem extends Component {
                     !area.isEdit
                     ?
                     (
+                      hasAuthrity('DISK_MODIFY')
+                      &&
                       <Button icon="edit" onClick={() => { this.setAreaEditable(area.id) }} size="default" title="编辑区域" />
                     )
                     :
@@ -326,7 +335,11 @@ export default class NewItem extends Component {
                     )
                   }
                   &nbsp;
-                  <Button onClick={() => { this.deleteArea(area); }} icon="delete" size="default" title="删除区域" />
+                  {
+                    hasAuthrity('DISK_MODIFY')
+                    &&
+                    <Button onClick={() => { this.deleteArea(area); }} icon="delete" size="default" title="删除区域" />
+                  }
                   <hr />
                   {
                     `${area.id}` === `${this.props.selectedTableAreaId}`
@@ -348,6 +361,8 @@ export default class NewItem extends Component {
                                   //   this.updateTable(e.target.value, table);
                                   // }}
                                   addonAfter={
+                                    hasAuthrity('DISK_MODIFY')
+                                    &&
                                     <Icon 
                                       type="check" 
                                       onClick={
@@ -383,6 +398,8 @@ export default class NewItem extends Component {
                               )
                               :
                               (
+                                hasAuthrity('DISK_MODIFY')
+                                &&
                                 <Icon
                                   style={{ fontSize: '26px', cursor: 'pointer', color: '#ee5e1f' }}
                                   type="edit"
@@ -395,14 +412,18 @@ export default class NewItem extends Component {
                             }
                             &nbsp;
                             &nbsp;
-                            <Icon
-                              style={{ fontSize: '26px', cursor: 'pointer', color: '#ee5e1f' }}
-                              type="delete"
-                              theme="outlined"
-                              onClick={() => {
-                                this.deleteTable(table);
-                              }}
-                            />
+                            {
+                              hasAuthrity('DISK_MODIFY')
+                              &&
+                              <Icon
+                                style={{ fontSize: '26px', cursor: 'pointer', color: '#ee5e1f' }}
+                                type="delete"
+                                theme="outlined"
+                                onClick={() => {
+                                  this.deleteTable(table);
+                                }}
+                              />
+                            }
                           </Card>
                         )
                       } else {

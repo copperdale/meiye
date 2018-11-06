@@ -3,6 +3,7 @@ import { Table, Divider, Popconfirm } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import moment from 'moment';
+import { hasAuthrity } from '../../utils/authority'
 
 @connect((state) => ({
   queryResult: state.employee.queryResult,
@@ -66,28 +67,36 @@ export default class SearchResult extends Component {
           >查看
           </Link>
           <Divider type="vertical" />
-          <Link
-            className="primary-blue"
-            href="javascript:;"
-            to={{
-              pathname: '/employee-new',
-              search: `isView=false&isEdit=true&id=${record.id}`,
-            }}
-          >编辑
-          </Link>
-          <Divider type="vertical" />
-          <Popconfirm
-            title="确定要删除这条记录吗?"
-            onConfirm={() => { this.deleteEmployee(record.id) }}
-            okText="删除"
-            cancelText="取消"
-          >
-            <a
+          {
+            hasAuthrity('USER_MODIFY')
+            &&  
+            <Link
               className="primary-blue"
               href="javascript:;"
-            >删除
-            </a>
-          </Popconfirm>
+              to={{
+                pathname: '/employee-new',
+                search: `isView=false&isEdit=true&id=${record.id}`,
+              }}
+            >编辑
+            </Link>
+          }
+          <Divider type="vertical" />
+          {
+            hasAuthrity('USER_DELETE')
+            &&
+            <Popconfirm
+              title="确定要删除这条记录吗?"
+              onConfirm={() => { this.deleteEmployee(record.id) }}
+              okText="删除"
+              cancelText="取消"
+            >
+              <a
+                className="primary-blue"
+                href="javascript:;"
+              >删除
+              </a>
+            </Popconfirm>
+          }
         </span>
       ),
     }];

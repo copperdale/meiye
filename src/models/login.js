@@ -8,6 +8,7 @@ import { getPageQuery } from '../utils/utils';
 import store from '../index';
 
 const listenMessage = (e) => {
+  console.log(store, store.dispatch);
   const { dispatch } = store;
   if (e.data === 'logout') {
     dispatch({
