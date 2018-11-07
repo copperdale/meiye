@@ -33,6 +33,10 @@ export async function getAllPermission() {
 export async function getEmployees(params) {
     params.pageNum = 0; // eslint-disable-line
     params.pageSize = 100000; // eslint-disable-line
+    // debugger;
+    if (!params.jobEmployeeType.trim()) {
+        delete params.jobEmployeeType;
+    }
     return request(`${prefix}MeiYe/public/api/role/authUser/getUserPage?token=${getToken()}`, { 
         method: 'POST',
         body: params,

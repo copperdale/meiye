@@ -41,9 +41,10 @@ class BasicForm extends React.Component {
         >
           {getFieldDecorator('type', {
             // rules: [{ required: true, message: 'Please input your note!' }],
-            initialValue: '0',
+            initialValue: '',
           })(
             <Select style={{ width: '120px' }}>
+              <Option value=''>全部</Option>
               <Option value='0'>单品</Option>
               <Option value='1'>套餐</Option>
             </Select>

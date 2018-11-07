@@ -19,7 +19,7 @@ export default {
     queryFormData: {
       name: { value: '' },
       dishCode: { value: '' },
-      type: { value: '0' },
+      type: { value: '' },
     },
     queryResult: [],
     selecteDishTypeId: false,

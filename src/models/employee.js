@@ -25,7 +25,8 @@ export default {
     permissions: [],
     queryFormData: {
       name: { value: '' }, 
-      jobEmployeeType: { value: '1' },
+      jobEmployeeType: { value: '' },
+      enableFlag: { value: '' },
     },
     queryResult: {
       content: [],
@@ -53,6 +54,7 @@ export default {
       const params = {
         name: queryFormData.name.value,
         jobEmployeeType: queryFormData.jobEmployeeType.value,
+        enableFlag: queryFormData.enableFlag.value,
       }
       if (roleId) {
         params.roleId = roleId;

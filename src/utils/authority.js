@@ -1,3 +1,5 @@
+import store from '../index';
+
 // use localStorage to store the authority info, which might be sent from server in actual project.
 export function getAuthority() {
   // return localStorage.getItem('antd-pro-authority') || ['admin', 'user'];
@@ -12,9 +14,23 @@ export function getUserInfo() {
   // return window.localStorage.getItem('antd-pro-authority') || ['admin', 'user'];
   const result = false;
   try {
+    // debugger;
+    if (!window.localStorage.getItem('userInfo')) {
+      removeToken();
+      removeUserInfo();
+      store.dispatch(routerRedux.push({
+        pathname: '/user/login',
+        search: stringify({
+          redirect: window.location.href,
+        }),
+      }));
+      return;
+    }
     return JSON.parse(window.localStorage.getItem('userInfo'));
   } catch (e) {
-    return result;
+    store.dispatch({
+      type: 'login/logout',
+    });
   }
   
 }

@@ -41,25 +41,30 @@ class BasicForm extends React.Component {
         >
           {getFieldDecorator('jobEmployeeType', {
             // rules: [{ required: true, message: 'Please input your note!' }],
-            initialValue: '1',
+            initialValue: '',
           })(
             <Select style={{ width: '120px' }}>
+              <Option value="">全部</Option>
               <Option value="1">试用期</Option>
               <Option value="2">正式</Option>
               <Option value="3">外聘</Option>
             </Select>
             )}
         </FormItem>
-        {/* <FormItem
+        <FormItem
           {...formItemLayout}
           label="状态"
         >
-          {getFieldDecorator('name', {
+          {getFieldDecorator('enableFlag', {
             // rules: [{ required: true, message: 'Please input your note!' }],
           })(
-            <Input style={{ width: '120px' }} />
-            )}
-        </FormItem> */}
+            <Select style={{ width: '120px' }}>
+              <Option value=''>全部</Option>
+              <Option value='1'>已启用</Option>
+              <Option value='2'>已禁用</Option>
+            </Select>
+          )}
+        </FormItem>
         <FormItem
           {...formItemLayout}
           label="员工名称"
@@ -92,7 +97,7 @@ const QueryForm = Form.create({
     })
   },
   mapPropsToFields(props) {
-    const fields = 'name jobEmployeeType'.split(' ');
+    const fields = 'name jobEmployeeType enableFlag'.split(' ');
     const result = {};
     fields.forEach((key) => {
       result[key] = Form.createFormField({

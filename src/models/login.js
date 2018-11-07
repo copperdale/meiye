@@ -40,12 +40,13 @@ export default {
         return;
       }
       const response = yield call(login, payload);
-      yield put({
-        type: 'changeLoginStatus',
-        payload: response,
-      });
+      // debugger;
       // Login successfully
       if (response.statusCode === 200 && response.messageType === 'ignore') {
+        yield put({
+          type: 'changeLoginStatus',
+          payload: response,
+        });
         reloadAuthorized();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -61,6 +62,9 @@ export default {
             window.location.href = redirect;
             return;
           }
+        }
+        if (redirect.startsWith('/user/login')) {
+          redirect = '/home';
         }
         yield put(routerRedux.replace(redirect || '/home'));
       }

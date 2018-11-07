@@ -42,9 +42,9 @@ export default class SearchResult extends Component {
       }
     }, {
       title: '状态',
-      dataIndex: 'statusFlag',
+      dataIndex: 'enableFlag',
       render: (text) => {
-        return 
+        return `${text}` === '1' ? '已启用' : '已禁用';
       }
     }, {
       title: '职位',
@@ -55,6 +55,7 @@ export default class SearchResult extends Component {
     }, {
       title: '操作',
       key: 'action',
+      width: '180px',
       render: (text, record) => (
         <span>
           <Link
@@ -70,7 +71,8 @@ export default class SearchResult extends Component {
           {
             hasAuthrity('USER_MODIFY')
             &&  
-            <Link
+            [
+              <Link
               className="primary-blue"
               href="javascript:;"
               to={{
@@ -78,24 +80,33 @@ export default class SearchResult extends Component {
                 search: `isView=false&isEdit=true&id=${record.id}`,
               }}
             >编辑
-            </Link>
+            </Link>,
+            <Divider type="vertical" />,
+            <a
+              className="primary-blue"
+              href="javascript:void(0);"
+              onClick={() => {this.updateStatusFlag(`${record.statusFlag}` === '1' ? '2' : '1')}}
+            >{`${record.statusFlag}` === '1' ? '禁用' : '启用'}</a>
+            ]
           }
-          <Divider type="vertical" />
           {
             hasAuthrity('USER_DELETE')
             &&
-            <Popconfirm
-              title="确定要删除这条记录吗?"
-              onConfirm={() => { this.deleteEmployee(record.id) }}
-              okText="删除"
-              cancelText="取消"
-            >
-              <a
-                className="primary-blue"
-                href="javascript:;"
-              >删除
-              </a>
-            </Popconfirm>
+            [
+              <Divider type="vertical" />,
+              <Popconfirm
+                title="确定要删除这条记录吗?"
+                onConfirm={() => { this.deleteEmployee(record.id) }}
+                okText="删除"
+                cancelText="取消"
+              >
+                <a
+                  className="primary-blue"
+                  href="javascript:;"
+                >删除
+                </a>
+              </Popconfirm>
+            ]
           }
         </span>
       ),
