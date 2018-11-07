@@ -23,7 +23,7 @@ export function setUserInfo(info) {
   return window.localStorage.setItem('userInfo', info);
 }
 
-export function removeUserInfo(info) {
+export function removeUserInfo() {
   return window.localStorage.removeItem('userInfo');
 }
 
@@ -32,14 +32,13 @@ export function getToken() {
   return window.localStorage.getItem('token');
 }
 
-export function getAuthorities() {
+function getAuthorities() {
   const authorities = getUserInfo().user.authorities || [];
   if (!authorities) {
     return [];
   }
 
-  authorities.map(item => item.authPermissionBo.code);
-  return authorities;
+  return authorities.map(item => item.authority);
 }
 
 export function hasAuthrity(authorityCode = '') {
