@@ -48,3 +48,7 @@ export async function deleteEmployee(id) {
         method: 'GET',
     });
 }
+
+export async function updateStatusFlag({ id, statusFlag }) {
+    return request(`${prefix}Meiye/public/api/role/authUser/updateEnable/id/${id}/enableFlag/${statusFlag}`, { method: 'GET' })
+}

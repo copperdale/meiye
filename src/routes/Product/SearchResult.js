@@ -4,7 +4,6 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 
 @connect((state) => {
-  console.log(state.loading);
   return {
     queryResult: state.product.queryResult,
     loading: !!state.loading.effects['product/getProductList'],

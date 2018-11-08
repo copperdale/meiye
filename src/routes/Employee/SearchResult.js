@@ -8,6 +8,7 @@ import { hasAuthrity } from '../../utils/authority'
 @connect((state) => ({
   queryResult: state.employee.queryResult,
   EmployeeRoleList: state.employee.EmployeeRoleList,
+  loading: !!state.loading.effects['employee/queryEmployee'],
 }))
 export default class SearchResult extends Component {
   
@@ -16,6 +17,16 @@ export default class SearchResult extends Component {
       type: 'employee/deleteEmployee',
       payload: { id },
     });
+  }
+
+  updateStatusFlag = (id, statusFlag) => {
+    this.props.dispatch({
+      type: 'employee/updateStatusFlag',
+      payload: {
+        id,
+        statusFlag
+      }
+    })
   }
 
   render() {
@@ -85,8 +96,8 @@ export default class SearchResult extends Component {
             <a
               className="primary-blue"
               href="javascript:void(0);"
-              onClick={() => {this.updateStatusFlag(`${record.statusFlag}` === '1' ? '2' : '1')}}
-            >{`${record.statusFlag}` === '1' ? '禁用' : '启用'}</a>
+              onClick={() => {this.updateStatusFlag(record.id, `${record.enableFlag}` === '1' ? '2' : '1')}}
+            >{`${record.enableFlag}` === '1' ? '禁用' : '启用'}</a>
             ]
           }
           {
@@ -135,6 +146,7 @@ export default class SearchResult extends Component {
         bordered
         size="small"
         pagination={pager}
+        loading={this.props.loading}
       />
     )
   }

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Row, Col, Card, Button, List, Breadcrumb, Modal } from 'antd';
+import { Row, Col, Card, Button, List, Breadcrumb, Modal, Spin } from 'antd';
 import { connect } from 'dva';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 // import QueryForm from './QueryForm';
@@ -13,6 +13,7 @@ import AddEmployeeModal from './AddEmployeeModal';
   showAddModal: state.employee.showAddModal,
   addEmployeeModalFormData: state.employee.addEmployeeModalFormData,
   permissions: state.employee.permissions,
+  loading: !!state.loading.effects['employee/getEmployeeRoles'],
 }))
 export default class ProductTypeLayout extends Component {
   // componentDidMount() {
@@ -103,41 +104,43 @@ export default class ProductTypeLayout extends Component {
       <PageHeaderLayout>
         <Row gutter={8}>
           <Col span={7}>
-            <Card bordered={false}>
-              <div style={{ lineHeight: '32px', height: '32px' }}>
-                员工角色管理
-                <Button type="primary" style={{ float: 'right' }} onClick={() => { this.toggleAddEmployeeModal()}}>创建角色</Button>
-              </div>
-              <List
-                size="small"
-                itemLayout="horizontal"
-                split={false}
-                locale={{
-                  emptyText: '暂无下级分类',
-                }}
-                dataSource={this.props.EmployeeRoleList}
-                renderItem={(subItem) => (
-                  <List.Item actions={[
-                    <a href="javascript:void(0)" onClick={() => { this.toggleAddEmployeeModal(true, subItem)}}>编辑</a>,
-                    <a href="javascript:void(0)" onClick={() => { this.deleteEmployeeRole(subItem.id) }}>删除</a>,
-                  ]}
-                  >
-                    <span
-                      className={this.props.selectedRoleId == subItem.id ? 'selected-type' : ''}
-                      style={{ paddingLeft: '4px', borderLeft: '4px solid transparent', cursor: 'pointer' }}
-                      onClick={() => { this.updateSelectedRoleId(subItem.id, subItem.name, true); }}
-                    >{subItem.name}
-                    </span>
-                  </List.Item>
-                )}
-              />
-              
-              {/* <div style={{ marginTop: '8px', padding: '0px 4px 0px 16px', height: '18px', lineHeight: '18px', textAlign: 'right' }}>
-                <span style={{ float: 'left', marginLeft: '4px' }}>护肤类</span>
-                <a href="javascript:void(0)">编辑</a>&nbsp;
-                <a href="javascript:void(0)">删除</a> &nbsp;
-              </div> */}
-            </Card>
+            <Spin spinning={this.props.loading}>
+              <Card bordered={false}>
+                <div style={{ lineHeight: '32px', height: '32px' }}>
+                  员工角色管理
+                  <Button type="primary" style={{ float: 'right' }} onClick={() => { this.toggleAddEmployeeModal()}}>创建角色</Button>
+                </div>
+                <List
+                  size="small"
+                  itemLayout="horizontal"
+                  split={false}
+                  locale={{
+                    emptyText: '暂无下级分类',
+                  }}
+                  dataSource={this.props.EmployeeRoleList}
+                  renderItem={(subItem) => (
+                    <List.Item actions={[
+                      <a href="javascript:void(0)" onClick={() => { this.toggleAddEmployeeModal(true, subItem)}}>编辑</a>,
+                      <a href="javascript:void(0)" onClick={() => { this.deleteEmployeeRole(subItem.id) }}>删除</a>,
+                    ]}
+                    >
+                      <span
+                        className={this.props.selectedRoleId == subItem.id ? 'selected-type' : ''}
+                        style={{ paddingLeft: '4px', borderLeft: '4px solid transparent', cursor: 'pointer' }}
+                        onClick={() => { this.updateSelectedRoleId(subItem.id, subItem.name, true); }}
+                      >{subItem.name}
+                      </span>
+                    </List.Item>
+                  )}
+                />
+                
+                {/* <div style={{ marginTop: '8px', padding: '0px 4px 0px 16px', height: '18px', lineHeight: '18px', textAlign: 'right' }}>
+                  <span style={{ float: 'left', marginLeft: '4px' }}>护肤类</span>
+                  <a href="javascript:void(0)">编辑</a>&nbsp;
+                  <a href="javascript:void(0)">删除</a> &nbsp;
+                </div> */}
+              </Card>
+            </Spin>
           </Col>
           <Col span={17}>
             <Card bordered={false}>

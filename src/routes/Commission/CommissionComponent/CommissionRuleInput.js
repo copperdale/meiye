@@ -179,7 +179,7 @@ export default class CommissionTypesSelect extends Component {
         }
         <Row key="action">
           <Col key="action" span={12}>
-            <Button onClick={this.addRules}>Add</Button>
+            <Button onClick={this.addRules}>添加</Button>
           </Col>
         </Row>
       </Fragment>

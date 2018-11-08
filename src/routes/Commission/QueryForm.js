@@ -72,7 +72,7 @@ class BasicForm extends React.Component {
             )}
         </FormItem>
         <FormItem>
-          <Button type="primary" htmlType="submit">查询</Button>
+          <Button type="primary" htmlType="submit" style={{ marginLeft: '8px' }}>查询</Button>
         </FormItem>
       </Form>
     );
