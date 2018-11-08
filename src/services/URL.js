@@ -69,3 +69,8 @@ export const commercialSetting = () => {
 export const customerSetting = () => {
 	return `${iframeUrlPrefix}/internal/customerLevelRule/gotoPage?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
 }
+
+// 人效核算：
+export const commissionCalculate = () => {
+	return `${iframeUrlPrefix}/internal/salary/userSalary?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
+}

@@ -40,6 +40,20 @@ const menuData = [
     name: '人效',
     icon: 'rocket',
     path: 'commission',
+    children: [
+      {
+        name: '首页',
+        path: 'entry',
+      },
+      {
+        name: '创建方案',
+        path: 'new',
+      },
+      {
+        name: '人效核算',
+        path: 'calculate',
+      }
+    ]
   },
   {
     name: '设置',

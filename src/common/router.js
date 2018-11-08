@@ -126,10 +126,13 @@ export const getRouterData = app => {
       // component: dynamicWrapper(app, ['vipuser'], () => import('../routes/Vipuser/index.js')),
       component: dynamicWrapper(app, [], () => import('../routes/Vipuser/index.js')),
     },
-    '/commission': {
+    '/commission/entry': {
       component: dynamicWrapper(app, ['commission'], () => import('../routes/Commission/index.js')),
     },
-    '/commission-new': {
+    '/commission/calculate': {
+      component: dynamicWrapper(app, [], () => import('../routes/Commission/Calculate/index.js')),
+    },
+    '/commission/new': {
       component: dynamicWrapper(app, ['commission-new'], () => import('../routes/Commission/NewCommission/index')),
     },
     '/exception/403': {
