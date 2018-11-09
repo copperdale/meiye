@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col, Spin } from 'antd';
 import { connect } from 'dva';
 
 const FormItem = Form.Item;
@@ -83,82 +83,84 @@ class BasicForm extends React.Component {
     };
     return (
       <Form onSubmit={this.handleSubmit}>
-        <FormItem
-          {...formItemLayout}
-          label="角色名称"
-        >
-          {getFieldDecorator('name', {
-            rules: [{ max: 2, message: '最多输入2个字符。' }],
-          })(
-            <Input style={{ width: '100%' }} />
-            )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label="角色编码"
-        >
-          {getFieldDecorator('code', {
-            rules: [{ max: 20, message: '最多输入20个字符。' }],
-          })(
-            <Input style={{ width: '100%' }} />
-            )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label={
-            <span className="section-title-without-float">角色权限</span>
-          }
-        />
-        <FormItem
-          // {...formItemLayout}
-          labelCol={{
-            xs: { span: 24 },
-            sm: { span: 8 },
-          }}
-          wrapperCol={{
-            xs: { span: 24 },
-            sm: { span: 24 },
-          }}
-          colon={false}
-          label={
-            <span style={{ textAlign: 'left' }}>商家后台操作权限</span>
-          }
-        >
-         
-          <Row>
-            <Col span={16} offset={6}>
-              {this.getPermissionCheckBoxes(1)}
-            </Col>
-          </Row>
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          labelCol={{
-            xs: { span: 24 },
-            sm: { span: 8 },
-          }}
-          wrapperCol={{
-            xs: { span: 24 },
-            sm: { span: 24 },
-          }}
-          colon={false}
-          label="POS前端操作权限"
-        >
-          <Row>
-            <Col span={16} offset={6}>
-              {this.getPermissionCheckBoxes(2)}
-            </Col>
-          </Row>
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
-          label=" "
-          style={{ textAlign: 'right' }}
-        >
-          <Button onClick={this.toggleShowAddModal}>取消</Button>
-          &nbsp;
-          <Button type="primary" htmlType="submit">{this.props.isEditing ? '更新' : '保存'}</Button>
-        </FormItem>
+        <Spin spinning={this.props.loading}>
+          <FormItem
+            {...formItemLayout}
+            label="角色名称"
+          >
+            {getFieldDecorator('name', {
+              rules: [{ max: 2, message: '最多输入2个字符。' }],
+            })(
+              <Input style={{ width: '100%' }} />
+              )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="角色编码"
+          >
+            {getFieldDecorator('code', {
+              rules: [{ max: 20, message: '最多输入20个字符。' }],
+            })(
+              <Input style={{ width: '100%' }} />
+              )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label={
+              <span className="section-title-without-float">角色权限</span>
+            }
+          />
+          <FormItem
+            // {...formItemLayout}
+            labelCol={{
+              xs: { span: 24 },
+              sm: { span: 8 },
+            }}
+            wrapperCol={{
+              xs: { span: 24 },
+              sm: { span: 24 },
+            }}
+            colon={false}
+            label={
+              <span style={{ textAlign: 'left' }}>商家后台操作权限</span>
+            }
+          >
+          
+            <Row>
+              <Col span={16} offset={6}>
+                {this.getPermissionCheckBoxes(1)}
+              </Col>
+            </Row>
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            labelCol={{
+              xs: { span: 24 },
+              sm: { span: 8 },
+            }}
+            wrapperCol={{
+              xs: { span: 24 },
+              sm: { span: 24 },
+            }}
+            colon={false}
+            label="POS前端操作权限"
+          >
+            <Row>
+              <Col span={16} offset={6}>
+                {this.getPermissionCheckBoxes(2)}
+              </Col>
+            </Row>
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label=" "
+            style={{ textAlign: 'right' }}
+          >
+            <Button onClick={this.toggleShowAddModal}>取消</Button>
+            &nbsp;
+            <Button type="primary" htmlType="submit">{this.props.isEditing ? '更新' : '保存'}</Button>
+          </FormItem>
+        </Spin>
       </Form>
     );
   }
@@ -199,5 +201,7 @@ export default connect((state) => {
     showAddModal: state.employee.showAddModal,
     permissions: state.employee.permissions,
     isEditing: state.employee.isEditing,
+    editingRole: state.employee.editingRole,
+    loading: !!state.loading.effects['employee/getEmployeeRole'],
   }
 })(AddProductModalForm);

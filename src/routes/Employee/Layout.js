@@ -34,25 +34,18 @@ export default class ProductTypeLayout extends Component {
   }
 
   toggleAddEmployeeModal = (isEditing = false, item = {}) => {
-    let addEmployeeModalFormData = this.props.addEmployeeModalFormData;
-    let permissions = this.props.permissions;
-    permissions.forEach((permission) => {
-      permission.checked = 0;
+    this.props.dispatch({
+      type: 'employee/getEmployeeRole',
+      payload: {
+        id: item.id,
+      },
     });
-    (item.authRolePermissions || []).forEach((itemPermission) => {
-      permissions.forEach((permission) => {
-        if (itemPermission.permissionId == permission.id) {
-          permission.checked = 1;
-        }
-      })
-    })
     this.props.dispatch({
       type: 'employee/updateState',
       payload: {
         showAddModal: true,
-        editingRole: item,
         isEditing,
-        permissions: JSON.parse(JSON.stringify(permissions)),
+        // permissions: JSON.parse(JSON.stringify(permissions)),
         addEmployeeModalFormData: {
           code: { value: item.code || '' },
           name: { value: item.name || '' },
@@ -78,7 +71,7 @@ export default class ProductTypeLayout extends Component {
         },
       });
       this.props.dispatch({
-        type: 'employee/queryEmployee'
+        type: 'employee/queryEmployee',
       })
       return;
     }
@@ -93,13 +86,12 @@ export default class ProductTypeLayout extends Component {
     this.props.dispatch({
       type: 'employee/queryEmployee',
       payload: {
-        selectedRoleId: id
-      }
+        selectedRoleId: id,
+      },
     })
   }
 
   render() {
-    console.log(this.props.selectedRoleId, this.props.productList)
     return (
       <PageHeaderLayout>
         <Row gutter={8}>
