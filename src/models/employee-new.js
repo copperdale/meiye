@@ -1,4 +1,5 @@
 import { parse } from 'qs';
+import { cloneDeep } from 'lodash/lang';
 import moment from 'moment';
 import { routerRedux } from 'dva/router';
 import { fieldsKeys as newFormFieldsKeys } from '../routes/Employee/New/NewEmployeeForm'
@@ -23,7 +24,7 @@ export default {
   namespace: 'employee-new',
 
   state: {
-    newEmployeeFormData: initNewEmployeeFormData,
+    newEmployeeFormData: cloneDeep(initNewEmployeeFormData),
     latestEmployee: {},
     isView: false,
     isEdit: false,
@@ -146,6 +147,14 @@ export default {
               type: 'employee-new/getCurrentEmployee',
               payload: {
                 id: searchParam.id,
+              },
+            });
+          }
+          if (!searchParam.isEdit && !searchParam.isView) {
+            dispatch({
+              type: 'employee-new/updateState',
+              payload: {
+                newEmployeeFormData: cloneDeep(initNewEmployeeFormData),
               },
             });
           }

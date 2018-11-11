@@ -1,4 +1,4 @@
-import store from '../index';
+import store from '../index.js';
 
 // use localStorage to store the authority info, which might be sent from server in actual project.
 export function getAuthority() {
@@ -28,9 +28,12 @@ export function getUserInfo() {
     }
     return JSON.parse(window.localStorage.getItem('userInfo'));
   } catch (e) {
-    store.dispatch({
-      type: 'login/logout',
-    });
+    // store.dispatch({
+    //   type: 'login/logout',
+    // });
+    removeToken();
+    removeUserInfo();
+    window.open(location.href.split('#')[0] + '#/user/login', '_self');
   }
   
 }

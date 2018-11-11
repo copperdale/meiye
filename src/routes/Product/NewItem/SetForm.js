@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Select, Button } from 'antd';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import styles from './index.less'
 
 const FormItem = Form.Item;
@@ -11,10 +12,16 @@ class BasicForm extends React.Component {
     e.preventDefault();
 
     this.props.form.validateFields((err, fieldsValue) => {
-      if (err) {
-        this.props.dispatch({
-          type: 'queryProductType'
-        });
+      if (!err) {
+        if (this.props.isEdit) {
+          this.props.dispatch({
+            type: 'product-new/update',
+          });
+        } else {
+          this.props.dispatch({
+            type: 'product-new/new',
+          });
+        }
       }
 
       // Should format date value before submit.
@@ -37,6 +44,17 @@ class BasicForm extends React.Component {
     };
     return (
       <Form onSubmit={this.handleSubmit}>
+        {
+          !this.props.isView
+          &&
+          <FormItem>
+            <Button htmlType="submit" style={{ float: 'right', marginLeft: '4px' }} className="primary-blue primary-blue-button">保存</Button>
+            <Button
+              style={{ float: 'right', marginLeft: '4px' }}
+              onClick={() => { this.props.dispatch(routerRedux.push('/product')); }}
+            >取消</Button>
+          </FormItem>
+        }
         <FormItem
           {...formItemLayout}
           label={

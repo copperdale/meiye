@@ -46,17 +46,17 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
   
   updateSelecteDishTypeId = (id, selectedDishName,  showNewButton) => {
     if (`${this.props.selecteDishTypeId}` === `${id}`) {
-      this.props.dispatch({
-        type: 'product/updateState',
-        payload: {
-          selecteDishTypeId: false,
-          selectedDishName,
-          showNewButton,
-        },
-      });
-      this.props.dispatch({
-        type: 'product/queryProductType',
-      });
+      // this.props.dispatch({
+      //   type: 'product/updateState',
+      //   payload: {
+      //     selecteDishTypeId: false,
+      //     selectedDishName,
+      //     showNewButton,
+      //   },
+      // });
+      // this.props.dispatch({
+      //   type: 'product/queryProductType',
+      // });
       return;
     }
     this.props.dispatch({
@@ -89,7 +89,7 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
                   {
                     hasAuthrity('DISH_ADD_GROUP')
                     && 
-                    <Button type="primary" style={{ float: 'right' }} onClick={() => { this.toggleAddProductModal()}}>创建一级分类</Button>
+                    <Button type="primary" style={{ float: 'right' }} onClick={() => { this.toggleAddProductModal(); }}>创建一级分类</Button>
                   }
                 </div>
                 {

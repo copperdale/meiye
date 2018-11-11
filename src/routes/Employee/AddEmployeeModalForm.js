@@ -89,7 +89,7 @@ class BasicForm extends React.Component {
             label="角色名称"
           >
             {getFieldDecorator('name', {
-              rules: [{ max: 2, message: '最多输入2个字符。' }],
+              rules: [{ max: 10, message: '最多输入10个字符。' }],
             })(
               <Input style={{ width: '100%' }} />
               )}

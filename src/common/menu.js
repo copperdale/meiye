@@ -42,12 +42,8 @@ const menuData = [
     path: 'commission',
     children: [
       {
-        name: '首页',
-        path: 'entry',
-      },
-      {
-        name: '创建方案',
-        path: 'new',
+        name: '人效列表',
+        path: 'list',
       },
       {
         name: '人效核算',

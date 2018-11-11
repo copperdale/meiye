@@ -92,6 +92,12 @@ export default function request(url, options) {
           description: data.message
         });
       }
+      if (data.statusCode !== 200) {
+        const error = new Error(data);
+        error.name = data.statusCode;
+        error.response = data;
+        throw error;
+      }
       return data;
     }) 
     .catch(e => {

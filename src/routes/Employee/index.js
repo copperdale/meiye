@@ -9,17 +9,21 @@ import { hasAuthrity } from '../../utils/authority'
 
 
 @connect((state) => ({
-  showNewButton: state.product.showNewButton,
-  selectedDishName: state.product.selectedDishName,
+  // showNewButton: state.product.showNewButton,
+  selectedRoleName: state.employee.selectedRoleName,
 }))
 export default class Employee extends Component {
 
   render() {
+    let breadcrumbs=['店长', '员工列表'];
+    if (this.props.selectedRoleName) {
+      breadcrumbs.push(this.props.selectedRoleName);
+    }
     return (
       <ProductTypeLayout
-        breadcrumbs={['店长', '员工列表']}
+        breadcrumbs={breadcrumbs}
         actionButtons={
-          hasAuthrity('USER_ADD')
+          !hasAuthrity('USER_ADD')
           &&
           (
             <Button

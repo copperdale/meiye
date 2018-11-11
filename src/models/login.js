@@ -8,6 +8,12 @@ import { getPageQuery } from '../utils/utils';
 import store from '../index';
 
 const listenMessage = (e) => {
+  if (!store) {
+    removeToken();
+    removeUserInfo();
+    window.open(location.href.split('#')[0] + '#/user/login', '_self');
+    return;
+  }
   const { dispatch } = store;
   if (e.data === 'logout') {
     dispatch({
@@ -62,7 +68,7 @@ export default {
             return;
           }
         }
-        if (redirect.startsWith('/user/login')) {
+        if (redirect && redirect.startsWith && redirect.startsWith('/user/login')) {
           redirect = '/home';
         }
         yield put(routerRedux.replace(redirect || '/home'));

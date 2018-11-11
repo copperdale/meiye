@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Row, Col, Card, Button, List, Breadcrumb, Modal, Spin } from 'antd';
+import { Row, Col, Card, Button, List, Breadcrumb, Modal, Spin, Popconfirm } from 'antd';
 import { connect } from 'dva';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 // import QueryForm from './QueryForm';
@@ -62,17 +62,17 @@ export default class ProductTypeLayout extends Component {
 
   updateSelectedRoleId = (id, selectedRoleName,  showNewButton) => {
     if (`${this.props.selectedRoleId}` === `${id}`) {
-      this.props.dispatch({
-        type: 'employee/updateState',
-        payload: {
-          selectedRoleId: false,
-          selectedRoleName: '',
-          showNewButton: false,
-        },
-      });
-      this.props.dispatch({
-        type: 'employee/queryEmployee',
-      })
+      // this.props.dispatch({
+      //   type: 'employee/updateState',
+      //   payload: {
+      //     selectedRoleId: false,
+      //     selectedRoleName: '',
+      //     showNewButton: false,
+      //   },
+      // });
+      // this.props.dispatch({
+      //   type: 'employee/queryEmployee',
+      // })
       return;
     }
     this.props.dispatch({
@@ -113,7 +113,17 @@ export default class ProductTypeLayout extends Component {
                   renderItem={(subItem) => (
                     <List.Item actions={[
                       <a href="javascript:void(0)" onClick={() => { this.toggleAddEmployeeModal(true, subItem)}}>编辑</a>,
-                      <a href="javascript:void(0)" onClick={() => { this.deleteEmployeeRole(subItem.id) }}>删除</a>,
+                      <Popconfirm
+                        title="确定要删除这个角色吗?"
+                        onConfirm={() => { this.deleteEmployeeRole(subItem.id) }}
+                        okText="删除"
+                        cancelText="取消"
+                      >
+                        <a
+                          href="javascript:void(0)"
+                        >删除
+                        </a>
+                      </Popconfirm>,
                     ]}
                     >
                       <span

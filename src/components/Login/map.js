@@ -13,7 +13,7 @@ const map = {
     rules: [
       {
         required: true,
-        message: 'Please enter username!',
+        message: '请输入用户名!',
       },
     ],
   },

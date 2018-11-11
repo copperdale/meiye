@@ -55,7 +55,7 @@ export default class SearchResult extends Component {
       title: '状态',
       dataIndex: 'enableFlag',
       render: (text) => {
-        return `${text}` === '1' ? '已启用' : '已禁用';
+        return `${text}` === '1' ? '启用' : '禁用';
       }
     }, {
       title: '职位',
@@ -78,11 +78,11 @@ export default class SearchResult extends Component {
             }}
           >查看
           </Link>
-          <Divider type="vertical" />
           {
             hasAuthrity('USER_MODIFY')
             &&  
             [
+              <Divider type="vertical" />,
               <Link
               className="primary-blue"
               href="javascript:;"

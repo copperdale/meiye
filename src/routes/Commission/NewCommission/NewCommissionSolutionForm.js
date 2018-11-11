@@ -46,9 +46,11 @@ export const getFieldsConfig = (props = { }) => {
       // rules: [{ required: true, message: '请输入工号' }],
       render:(
         <Select style={{ width: '100%' }} mode="multiple">
-          <Option value="1">试用期</Option>
-          <Option value="2">正式</Option>
-          <Option value="3">外聘</Option>
+          {
+            (props.EmployeeRoleList || []).map(item =>
+              <Option value={`${item.id}`}>{item.name}</Option>
+              )
+          }
         </Select>
       ),
     }],

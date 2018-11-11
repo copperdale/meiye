@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Form, Input, Select, Button, Icon } from 'antd';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import styles from './index.less'
 import { checkPriceIsValid, checkAmountIsValid } from '../../../utils/utils.js'
 
@@ -12,10 +13,16 @@ class BasicForm extends React.Component {
     e.preventDefault();
 
     this.props.form.validateFields((err, fieldsValue) => {
-      if (err) {
-        this.props.dispatch({
-          type: 'queryProductType'
-        });
+      if (!err) {
+        if (this.props.isEdit) {
+          this.props.dispatch({
+            type: 'product-new/update',
+          });
+        } else {
+          this.props.dispatch({
+            type: 'product-new/new',
+          });
+        }
       }
 
       // Should format date value before submit.
@@ -25,7 +32,7 @@ class BasicForm extends React.Component {
 
   addAddon = () => {
     let singleFormData = JSON.parse(JSON.stringify(this.props.singleFormData));
-    singleFormData.addons.push({ name: '', price: '' });
+    singleFormData.addons.push({ name: '', reprice: '' });
     this.props.dispatch({
       type: 'product-new/updateState',
       payload: {
@@ -77,6 +84,17 @@ class BasicForm extends React.Component {
     };
     return (
       <Form onSubmit={this.handleSubmit}>
+        {
+          !this.props.isView
+          &&
+          <FormItem>
+            <Button htmlType="submit" style={{ float: 'right', marginLeft: '4px' }} className="primary-blue primary-blue-button">保存</Button>
+            <Button
+              style={{ float: 'right', marginLeft: '4px' }}
+              onClick={() => { this.props.dispatch(routerRedux.push('/product')); }}
+            >取消</Button>
+          </FormItem>
+        }
         <FormItem
           {...formItemLayout}
           label={
@@ -176,8 +194,8 @@ class BasicForm extends React.Component {
                 >
                   <Input
                     disabled={this.props.isView}
-                    value={item.price}
-                    onChange={(e) => {this.updateAddons(index, 'price', e.target.value)}}
+                    value={item.reprice}
+                    onChange={(e) => {this.updateAddons(index, 'reprice', e.target.value)}}
                   />
                 </FormItem>
               </Fragment>
@@ -220,5 +238,6 @@ export default connect((state) => {
     singleFormData: state['product-new'].singleFormData,
     addtype: state['product-new'].addtype,
     isView: state['product-new'].isView,
+    isEdit: state['product-new'].isEdit,
   }
 })(SingleForm);

@@ -108,7 +108,7 @@ export const getRouterData = app => {
     },
     '/home': {
       // component: dynamicWrapper(app, ['home'], () => import('../routes/Home/index.js')),
-      component: dynamicWrapper(app, [], () => import('../routes/Home/index.js')),
+      component: dynamicWrapper(app, ['home'], () => import('../routes/Home/index.js')),
     },
     '/report': {
       // component: dynamicWrapper(app, [], () => import('../routes/Report/index.js')),
@@ -126,7 +126,7 @@ export const getRouterData = app => {
       // component: dynamicWrapper(app, ['vipuser'], () => import('../routes/Vipuser/index.js')),
       component: dynamicWrapper(app, [], () => import('../routes/Vipuser/index.js')),
     },
-    '/commission/entry': {
+    '/commission/list': {
       component: dynamicWrapper(app, ['commission'], () => import('../routes/Commission/index.js')),
     },
     '/commission/calculate': {

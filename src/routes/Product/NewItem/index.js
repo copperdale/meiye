@@ -18,17 +18,17 @@ const RadioGroup = Radio.Group
   }))
 export default class NewItem extends Component {
 
-  save = () => {
-    if (this.props.isEdit) {
-      this.props.dispatch({
-        type: 'product-new/update',
-      });
-    } else {
-      this.props.dispatch({
-        type: 'product-new/new',
-      });
-    }
-  }
+  // save = () => {
+  //   if (this.props.isEdit) {
+  //     this.props.dispatch({
+  //       type: 'product-new/update',
+  //     });
+  //   } else {
+  //     this.props.dispatch({
+  //       type: 'product-new/new',
+  //     });
+  //   }
+  // }
   
   render() {
     // console.log(this.props.addtype)
@@ -37,12 +37,6 @@ export default class NewItem extends Component {
     if (this.props.isView) { title = '品项详情'; }
 
     let actionButtons = [
-      <Button
-        size="small" 
-        style={{ float: 'right', marginLeft: '4px' }}
-        onClick={() => { this.props.dispatch(routerRedux.push('/product')); }}
-      >取消</Button>,
-      <Button onClick={this.save} size="small" style={{ float: 'right', marginLeft: '4px' }} className="primary-blue primary-blue-button">保存</Button>
     ].filter(item => !this.props.isView);
     if (this.props.isView) {
       actionButtons.push(

@@ -188,11 +188,10 @@ export const checkPriceIsValid = (rule, value, callback) => {
     if (value.length > 10) return false;
     if (!Number(value)) return false;
     if (value.split('.').length > 2) return false;
-    if (value.indexOf('.') === 0) return false;
     return true;
    }
 
-  if (checkIsValid(value)) {
+  if (checkIsValid(`${value}`)) {
       callback();
   } else {
       callback(msg);
@@ -211,7 +210,7 @@ export const checkAmountIsValid = (rule, value, callback) => {
     return true;
    }
 
-  if (checkIsValid(value)) {
+  if (checkIsValid(`${value}`)) {
       callback();
   } else {
       callback(msg);

@@ -1,5 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { parse } from 'qs';
+import { notification } from 'antd';
 import { 
   newSingleProduct, 
   updateSingleProduct, 
@@ -11,6 +12,26 @@ import {
 } from '../services/product-new';
 import { debug } from 'util';
 
+const checkSetData = (setFormdata) => {
+
+  let result = true;
+  if (!setFormdata.dishSetmealGroupBos) {
+    result = false;
+  }
+  if (!setFormdata.dishSetmealGroupBos.length) {
+    result = false;
+  }
+  setFormdata.dishSetmealGroupBos.forEach((item) => {
+    if (!item.dishSetmealBos) result = false;
+    if (!item.dishSetmealBos.length) result = false;
+  });
+  if (!result) {
+    notification.error({
+      message: '新建套餐时需要至少添加一个非空的子品项分组'
+    })
+  }
+  return result;
+}
 
 export default {
   namespace: 'product-new',
@@ -234,9 +255,11 @@ export default {
           param.dishTypeId = selecteDishTypeId
         }
         const response = yield call(newSingleProduct, param);
-        yield put(routerRedux.push('/product'));
       } else if (addtype === '1') {
         const setFormdata = yield select(state => state['product-new'].setFormData);
+
+        debugger;
+        if (!checkSetData(setFormdata)) return;
         // debugger;
         const param = Object.assign({}, setFormdata, {
           type: addtype,
@@ -253,8 +276,12 @@ export default {
         }
         // debugger;
         const response = yield call(newSetProduct, param);
-        yield put(routerRedux.push('/product'));
+        
       }
+      yield put({
+        type: 'product/queryProductType'
+      })
+      yield put(routerRedux.push('/product'));
     },
     *update(_, { call, put, select }) {
       const addtype = yield select(state => state['product-new'].addtype);
@@ -276,6 +303,19 @@ export default {
           param.dishTypeId = selecteDishTypeId
         }
         const response = yield call(updateSingleProduct, param);
+        let queryResult = yield select(state => state.product.queryResult);
+        queryResult = queryResult.map((item) => {
+          if (`${item.id}` === `${id}`) {
+            return JSON.parse(JSON.stringify(Object.assign({}, item, param)));
+          }
+          return JSON.parse(JSON.stringify(item));
+        });
+        yield put({
+          type: 'product/updateState',
+          payload: {
+            queryResult: queryResult
+          }
+        });
       } else if (addtype === '1') {
         const setFormdata = yield select(state => state['product-new'].setFormData);
         const param = Object.assign({}, setFormdata, {
@@ -290,6 +330,19 @@ export default {
           param.dishTypeId = selecteDishTypeId
         }
         const response = yield call(updateSetProduct, param);
+        let queryResult = yield select(state => state.product.queryResult);
+        queryResult = queryResult.map((item) => {
+          if (`${item.id}` === `${id}`) {
+            return JSON.parse(JSON.stringify(Object.assign({}, item, param)));
+          }
+          return JSON.parse(JSON.stringify(item));
+        });
+        yield put({
+          type: 'product/updateState',
+          payload: {
+            queryResult: queryResult
+          }
+        });
       }
       yield put(routerRedux.push('/product'));
     },
