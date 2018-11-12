@@ -99,7 +99,7 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
                         <span
                           className={`${this.props.selecteDishTypeId}` === `${item.id}` ? 'selected-type' : ''}
                           style={{ float: 'left', paddingLeft: '4px', borderLeft: '4px solid transparent', cursor: 'pointer' }}
-                          // onClick={() => { this.updateSelecteDishTypeId(item.id, item.name, false) }}
+                          onClick={() => { this.updateSelecteDishTypeId(item.id, item.name, false) }}
                         >{item.name}
                         </span>
                         {

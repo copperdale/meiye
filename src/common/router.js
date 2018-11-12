@@ -132,7 +132,7 @@ export const getRouterData = app => {
     '/commission/calculate': {
       component: dynamicWrapper(app, [], () => import('../routes/Commission/Calculate/index.js')),
     },
-    '/commission/new': {
+    '/commission-new': {
       component: dynamicWrapper(app, ['commission-new'], () => import('../routes/Commission/NewCommission/index')),
     },
     '/exception/403': {

@@ -1,12 +1,14 @@
 import { parse } from 'qs';
 import { cloneDeep } from 'lodash/lang';
 import { routerRedux } from 'dva/router';
+import { notification } from 'antd';
 
 import { fieldsKeys as newFormFieldsKeys } from '../routes/Commission/NewCommission/NewCommissionSolutionForm'
 // import { getLatestEmployee, addNewEmployee, getEmployee } from '../services/employee-new';
 import { getEmployeeRoles } from '../services/employee';
 import { newCommission, getCommission, updateCommission } from '../services/commission';
 // const dateKeys = 'jobEntryTime jobPositiveTime intoWorkDate birthday'.split(' ');
+import { queryAllProductType } from '../services/product';
 const initNewFormData = newFormFieldsKeys.reduce((temp, item) => {
   const result = temp;
   result[item] = { value: '' };
@@ -14,7 +16,7 @@ const initNewFormData = newFormFieldsKeys.reduce((temp, item) => {
   //   result[item] = [];
   // }
   if (item === 'talentRoleBoList') {
-    result[item] = { value: ['1'] };
+    result[item] = { value: [] };
   }
   if ('planType planMode'.split(' ').indexOf(item) !== -1 ) {
     result[item] = {
@@ -37,6 +39,7 @@ export default {
     EmployeeRoleList: [],
     commission: {},
     id: null,
+    singleProductTypes: [],
   },
 
   effects: {
@@ -48,35 +51,69 @@ export default {
       yield put({
         type: 'updateState',
         payload: {
-            EmployeeRoleList: JSON.stringify(response.data) === '{}' ? [] : response.data,
+          EmployeeRoleList: JSON.stringify(response.data) === '{}' ? [] : response.data,
         },
       });
+    },
+    *getSingleProductTypes(_, { call, put }) {
+      const response = yield call(queryAllProductType);
+      yield put({
+        type: 'updateState',
+        payload: {
+          singleProductTypes: JSON.stringify(response.data) === '{}' ? [] : response.data.content,
+        }
+      })
     },
     *newOrUpdate(_, { call, select, put }) {
       const newCommissionSolutionFormData = yield select(state => state['commission-new'].newCommissionSolutionFormData);
       const isEdit = yield select(state => state['commission-new'].isEdit);
       const id = yield select(state => state['commission-new'].id);
       const params = {};
+
+      let flag = false;
+      
+      if ((newCommissionSolutionFormData.talentRuleBos.value || []).length === 0) {
+        flag = true;
+        notification.error({
+          message: '请添加提成规则'
+        });
+      }
+
+      (newCommissionSolutionFormData.talentRuleBos.value || []).forEach((item) => {
+        if (!item.ruleValue || !item.ruleCommission) {
+          flag = true;
+          notification.error({
+            message: '每一个提成规则都不能为空'
+          });
+        }
+      })
+      if (flag) return;
+      
       Object.keys(newCommissionSolutionFormData).forEach((key) => {
         params[key] = newCommissionSolutionFormData[key].value;
+        // debugger;
         if (key === 'talentRuleBos') {
-          params[key].forEach((item) => {
+          (params[key]).forEach((item) => {
             // eslint-disable-next-line
             item.ruleType = newCommissionSolutionFormData.planMode.value
           })
         }
-      })
+      });
       params.talentRoleBoList = params.talentRoleBoList.map((item) => {
         return {
           roleId: item,
         };
       })
+      
       if (isEdit) {
         params.id = id;
         yield call(updateCommission, params);
       } else {
         yield call(newCommission, params);
       }
+      yield put({
+        type: 'commission/queryPlan'
+      });
       yield put(routerRedux.push('/commission'));
     },
     *getCommission({ payload: { id } }, { call, put, select }) {
@@ -119,9 +156,12 @@ export default {
     setup({ history, dispatch }) {
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
       return history.listen(({ pathname, search }) => {
-        if (pathname === '/commission/new') {
+        if (pathname === '/commission-new') {
           dispatch({
             type: 'commission-new/getEmployeeRoles',
+          });
+          dispatch({
+            type: 'commission-new/getSingleProductTypes',
           });
           const searchParam = parse(search, { ignoreQueryPrefix: true });
           

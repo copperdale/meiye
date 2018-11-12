@@ -37,6 +37,17 @@ export async function queryProductTypes(params) {
     });
 }
 
+export async function queryAllProductType(params) {
+    return request(`${prefix}MeiYe/public/api/part/dishShop/getDishShopPageByCriteria?token=${getToken()}`, {
+        method: 'POST',
+        body: {
+            'pageNum': 0,
+            'pageSize':1000000,
+            'type': '0'
+        },
+    });
+}
+
 export async function deleteDishShop(id) {
     return request(`${prefix}MeiYe/public/api/part/dishShop/delete/${id}?token=${getToken()}`, { method: 'GET' });
 }

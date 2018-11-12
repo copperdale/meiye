@@ -1,9 +1,16 @@
 import React, { Component, Fragment } from 'react';
-import { Row, Col, Input, Button, Icon } from 'antd';
+import { Row, Col, Input, Button, Icon, Select } from 'antd';
 import { cloneDeep } from 'lodash/lang';
+import { connect } from 'dva';
+import { debug } from 'util';
 
+const Option = Select.Option;
+
+@connect((state) => ({
+  singleProductTypes: state['commission-new'].singleProductTypes,
+}))
 export default class CommissionTypesSelect extends Component {
-  constructor(props) {
+  constructor(props = {}) {
     super(props);
 
     let value = props.value || [];
@@ -143,39 +150,83 @@ export default class CommissionTypesSelect extends Component {
       );
     }
   }
+
+  renderRule = (item, index) => {
+    if (`${this.state.planType}` === '2') {
+      return this.renderType2Rule(item, index);
+    }
+    return (
+      <Row>
+        <Col span={12}>
+          <Input
+            key={`ruleValue${index * 2}`}
+            value={item.ruleValue}
+            onChange={(e) => {
+              this.handleChange('ruleValue', e.target.value, index);
+            }}
+            addonBefore={`>=￥`}
+          />
+        </Col>
+        <Col span={12}>
+          <Input
+            value={item.ruleCommission}
+            key={`ruleCommission${index * 2}`}
+            onChange={(e) => {
+              this.handleChange('ruleCommission', e.target.value, index);
+            }}
+            addonBefore={`${this.getValueCommissionSymbol()}`}
+            addonAfter={<Icon style={{ cursor: 'pointer' }} type="delete" onClick={() => { this.deleteRule(index); }} />}
+          />
+        </Col>
+      </Row>
+    );
+  }
+
+  renderType2Rule = (item, index) => {
+    return (
+      <Row>
+        <Col span={12}>
+          <Select
+            showSearch
+            key={`ruleValue${index * 2}`}
+            value={item.ruleValue}
+            placeholder="选择项目"
+            optionFilterProp="children"
+            onChange={(value) => { this.handleChange('ruleValue', value, index) }}
+            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+          >
+            {
+              this.props.singleProductTypes.map(item => {
+                let disabled = this.state.ruleList.some(rule => `${rule.ruleValue}` === `${item.id}`)
+                // console.log(disabled, this.state.ruleList);
+                return (
+                  <Option value={`${item.id}`} disabled={disabled}>{item.name}</Option>
+                );
+              })
+            }
+          </Select>
+        </Col>
+        <Col span={12}>
+          <Input
+            value={item.ruleCommission}
+            key={`ruleCommission${index * 2}`}
+            onChange={(e) => {
+              this.handleChange('ruleCommission', e.target.value, index);
+            }}
+            addonBefore={`${this.getValueCommissionSymbol()}`}
+            addonAfter={<Icon style={{ cursor: 'pointer' }} type="delete" onClick={() => { this.deleteRule(index); }} />}
+          />
+        </Col>
+      </Row>
+    );
+  }
   
   render() {
     return (
       <Fragment>
         {this.getTitle()}
         {
-          this.state.ruleList.map((item, index) => {
-            return (
-              <Row>
-                <Col span={12}>
-                  <Input
-                    key={`ruleValue${index * 2}`}
-                    value={item.ruleValue}
-                    onChange={(e) => {
-                      this.handleChange('ruleValue', e.target.value, index);
-                    }}
-                    addonBefore={`>=￥`}
-                  />
-                </Col>
-                <Col span={12}>
-                  <Input
-                    value={item.ruleCommission}
-                    key={`ruleCommission${index * 2}`}
-                    onChange={(e) => {
-                      this.handleChange('ruleCommission', e.target.value, index);
-                    }}
-                    addonBefore={`${this.getValueCommissionSymbol()}`}
-                    addonAfter={<Icon style={{ cursor: 'pointer' }} type="delete" onClick={() => { this.deleteRule(index); }} />}
-                  />
-                </Col>
-              </Row>
-            );
-          })
+          this.state.ruleList.map((item, index) => this.renderRule(item, index))
         }
         <Row key="action">
           <Col key="action" span={12}>

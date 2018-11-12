@@ -9,7 +9,7 @@ export default {
 
   state: {
     queryFormData: {
-      enableFlag: { value: '' },
+      enabledFlag: { value: '' },
       planType: { value: '' },
     },
     searchResult: {
@@ -21,7 +21,7 @@ export default {
     *queryPlan(_, { call, put, select }) {
       const queryFormData = yield select(state => state.commission.queryFormData);
       const params = {
-        enableFlag: queryFormData.enableFlag.value,
+        enabledFlag: queryFormData.enabledFlag.value,
         planType: queryFormData.planType.value,
       };
       const response = yield call(queryPlan, params);

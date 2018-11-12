@@ -9,7 +9,8 @@ import SerachResult from './SearchResult';
 
 @connect((state) => ({
   showNewButton: state.product.showNewButton,
-  selectedDishName: state.product.selectedDishName
+  selectedDishName: state.product.selectedDishName,
+  selecteDishTypeId: state.product.selecteDishTypeId,
 }))
 export default class Product extends Component {
 
@@ -64,7 +65,7 @@ export default class Product extends Component {
                 selectedSingleProducKeytList: [],
               }
             });
-            this.props.dispatch(routerRedux.push('/product-new')); 
+            this.props.dispatch(routerRedux.push(`/product-new?selecteDishTypeId=${this.props.selecteDishTypeId}`)); 
           }}
         >新建品项</Button>
       }>

@@ -7,6 +7,7 @@ import { Link } from 'dva/router';
   return {
     queryResult: state.product.queryResult,
     loading: !!state.loading.effects['product/getProductList'],
+    selecteDishTypeId: state.product.selecteDishTypeId,
   }
 })
 export default class SearchResult extends Component {
@@ -53,7 +54,7 @@ export default class SearchResult extends Component {
             href="javascript:;"
             to={{
               pathname: '/product-new',
-              search: `isView=1&id=${record.id}&addtype=${record.type}`,
+              search: `selecteDishTypeId=${this.props.selecteDishTypeId}&isView=1&id=${record.id}&addtype=${record.type}`,
             }}
           >查看
           </Link>
@@ -63,7 +64,7 @@ export default class SearchResult extends Component {
             href="javascript:;"
             to={{
               pathname: '/product-new',
-              search: `isEdit=1&id=${record.id}&addtype=${record.type}`,
+              search: `selecteDishTypeId=${this.props.selecteDishTypeId}&isEdit=1&id=${record.id}&addtype=${record.type}`,
             }}
           >
           编辑

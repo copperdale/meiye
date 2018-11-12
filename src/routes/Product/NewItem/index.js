@@ -14,7 +14,8 @@ const RadioGroup = Radio.Group
     addtype: state['product-new'].addtype,
     isEdit: state['product-new'].isEdit,
     isView: state['product-new'].isView,
-    id: state['product-new'].id
+    id: state['product-new'].id,
+    selecteDishTypeId: state.product.selecteDishTypeId,
   }))
 export default class NewItem extends Component {
 
@@ -44,7 +45,7 @@ export default class NewItem extends Component {
           <Link
             to={{
               pathname: '/product-new',
-              search: `isEdit=1&id=${this.props.id}&addtype=${this.props.addtype}`
+              search: `selecteDishTypeId=${this.props.selecteDishTypeId}&isEdit=1&id=${this.props.id}&addtype=${this.props.addtype}`
             }}
           >编辑</Link>
         </Button>

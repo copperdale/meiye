@@ -17,7 +17,7 @@ export default class Commission extends Component {
     return (
       <Fragment>
         <div style={{ textAlign: 'right' }}>
-          <Button type="primary" onClick={() => { this.props.dispatch(routerRedux.push('/commission/new')); }}>
+          <Button type="primary" onClick={() => { this.props.dispatch(routerRedux.push('/commission-new')); }}>
             创建方案
           </Button>
         </div>

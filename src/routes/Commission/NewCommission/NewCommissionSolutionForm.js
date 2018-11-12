@@ -25,13 +25,13 @@ export const getFieldsConfig = (props = { }) => {
       label: '方案名称',
       placeholder: '请输入方案名称',
       dataIndex: 'planName',
-      // rules: [{ required: true, message: '请输入姓名' }],
-      render:<Input maxLength={20} />,
+      rules: [{ required: true, max: 20, message: '请输入方案名称(最多20个字符)' }],
+      render:<Input />,
     },{
       label: '方案类型',
       placeholder: '',
       dataIndex: 'planType',
-      // rules: [{ required: true, message: '请输入姓名' }],
+      // rules: [{ required: true, message: '请选择方案类型' }],
       render:(
         <CommissionTypeSelect style={{ width: '100%' }} />
       ),
@@ -43,7 +43,7 @@ export const getFieldsConfig = (props = { }) => {
       label: '选择参与提成分配身份',
       placeholder: '',
       dataIndex: 'talentRoleBoList',
-      // rules: [{ required: true, message: '请输入工号' }],
+      rules: [{ required: true, message: '请选择参与提成分配身份' }],
       render:(
         <Select style={{ width: '100%' }} mode="multiple">
           {
@@ -60,7 +60,7 @@ export const getFieldsConfig = (props = { }) => {
       label: '提成方式',
       placeholder: '',
       dataIndex: 'planMode',
-      rules: [{ required: true, message: '请输入手机号' }],
+      // rules: [{ required: true, message: '请输入手机号' }],
       render: (
         <Select style={{ width: '100%' }}>
           <Option value="1">固定金额提成</Option>

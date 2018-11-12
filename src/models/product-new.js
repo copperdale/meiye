@@ -33,6 +33,20 @@ const checkSetData = (setFormdata) => {
   return result;
 }
 
+const checkSingleAddonIsValid = (addons = []) => {
+  let result = true;
+  addons.forEach(item => {
+    if (!item.name || !item.reprice) {
+      result = false;
+      notification.error({
+        message: '加项名称和加项价格都不能为空'
+      });
+    }
+  })
+  
+  return result;
+}
+
 export default {
   namespace: 'product-new',
 
@@ -40,6 +54,7 @@ export default {
     isEdit: false,
     isView: false,
     id: false,
+    selecteDishTypeId: '',
     singleFormData: {
       name: { value: '' },
       code: { value: '' },
@@ -238,7 +253,7 @@ export default {
     },
     *new(_, { call, put, select }) {
       const addtype = yield select(state => state['product-new'].addtype);
-      const selecteDishTypeId = yield select(state => state.product.selecteDishTypeId)
+      const selecteDishTypeId = yield select(state => state['product-new'].selecteDishTypeId)
       if (addtype === '0') {
         const singleFormdata = yield select(state => state['product-new'].singleFormData);
         const param = {
@@ -254,11 +269,16 @@ export default {
         if (selecteDishTypeId) {
           param.dishTypeId = selecteDishTypeId
         }
+        if (!checkSingleAddonIsValid(singleFormdata.addons)) {
+          return;
+        }
         const response = yield call(newSingleProduct, param);
+        notification.success({
+          message: `创建${singleFormdata.name.value}成功`
+        })
       } else if (addtype === '1') {
         const setFormdata = yield select(state => state['product-new'].setFormData);
 
-        debugger;
         if (!checkSetData(setFormdata)) return;
         // debugger;
         const param = Object.assign({}, setFormdata, {
@@ -276,7 +296,9 @@ export default {
         }
         // debugger;
         const response = yield call(newSetProduct, param);
-        
+        notification.success({
+          message: `创建${setFormdata.name.value}成功`
+        })
       }
       yield put({
         type: 'product/queryProductType'
@@ -285,7 +307,7 @@ export default {
     },
     *update(_, { call, put, select }) {
       const addtype = yield select(state => state['product-new'].addtype);
-      const selecteDishTypeId = yield select(state => state.product.selecteDishTypeId)
+      const selecteDishTypeId = yield select(state => state['product-new'].selecteDishTypeId)
       const id = yield select(state => state['product-new'].id);
       if (addtype === '0') {
         const singleFormdata = yield select(state => state['product-new'].singleFormData);
@@ -301,6 +323,9 @@ export default {
         };
         if (selecteDishTypeId) {
           param.dishTypeId = selecteDishTypeId
+        }
+        if (!checkSingleAddonIsValid(singleFormdata.addons)) {
+          return;
         }
         const response = yield call(updateSingleProduct, param);
         let queryResult = yield select(state => state.product.queryResult);
@@ -397,6 +422,9 @@ export default {
               id: searchParam.id,
             },
           });
+        }
+        if (searchParam.selecteDishTypeId) {
+          result.selecteDishTypeId = searchParam.selecteDishTypeId;
         }
         dispatch({
           type: 'product-new/updateState',
