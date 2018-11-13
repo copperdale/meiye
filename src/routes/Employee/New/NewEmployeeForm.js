@@ -95,6 +95,8 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       rules: [{ required: true, validator: (rule, value = '', callback) => {
         if (value.length > 10) {
           callback('请输入工号（最多10位数字）');
+        } else if (value.length === 0) {
+            callback('请输入工号（最多10位数字）');
         } else if ((/\D/).test(value)) {
           callback('请输入工号（最多10位数字）');
         } else {
