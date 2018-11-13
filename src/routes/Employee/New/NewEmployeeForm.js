@@ -92,7 +92,15 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       label: '工号',
       placeholder: '请输入员工工号',
       dataIndex: 'jobNumber',
-      rules: [{ required: true, max: 10, message: '请输入工号（最多10个字符）' }],
+      rules: [{ required: true, validator: (rule, value = '', callback) => {
+        if (value.length > 10) {
+          callback('请输入工号（最多10位数字）');
+        } else if ((/\D/).test(value)) {
+          callback('请输入工号（最多10位数字）');
+        } else {
+          callback();
+        }
+      }, message: '请输入工号（最多10位数字）' }],
       render:<Input />,
     },{
       label: ' ',
@@ -166,7 +174,7 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       placeholder: '请输入邮箱',
       dataIndex: 'email',
       rules: [{ max: 40, message: '最多40个字符' }],
-      render:<Input  />,
+      render:<Input />,
     }, {
       label: 'QQ',
       placeholder: '请输入QQ', 
@@ -251,23 +259,24 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
           } 
         }
       }],
-      render:<Input />,
+      render:<Input type="password" placeholder="●●●●●●" />,
     }, {
       label: '确认密码',
       placeholder: '请输入确认密码',
       dataIndex: 'passwordNum',
       rules: [{
         validator: (rule, value = '', callback) => {
-          if (value.length === 6 && (/\d/gi).test(value)) { 
+          // console.log('###########', props.form.getFieldsValue(['password', 'passwordNum']));
+          const params = props.form.getFieldsValue(['password', 'passwordNum']);
+          debugger;
+          if (params.password !== params.passwordNum) {
+            callback('登录密码和确认密码需要一致')
+          } else {
             callback() 
-          } else if(value.length === 0 ) {
-            callback() 
-          } else { 
-            callback('只能输入数字，长度为6位数字') 
-          } 
+          }
         }
       }],
-      render:<Input />,
+      render:<Input type="password" placeholder="●●●●●●" />,
     }],
   }];
   return result;

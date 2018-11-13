@@ -150,7 +150,7 @@ export default {
               },
             });
           }
-          if (!searchParam.isEdit && !searchParam.isView) {
+          if (searchParam.isEdit === 'false' && searchParam.isView === 'false') {
             dispatch({
               type: 'employee-new/updateState',
               payload: {

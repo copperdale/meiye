@@ -30,7 +30,9 @@ export default class Employee extends Component {
               size="small" 
               style={{ float: 'right' }} 
               className="primary-blue primary-blue-button"
-              onClick={() => { this.props.dispatch(routerRedux.push('/employee-new?isView=false&isEdit=false')); }}
+              onClick={() => {
+                this.props.dispatch(routerRedux.push('/employee-new?isView=false&isEdit=false'));
+              }}
             >新建员工
             </Button>
           )

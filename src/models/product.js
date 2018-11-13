@@ -36,7 +36,7 @@ export default {
       yield put({
         type: 'updateState',
         payload: {
-            productList: response.data,
+            productList: JSON.stringify(response.data) === '{}' ? [] : response.data,
         },
       });
     },

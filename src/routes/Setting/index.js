@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Button, Radio, Tabs, Card, Icon, Input, Modal } from 'antd';
+import { Button, Radio, Tabs, Card, Icon, Input, Modal,notification } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router'
 import { routerRedux } from 'dva/router';
@@ -123,6 +123,12 @@ export default class NewItem extends Component {
   }
 
   updateTableName = (tableName, table) => {
+    if (tableName.length > 10) {
+      notification.error({
+        message: '工作台名称最多输入10个字符'
+      });
+      return;
+    }
     const tables = this.props.tables;
     tables.forEach((item) => {
       if (item.id === table.id) {
@@ -137,7 +143,13 @@ export default class NewItem extends Component {
     });
   }
 
-  updateAreaName = (areaName, area) => {
+  updateAreaName = (areaName = '', area) => {
+    if (areaName.length > 10) {
+      notification.error({
+        message: '区域名称最多输入10个字符'
+      });
+      return;
+    }
     const tableArea = this.props.tableArea;
     tableArea.forEach((item) => {
       if (item.id === area.id) {
