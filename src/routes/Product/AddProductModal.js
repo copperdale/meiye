@@ -5,6 +5,7 @@ import AddProductModalForm from './AddProductModalForm';
 
 @connect((state) => ({
   showAddModal: state.product.showAddModal,
+  isEditProductType: state.product.isEditProductType,
 }))
 export default class AddProductModal extends Component {
   toggleShowAddModal = () => {
@@ -28,9 +29,13 @@ export default class AddProductModal extends Component {
   }
 
   render() {
+    let title = "创建分类";
+    if (this.props.isEditProductType) {
+      title = '更新分类';
+    }
     return (
       <Modal
-        title="创建分类"
+        title={title}
         visible={this.props.showAddModal}
         onOk={this.handleOk}
         onCancel={this.handleCancel}

@@ -71,7 +71,7 @@ export default {
       const cPermissions = response.data.authRolePermissions.map(cItem => cItem.authPermissionBo);
       permissions.forEach((item) => {
         if (cPermissions.some(cPermission =>
-          `${cPermission.id}` === `${item.id}` && `${cPermission.checked}` === '1')) {
+          `${cPermission.id}` === `${item.id}`)) {
           item.checked = 1; // eslint-disable-line
         }
       })

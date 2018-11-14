@@ -10,7 +10,7 @@ import {
   getSetById, 
   querySingleProductItems 
 } from '../services/product-new';
-import { debug } from 'util';
+import { checkIsValid10_2Number } from '../utils/utils.js';
 
 const checkSetData = (setFormdata) => {
 
@@ -30,6 +30,23 @@ const checkSetData = (setFormdata) => {
       message: '新建套餐时需要至少添加一个非空的子品项分组'
     })
   }
+  setFormdata.dishSetmealGroupBos.forEach((item) => {
+    let min = `${item.orderMin}`;
+    let max = `${item.orderMax}`;
+    let integerReg = /^\D$/;
+    if (integerReg.test(min) || integerReg.test(max)) {
+      notification.error({
+        message: '子品项分组中至少必选和至多可选都只能输入数字',
+      });
+      result = false;
+    }
+    if (Number(min) >= Number(max)) {
+      notification.error({
+        message: '子品项分组中至少必选必须小于至多可选',
+      });
+      result = false;
+    }
+  })
   return result;
 }
 
@@ -40,6 +57,11 @@ const checkSingleAddonIsValid = (addons = []) => {
       result = false;
       notification.error({
         message: '加项名称和加项价格都不能为空'
+      });
+    } else if (!checkIsValid10_2Number(item.reprice)) {
+      result = false;
+      notification.error({
+        message: '加项价格最多输入10位数字，最多保留2位小数'
       });
     }
   })
@@ -122,6 +144,7 @@ export default {
       let SetFormBottomAddModalFormData = yield select(state => state['product-new'].SetFormBottomAddModalFormData);
       let setFormData = yield select(state => state['product-new'].setFormData);
       setFormData = JSON.parse(JSON.stringify(setFormData));
+
       SetFormBottomAddModalFormData = JSON.parse(JSON.stringify(SetFormBottomAddModalFormData));
       setFormData.dishSetmealGroupBos = setFormData.dishSetmealGroupBos.map((item) => {
         if (item.name == SetFormBottomAddModalFormData.name.value) {
@@ -343,6 +366,9 @@ export default {
         });
       } else if (addtype === '1') {
         const setFormdata = yield select(state => state['product-new'].setFormData);
+
+        if (!checkSetData(setFormdata)) return;
+
         const param = Object.assign({}, setFormdata, {
           type: addtype,
           name: setFormdata.name.value,

@@ -3,6 +3,7 @@ import { Form, Input, Row, Col, Radio, DatePicker, Select, Button } from 'antd';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import styles from '../../Product/NewItem/index.less';
+import { checkPriceIsValid } from '../../../utils/utils.js';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -202,13 +203,13 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       label: '基本工资',
       placeholder: '请输入基本工资',
       dataIndex: 'salaryBase',
-      rules: [{ max: 10, message: '最多10个字符' }],
+      rules: [{ required: true, validator: checkPriceIsValid }],
       render:<Input maxLength={10} addonBefore="￥" />,
     }, {
       label: '岗位工资',
       placeholder: '请输入岗位工资',
       dataIndex: 'salaryPost',
-      rules: [{ max: 10, message: '最多10个字符' }],
+      rules: [{ required: true, validator: checkPriceIsValid }],
       render:<Input maxLength={10} addonBefore="￥" />,
     }],
   },{

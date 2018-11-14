@@ -41,31 +41,42 @@ class BasicForm extends React.Component {
   }
 
   getPermissionCheckBoxes = (platform) => {
-    return this.props.permissions.filter(item => item.platform === platform).map((item) => {
-      return (
-        // <Col span={20} offset={2}><Checkbox value={item.id}>{item.name}</Checkbox></Col>
-        <Checkbox
-          checked={item.checked !== 0}
-          style={{ marginRight: '4px', marginLeft: '0px' }} 
-          onChange={(e) => {
-            const cPermissions = this.props.permissions;
-            cPermissions.forEach((permission) => {
-              if (`${permission.id}` === `${item.id}`) {
-                // eslint-disable-next-line
-                permission.checked = e.target.checked ? 1 : 0;
-              }
-            })
-            this.props.dispatch({
-              type: 'employee/updateState',
-              payload: {
-                permissions: JSON.parse(JSON.stringify(cPermissions)),
-              },
-            });
-          }}
-        >{item.name}
-        </Checkbox>
-      );
-    });
+    return (
+      <Row>
+        {
+          this.props.permissions.filter(item => item.platform === platform).map((item) => {
+            return (
+              // <Col span={20} offset={2}><Checkbox value={item.id}>{item.name}</Checkbox></Col>
+              <Col span={8}>
+                <Checkbox
+                  checked={item.checked !== 0}
+                  style={{ marginRight: '4px', marginLeft: '0px' }} 
+                  onChange={(e) => {
+                    const cPermissions = this.props.permissions;
+                    cPermissions.forEach((permission) => {
+                      if (`${permission.id}` === `${item.id}`) {
+                        // eslint-disable-next-line
+                        permission.checked = e.target.checked ? 1 : 0;
+                      }
+                    })
+                    this.props.dispatch({
+                      type: 'employee/updateState',
+                      payload: {
+                        permissions: JSON.parse(JSON.stringify(cPermissions)),
+                      },
+                    });
+                  }}
+                >
+                  <span
+                    title={item.name}
+                  >{item.name.length > 10 ? `${item.name.substr(0, 10)}...` : item.name}</span>
+                </Checkbox>
+              </Col>
+            );
+          })
+        }
+      </Row>
+    );
   } 
 
   render() {

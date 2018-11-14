@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Row, Col, Card, Button, List, Breadcrumb, Spin } from 'antd';
+import { Row, Col, Card, Button, List, Breadcrumb, Spin, Popconfirm } from 'antd';
 import { connect } from 'dva';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import AddProductModal from './AddProductModal';
@@ -111,7 +111,16 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
                         {
                           hasAuthrity('DISH_DELETE')
                           &&
-                          <a href="javascript:void(0)" onClick={() => { this.deleteProduct(item.id) }}>删除</a>
+                          <Popconfirm
+                            title="确定要删除这条记录吗?"
+                            onConfirm={() => { this.deleteProduct(item.id) }}
+                            okText="删除"
+                            cancelText="取消"
+                          >
+                            <a
+                              href="javascript:void(0)"
+                            >删除</a>
+                          </Popconfirm>
                         }
                         &nbsp;
                         {
@@ -131,7 +140,17 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
                         renderItem={(subItem) => (
                           <List.Item actions={[
                             <a href="javascript:void(0)" onClick={() => { this.toggleAddProductModal(subItem.id, true, subItem)}}>编辑</a>,
-                            <a href="javascript:void(0)" onClick={() => { this.deleteProduct(subItem.id) }}>删除</a>,
+                            // <a href="javascript:void(0)" onClick={() => { this.deleteProduct(subItem.id) }}>删除</a>,
+                            <Popconfirm
+                              title="确定要删除这条记录吗?"
+                              onConfirm={() => { this.deleteProduct(subItem.id) }}
+                              okText="删除"
+                              cancelText="取消"
+                            >
+                              <a
+                                href="javascript:void(0)"
+                              >删除</a>
+                            </Popconfirm>
                           ]}
                           >
                             <span

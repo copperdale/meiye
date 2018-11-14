@@ -181,17 +181,19 @@ export function isUrl(path) {
   return reg.test(path);
 }
 
+export const checkIsValid10_2Number = (value = '') => {
+  if (value.length > 10) return false;
+  if (!Number(value)) return false;
+  if (value.split('.').length > 2) return false;
+  if (value.split('.')[1] && value.split('.')[1].length > 2) return false;
+  return true;
+ }
+
 export const checkPriceIsValid = (rule, value, callback) => {
   const msg = '最多输入10位数字，最多保留两位小数';
 
-  const checkIsValid = (value = '') => {
-    if (value.length > 10) return false;
-    if (!Number(value)) return false;
-    if (value.split('.').length > 2) return false;
-    return true;
-   }
 
-  if (checkIsValid(`${value}`)) {
+  if (checkIsValid10_2Number(`${value}`)) {
       callback();
   } else {
       callback(msg);
