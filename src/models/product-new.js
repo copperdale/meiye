@@ -40,9 +40,9 @@ const checkSetData = (setFormdata) => {
       });
       result = false;
     }
-    if (Number(min) >= Number(max)) {
+    if (Number(min) > Number(max)) {
       notification.error({
-        message: '子品项分组中至少必选必须小于至多可选',
+        message: '子品项分组中至少必选不能大于至多可选',
       });
       result = false;
     }
@@ -394,7 +394,7 @@ export default {
           param.dishTypeId = selecteDishTypeId
         }
         const response = yield call(updateSetProduct, param);
-        
+
         if (response.data.messageType !== 'ignore') {
           return;
         }
