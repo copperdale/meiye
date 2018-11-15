@@ -71,7 +71,9 @@ export const getFieldsConfig = (props = { }) => {
       label: ' ',
       placeholder: '',
       dataIndex: 'talentRuleBos',
-      // rules: [{ required: true, message: '请输入姓名' }],
+      rules: [{ validator: (rule, value, callback) => {
+        console.log(planMode, planType, value);
+      } }],
       render: (
         <CommissionRuleInput
           planMode={planMode}
@@ -214,7 +216,6 @@ export const fieldsKeys = getFieldsConfig().reduce((result, item) => {
 const NewCommissionSolutionForm = Form.create({
   onFieldsChange(props, changedFields) {
     const newCommissionSolutionFormData = props.newCommissionSolutionFormData;
-    console.log(changedFields);
     Object.keys(changedFields).forEach((key) => {
       newCommissionSolutionFormData[key] = changedFields[key];
     })

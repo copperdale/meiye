@@ -240,12 +240,12 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       render:<Input maxLength={20} type="number" />,
     }],
   },{
-    sectionTitle: '登陆账号',
+    sectionTitle: '登录账号',
     fields: [{
-      label: '登陆账号',
+      label: '登录账号',
       placeholder: '请输入登陆账号',
       dataIndex: 'account',
-      rules: [{ required: true, message: '请输入登陆账号' }],
+      rules: [{ required: true, message: '请输入登录账号' }],
       render: <Input maxLength={20} />,
     }, {
       label: '登录密码',

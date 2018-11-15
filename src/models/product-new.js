@@ -296,6 +296,9 @@ export default {
           return;
         }
         const response = yield call(newSingleProduct, param);
+        if (response.data.messageType !== 'ignore') {
+          return;
+        }
         notification.success({
           message: `创建${singleFormdata.name.value}成功`
         })
@@ -319,6 +322,9 @@ export default {
         }
         // debugger;
         const response = yield call(newSetProduct, param);
+        if (response.data.messageType !== 'ignore') {
+          return;
+        }
         notification.success({
           message: `创建${setFormdata.name.value}成功`
         })
@@ -351,6 +357,13 @@ export default {
           return;
         }
         const response = yield call(updateSingleProduct, param);
+        if (response.data.messageType !== 'ignore') {
+          return;
+        }
+        notification.success({
+          message: `更新成功`
+        })
+
         let queryResult = yield select(state => state.product.queryResult);
         queryResult = queryResult.map((item) => {
           if (`${item.id}` === `${id}`) {
@@ -381,6 +394,13 @@ export default {
           param.dishTypeId = selecteDishTypeId
         }
         const response = yield call(updateSetProduct, param);
+        
+        if (response.data.messageType !== 'ignore') {
+          return;
+        }
+        notification.success({
+          message: `更新成功`
+        })
         let queryResult = yield select(state => state.product.queryResult);
         queryResult = queryResult.map((item) => {
           if (`${item.id}` === `${id}`) {

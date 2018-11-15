@@ -25,7 +25,7 @@ export default class AddProductModal extends Component {
     }];
 
     let data = this.props.singleProductList || [];
-    data = data.concat(data).concat(data);
+    // data = data;
     const pager = {
       pageSize: 10,
       showSizeChanger: true,

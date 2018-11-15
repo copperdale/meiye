@@ -150,12 +150,18 @@ export default {
         }),
       };
       if (isEditing) {
-        yield call(updateEmployeeRole, {...editingRole, ...param});
+        const response = yield call(updateEmployeeRole, {...editingRole, ...param});
+        if (response.data.messageType !== 'ignore') {
+          return;
+        }
         notification.success({
           description: '更新角色信息成功'
         });
       } else {
-        yield call(addEmployeeRole, param);
+        const response = yield call(addEmployeeRole, param);
+        if (response.data.messageType !== 'ignore') {
+          return;
+        }
         notification.success({
           description: '添加角色成功'
         });
@@ -171,7 +177,10 @@ export default {
       });
     },
     *deleteEmployeeRole({ payload: { id } }, { call, put }) {
-      yield call(deleteEmployeeRoles, id);
+      const response = yield call(deleteEmployeeRoles, id);
+      if (response.data.messageType !== 'ignore') {
+        return;
+      }
       notification.success({
         description: '删除角色成功'
       });
