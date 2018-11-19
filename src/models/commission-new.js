@@ -9,6 +9,9 @@ import { getEmployeeRoles } from '../services/employee';
 import { newCommission, getCommission, updateCommission } from '../services/commission';
 // const dateKeys = 'jobEntryTime jobPositiveTime intoWorkDate birthday'.split(' ');
 import { queryAllProductType } from '../services/product';
+
+import { checkIsValid10_2Number, checkIsPercent } from '../utils/utils';
+
 const initNewFormData = newFormFieldsKeys.reduce((temp, item) => {
   const result = temp;
   result[item] = { value: '' };
@@ -71,22 +74,104 @@ export default {
       const params = {};
 
       let flag = false;
-      
       if ((newCommissionSolutionFormData.talentRuleBos.value || []).length === 0) {
         flag = true;
         notification.error({
           message: '请添加提成规则'
         });
       }
+      
+      let planMode = newCommissionSolutionFormData.planMode.value;
+      let planType = newCommissionSolutionFormData.planType.value;
+      let value = (newCommissionSolutionFormData.talentRuleBos.value || []);
+      if (
+        // 消费提成；消费比例提成
+        `${planMode}` === '2' && `${planType}` === '1'
+        ||
+        // 储值提成；消费比例提成
+        `${planMode}` === '2' && `${planType}` === '3'
+      ) {
+        // debugger;
+        value.some(item => {
+          if (!checkIsValid10_2Number(`${item.ruleValue}`)) {
+            notification.error({
+              message: '请输入订单实收金额（最多十位数，两位小数）'
+            });
+            flag = true;
+            return true;
+          }
+          if (!checkIsPercent(`${item.ruleCommission}`)) {
+            notification.error({
+              message: '提成比例需要大于0，小于100'
+            });
+            flag = true;
+            return true;
+          }
+        });
+      } else if (
+        // 服务项目提成；消费比例提成
+        `${planMode}` === '2' && `${planType}` === '2'
+      ) {
+        value.some(item => {
+          if (!item.ruleValue) {
+            notification.error({
+              message: '请选择提成商品'
+            });
+            flag = true;
+            return true;
+          }
+          if (!checkIsValid10_2Number(`${item.ruleCommission}`)) {
+            notification.error({
+              message: '请输入提成金额（最多十位数，两位小数）'
+            });
+            flag = true;
+            return true;
+          }
+        });
+      } else if (
+        // 消费提成；固定金额提成 
+        `${planMode}` === '1' && `${planType}` === '1'
+        ||
+        `${planMode}` === '1' && `${planType}` === '3'
+      ) {
+        value.some(item => {
+          if (!checkIsValid10_2Number(`${item.ruleValue}`)) {
+            notification.error({
+              message: '请输入提成金额（最多十位数，两位小数）'
+            });
+            flag = true;
+            return true;
+          }
+          if (!checkIsValid10_2Number(`${item.ruleCommission}`)) {
+            notification.error({
+              message: '请输入提成金额（最多十位数，两位小数）'
+            });
+            flag = true;
+            return true;
+          }
+        });
+      } else if (
+        // 消费提成；固定金额提成 
+        `${planMode}` === '1' && `${planType}` === '2'
+      ) {
+        value.forEach(item => {
+          if (!item.ruleValue) {
+            notification.error({
+              message: '请选择提成商品'
+            });
+            flag = true;
+            return true;
+          }
+          if (!checkIsValid10_2Number(`${item.ruleCommission}`)) {
+            notification.error({
+              message: '请输入提成金额（最多十位数，两位小数）'
+            });
+            flag = true;
+            return true;
+          }
+        });
+      };
 
-      (newCommissionSolutionFormData.talentRuleBos.value || []).forEach((item) => {
-        if (!item.ruleValue || !item.ruleCommission) {
-          flag = true;
-          notification.error({
-            message: '每一个提成规则都不能为空'
-          });
-        }
-      })
       if (flag) return;
       
       Object.keys(newCommissionSolutionFormData).forEach((key) => {

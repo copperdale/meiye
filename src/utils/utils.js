@@ -187,7 +187,13 @@ export const checkIsValid10_2Number = (value = '') => {
   if (value.split('.').length > 2) return false;
   if (value.split('.')[1] && value.split('.')[1].length > 2) return false;
   return true;
- }
+}
+
+export const checkIsPercent = (value = '') => {
+  if (!Number(value)) return false;
+  if (Number(value) > 100 || Number(value) < 0) return false;
+  return true;
+}
 
 export const checkPriceIsValid = (rule, value, callback) => {
   const msg = '最多输入10位数字，最多保留两位小数';

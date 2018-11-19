@@ -6,6 +6,7 @@ import { routerRedux } from 'dva/router';
 import CommissionTypeSelect from '../CommissionComponent/CommissionTypesSelect.js'
 import CommissionRuleInput from '../CommissionComponent/CommissionRuleInput.js'
 
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -71,9 +72,10 @@ export const getFieldsConfig = (props = { }) => {
       label: ' ',
       placeholder: '',
       dataIndex: 'talentRuleBos',
-      rules: [{ validator: (rule, value, callback) => {
-        console.log(planMode, planType, value);
-      } }],
+      // rules: [{ validator: (rule, value = [], callback) => {
+      //   console.log(planMode, planType, value);
+        
+      // } }],
       render: (
         <CommissionRuleInput
           planMode={planMode}
