@@ -42,7 +42,7 @@ const menuData = [
     path: 'commission',
     children: [
       {
-        name: '人效列表',
+        name: '人效方案',
         path: 'list',
       },
       {
