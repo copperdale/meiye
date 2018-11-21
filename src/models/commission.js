@@ -71,27 +71,14 @@ export default {
   subscriptions: {
     setup({ history, dispatch }) { // eslint-disable-line
       // Subscribe history(url) change, trigger `load` action if pathname is `/`
-      // return history.listen(({ pathname, search }) => {
-        // if (pathname === '/setting' || pathname === '/') {
-        //   dispatch({
-        //     type: 'setting/getTableArea',
-        //   });
-        // }
-
-        // if (pathname !== '/product-new') {
-        //   const searchParam = parse(search, { ignoreQueryPrefix: true });
-        //   const result = {};
-        //   if (searchParam.selecteDishTypeId) {
-        //     dispatch({
-        //       type: 'product/updateState',
-        //       payload: {
-        //         selecteDishTypeId: searchParam.selecteDishTypeId
-        //       }
-        //     });
-        //   }
-        // }
+      return history.listen(({ pathname, search }) => {
+        if (pathname === '/commission/list') {
+          dispatch({
+            type: 'commission/queryPlan',
+          });
+        }
         
-      // });
+      });
     },
   },
 };

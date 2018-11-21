@@ -13,7 +13,7 @@ export async function queryPlan(params) {
         // delete params.planType;
     }
     Object.keys(params).forEach((key) => {
-        params[key] = params[key].trim ? params[key].trim() : params[key];
+        params[key] = params[key] &&　params[key].trim ? params[key].trim() : params[key];
     });
     return request(`${prefix}MeiYe/public/api/talentPlan/getTalentPage?token=${getToken()}`, {
         method: 'POST',
