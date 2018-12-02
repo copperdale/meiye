@@ -71,7 +71,7 @@ function generator({ defaultProps, defaultRules, type }) {
                     className={styles.getCaptcha}
                     onClick={() => { this.onGetCaptcha(otherProps.dispatch) }}
                   >
-                    <img alt="" src={`data:image/png;base64,${otherProps.verifyImage}`} style={{ height: '40px', width: '100%', marginTop: '16px' }} />
+                    <img alt="点击刷新验证码" src={`data:image/png;base64,${otherProps.verifyImage}`} style={{ height: '40px', minWidth: '100px', width: '100%', marginTop: '16px' }} />
                   </div>
                 </Col>
                 <Col span={12}>

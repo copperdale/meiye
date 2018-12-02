@@ -296,7 +296,7 @@ export default {
           return;
         }
         const response = yield call(newSingleProduct, param);
-        if (response.data.messageType !== 'ignore') {
+        if (response.messageType !== 'ignore') {
           return;
         }
         notification.success({
@@ -322,7 +322,7 @@ export default {
         }
         // debugger;
         const response = yield call(newSetProduct, param);
-        if (response.data.messageType !== 'ignore') {
+        if (response.messageType !== 'ignore') {
           return;
         }
         notification.success({
@@ -357,7 +357,7 @@ export default {
           return;
         }
         const response = yield call(updateSingleProduct, param);
-        if (response.data.messageType !== 'ignore') {
+        if (response.messageType !== 'ignore') {
           return;
         }
         notification.success({
@@ -394,8 +394,8 @@ export default {
           param.dishTypeId = selecteDishTypeId
         }
         const response = yield call(updateSetProduct, param);
-
-        if (response.data.messageType !== 'ignore') {
+        // console.log(response);
+        if (response.messageType !== 'ignore') {
           return;
         }
         notification.success({
