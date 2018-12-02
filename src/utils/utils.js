@@ -182,6 +182,7 @@ export function isUrl(path) {
 }
 
 export const checkIsValid10_2Number = (value = '') => {
+  value += '';
   if (value.length > 10) return false;
   if (!Number(value)) return false;
   if (value.split('.').length > 2) return false;
@@ -190,6 +191,7 @@ export const checkIsValid10_2Number = (value = '') => {
 }
 
 export const checkIsPercent = (value = '') => {
+  value += '';
   if (!Number(value)) return false;
   if (Number(value) > 100 || Number(value) < 0) return false;
   return true;
@@ -210,6 +212,7 @@ export const checkAmountIsValid = (rule, value, callback) => {
   const msg = '请输入不多于10位的数字';
 
   const checkIsValid = (value = '') => {
+    value += '';
     if (value.length > 10) return false;
     if (!Number(value)) return false;
     if (value.split('.').length > 1) return false;

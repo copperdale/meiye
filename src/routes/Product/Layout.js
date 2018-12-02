@@ -65,6 +65,11 @@ export default class ProductTypeLayout extends Component { // eslint-disable-lin
         selecteDishTypeId: id,
         selectedDishName,
         showNewButton,
+        queryFormData: {
+          name: { value: '' },
+          dishCode: { value: '' },
+          type: { value: '' },
+        }
       },
     });
     this.props.dispatch({
