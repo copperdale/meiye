@@ -6,13 +6,14 @@ import { connect } from 'dva';
   singleProductList: state['product-new'].singleProductList,
   selectedSingleProductList: state['product-new'].selectedSingleProductList,
   selectedSingleProducKeytList: state['product-new'].selectedSingleProducKeytList,
-  
+  selectedSetProductType: state['product-new'].selectedSetProductType,
 }))
 export default class AddProductModal extends Component {
 
   
 
   render() {
+    const props = this.props;
     const columns = [{
       title: '品项名称',
       dataIndex: 'name',
@@ -62,6 +63,14 @@ export default class AddProductModal extends Component {
                 },
               });
             },
+            getCheckboxProps: (record) =>　{
+              debugger;
+              const result = (props.selectedSetProductType.dishSetmealBos || []).some(item => {
+                debugger;
+                return item.childDishId == record.id;
+              });
+              return { disabled: result };
+            }
           }}
         />
       </Fragment>

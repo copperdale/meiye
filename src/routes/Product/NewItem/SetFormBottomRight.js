@@ -16,7 +16,6 @@ export default class SearchResult extends Component {
     // debugger;
     const selectedSetProductType = JSON.parse(JSON.stringify(this.props.selectedSetProductType));
     const setFormData = JSON.parse(JSON.stringify(this.props.setFormData));
-    debugger;
     selectedSetProductType.dishSetmealBos.forEach((cItem) => {
       if (item.childDishId + '' === cItem.childDishId + '') {
         // eslint-disable-next-line

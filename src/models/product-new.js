@@ -188,10 +188,11 @@ export default {
       let selectedSetProductType = yield select(state =>state['product-new'].selectedSetProductType);
       setFormData = JSON.parse(JSON.stringify(setFormData));
       selectedSetProductType = JSON.parse(JSON.stringify(selectedSetProductType));
+      
       selectedSetProductType.dishSetmealBos = selectedSetProductType.dishSetmealBos.concat(addedItems);
-      setFormData.dishSetmealGroupBos = setFormData.dishSetmealGroupBos.map(item => {
+      setFormData.dishSetmealGroupBos = setFormData.dishSetmealGroupBos.map((item, index) => {
         if (item.name === selectedSetProductType.name) {
-          item = JSON.parse(JSON.stringify(selectedSetProductType));
+          setFormData.dishSetmealGroupBos[index] = JSON.parse(JSON.stringify(selectedSetProductType));
         }
         return item;
       });
@@ -199,8 +200,8 @@ export default {
       yield put({
         type: 'product-new/updateState',
         payload: {
-          selectedSetProductType,
-          setFormData,
+          selectedSetProductType: JSON.parse(JSON.stringify(selectedSetProductType)),
+          setFormData: JSON.parse(JSON.stringify(setFormData)),
           selectedSingleProducKeytList: [],
           selectedSingleProductList: []
         }
@@ -212,19 +213,18 @@ export default {
       let selectedSetProductType = yield select(state =>state['product-new'].selectedSetProductType);
       setFormData = JSON.parse(JSON.stringify(setFormData));
       selectedSetProductType = JSON.parse(JSON.stringify(selectedSetProductType));
-
       selectedSetProductType.dishSetmealBos = selectedSetProductType.dishSetmealBos.filter((item, cIndex) => cIndex !== index);
       setFormData.dishSetmealGroupBos.forEach(item => {
         if (item.name == selectedSetProductType.name) {
-          item = JSON.parse(JSON.stringify(selectedSetProductType));
+          setFormData.dishSetmealGroupBos[index] = JSON.parse(JSON.stringify(selectedSetProductType));
         }
       });
       // console.log(selectedSetProductType, setFormData, addedItems);
       yield put({
         type: 'product-new/updateState',
         payload: {
-          selectedSetProductType,
-          setFormData,
+          selectedSetProductType: JSON.parse(JSON.stringify(selectedSetProductType)),
+          setFormData: JSON.parse(JSON.stringify(setFormData)),
           // selectedSingleProducKeytList: [],
           // selectedSingleProductList: []
         }
