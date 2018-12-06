@@ -19,12 +19,13 @@ export default class Employee extends Component {
     if (this.props.selectedRoleName) {
       breadcrumbs.push(this.props.selectedRoleName);
     }
+    console.log("hasAuthrity('USER_ADD')", hasAuthrity('USER_ADD'));
     return (
       <ProductTypeLayout
         breadcrumbs={breadcrumbs}
         actionButtons={
-          !hasAuthrity('USER_ADD')
-          &&
+          hasAuthrity('USER_ADD')
+          ?
           (
             <Button
               size="small" 
@@ -36,6 +37,7 @@ export default class Employee extends Component {
             >新建员工
             </Button>
           )
+          : ''
         }
       >
         <QueryForm />
