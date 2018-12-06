@@ -18,22 +18,28 @@ export default class NewItem extends Component {
 
   addTempArea = () => {
     const tableArea = this.props.tableArea;
+    const tables = this.props.tables;
+    if (tableArea.some(item => !item.id)) return;
     tableArea.push({ areaName: '' });
     this.props.dispatch({
       type: 'setting/updateState',
       payload: {
         tableArea: JSON.parse(JSON.stringify(tableArea)),
+        tables: tables.filter(item => item.id)
       },
     });
   }
 
   addTempTable = () => {
     const tables = this.props.tables;
+    let tableArea = this.props.tableArea;
+    if (tables.some(item => !item.id)) return;
     tables.push({ tableName: '' });
     this.props.dispatch({
       type: 'setting/updateState',
       payload: {
         tables: JSON.parse(JSON.stringify(tables)),
+        tableArea: tableArea.filter(item => item.id)
       },
     });
   }
@@ -166,6 +172,7 @@ export default class NewItem extends Component {
 
   setTableEditable = (tableId) => {
     const tables = this.props.tables;
+    const tableArea = this.props.tableArea;
     tables.forEach((item) => {
       item.isEdit = false;
       if (item.id === tableId) {
@@ -175,12 +182,14 @@ export default class NewItem extends Component {
     this.props.dispatch({
       type: 'setting/updateState',
       payload: {
-        tables: JSON.parse(JSON.stringify(tables)),
+        tables: JSON.parse(JSON.stringify(tables.filter(item => item.id))),
+        tableArea: tableArea.filter(item => item.id)
       },
     });
   }
 
   setAreaEditable = (areaId) => {
+    const tables = this.props.tables;
     const tableArea = this.props.tableArea;
     tableArea.forEach((item) => {
       item.isEdit = false;
@@ -192,6 +201,7 @@ export default class NewItem extends Component {
       type: 'setting/updateState',
       payload: {
         tableArea: JSON.parse(JSON.stringify(tableArea)),
+        tables: tables.filter(item => item.id)
       },
     });
   }
@@ -291,9 +301,15 @@ export default class NewItem extends Component {
           activeKey={`${this.props.selectedTableAreaId}`}
           onChange={(activeKey) => {
             if (activeKey === '-1') return;
+            let tableArea = this.props.tableArea;
+            tableArea = tableArea.filter(item => item.id);
             this.props.dispatch({
               type: 'setting/updateState',
               payload: { selectedTableAreaId: Number(activeKey) },
+            });
+            this.props.dispatch({
+              type: 'setting/updateState',
+              payload: { tableArea },
             });
             this.props.dispatch({
               type: 'setting/loadTablesByAreaId',
@@ -506,14 +522,13 @@ export default class NewItem extends Component {
                         }}
                         // onPressEnter={(e) => { this.addArea(e.target.value); }}
                         addonAfter={
-                          <Icon 
+                          [
+                            <Icon 
                             type="check" 
                             onClick={
                               () => { this.addArea(area.areaName); }
                             }
-                          />
-                        }
-                        addonAfter={
+                          />,
                           <Icon
                             type="rollback"
                             title="放弃当前操作"
@@ -522,6 +537,7 @@ export default class NewItem extends Component {
                               this.deleteArea(area);
                             }}
                           />
+                          ]
                         }
                       />
                     )

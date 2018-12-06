@@ -242,7 +242,7 @@ export default class HeaderMenu extends PureComponent {
           key="Menu"
           theme="dark"
           mode="horizontal"
-          {...menuProps}
+          // {...menuProps}
           onOpenChange={this.handleOpenChange}
           selectedKeys={selectedKeys}
           style={{ padding: '16px 0', width: '100%', marginLeft: '36px' }}

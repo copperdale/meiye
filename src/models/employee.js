@@ -151,7 +151,8 @@ export default {
       };
       if (isEditing) {
         const response = yield call(updateEmployeeRole, {...editingRole, ...param});
-        if (response.data.messageType !== 'ignore') {
+        // debugger;
+        if (response.messageType !== 'ignore') {
           return;
         }
         notification.success({
@@ -159,7 +160,7 @@ export default {
         });
       } else {
         const response = yield call(addEmployeeRole, param);
-        if (response.data.messageType !== 'ignore') {
+        if (response.messageType !== 'ignore') {
           return;
         }
         notification.success({
@@ -178,7 +179,7 @@ export default {
     },
     *deleteEmployeeRole({ payload: { id } }, { call, put }) {
       const response = yield call(deleteEmployeeRoles, id);
-      if (response.data.messageType !== 'ignore') {
+      if (response.messageType !== 'ignore') {
         return;
       }
       notification.success({

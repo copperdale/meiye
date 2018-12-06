@@ -10,6 +10,7 @@ class BasicForm extends React.Component {
 
     this.props.form.validateFields((err) => {
       if (!err) {
+        // debugger;
         this.props.dispatch({
           type: 'employee/saveEmployeeRole',
         })
