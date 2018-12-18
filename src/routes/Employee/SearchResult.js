@@ -53,7 +53,7 @@ export default class SearchResult extends Component {
       }
     }, {
       title: '状态',
-      dataIndex: 'enableFlag',
+      dataIndex: 'enabledFlag',
       render: (text) => {
         return `${text}` === '1' ? '启用' : '禁用';
       }
@@ -96,8 +96,8 @@ export default class SearchResult extends Component {
             <a
               className="primary-blue"
               href="javascript:void(0);"
-              onClick={() => {this.updateStatusFlag(record.id, `${record.enableFlag}` === '1' ? '2' : '1')}}
-            >{`${record.enableFlag}` === '1' ? '禁用' : '启用'}</a>
+              onClick={() => {this.updateStatusFlag(record.id, `${record.enabledFlag}` === '1' ? '2' : '1')}}
+            >{`${record.enabledFlag}` === '1' ? '禁用' : '启用'}</a>
             ]
           }
           {

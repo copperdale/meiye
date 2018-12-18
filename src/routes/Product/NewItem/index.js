@@ -38,7 +38,7 @@ export default class NewItem extends Component {
     if (this.props.isView) { title = '品项详情'; }
 
     let actionButtons = [
-    ].filter(item => !this.props.isView);
+    ];
     if (this.props.isView) {
       actionButtons.push(
         <Button size="small" className="primary-blue primary-blue-button" style={{ float: 'right' }}>
@@ -48,6 +48,19 @@ export default class NewItem extends Component {
               search: `selecteDishTypeId=${this.props.selecteDishTypeId}&isEdit=1&id=${this.props.id}&addtype=${this.props.addtype}`
             }}
           >编辑</Link>
+        </Button>
+      );
+      actionButtons.push(
+        <Button
+          style={{ float: 'right', marginRight: '8px' }}
+          size="small"
+          onClick={() => {
+            this.props.dispatch({
+              type: 'product/queryProductType'
+            });
+            this.props.dispatch(routerRedux.push('/product'));
+          }}
+        >返回
         </Button>
       );
     }

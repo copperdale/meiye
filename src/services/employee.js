@@ -48,11 +48,11 @@ export async function getEmployees(params) {
 }
 
 export async function deleteEmployee(id) {
-    return request(`${prefix}MeiYe/public/api/role/authUser/delete/${id}`, {
+    return request(`${prefix}MeiYe/public/api/role/authUser/delete/${id}?token=${getToken()}`, {
         method: 'GET',
     });
 }
 
 export async function updateStatusFlag({ id, statusFlag }) {
-    return request(`${prefix}Meiye/public/api/role/authUser/updateEnable/id/${id}/enableFlag/${statusFlag}`, { method: 'GET' })
+    return request(`${prefix}MeiYe/public/api/role/authUser/updateEnable/id/${id}/enableFlag/${statusFlag}?token=${getToken()}`, { method: 'GET' })
 }

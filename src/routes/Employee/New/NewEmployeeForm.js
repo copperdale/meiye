@@ -405,6 +405,31 @@ class BasicForm extends React.Component {
           )
         }
         {
+          this.props.isView
+          &&
+          (
+            <Row gutter={16}>
+              <Col span={12} offset={12}>
+                <FormItem
+                  {...formItemLayout}
+                  label=" "
+                  style={{ textAlign: 'right' }}
+                >
+                  <Button
+                    onClick={() => {
+                      this.props.dispatch({
+                        type: 'employee/queryEmployee'
+                      })
+                      this.props.dispatch(routerRedux.push('/employee'))
+                    }}
+                  >返回
+                  </Button>
+                </FormItem>
+              </Col>
+            </Row>
+          )
+        }
+        {
           this.getFormContent()
         }
       </Form>

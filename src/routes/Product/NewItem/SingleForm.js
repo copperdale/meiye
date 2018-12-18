@@ -91,7 +91,12 @@ class BasicForm extends React.Component {
             <Button htmlType="submit" style={{ float: 'right', marginLeft: '4px' }} className="primary-blue primary-blue-button">保存</Button>
             <Button
               style={{ float: 'right', marginLeft: '4px' }}
-              onClick={() => { this.props.dispatch(routerRedux.push('/product')); }}
+              onClick={() => { 
+                this.props.dispatch({
+                  type: 'product/queryProductType'
+                });
+                this.props.dispatch(routerRedux.push('/product')); 
+              }}
             >取消</Button>
           </FormItem>
         }
