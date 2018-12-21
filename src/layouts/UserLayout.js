@@ -6,7 +6,7 @@ import GlobalFooter from '../components/GlobalFooter';
 import styles from './UserLayout.less';
 import logo from '../assets/logo.svg';
 import { getRoutes, getPageQuery, getQueryPath } from '../utils/utils';
-import bgImage from '../assets/login-bg.png';
+import bgImage from '../assets/login-bg.jpg';
 import qrcode from '../assets/qrcode.png';
 
 // const copyright = (
