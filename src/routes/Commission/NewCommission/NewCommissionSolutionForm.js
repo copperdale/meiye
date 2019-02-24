@@ -105,6 +105,7 @@ class BasicForm extends React.Component {
   getFormContent = () => {
     const configs = getFieldsConfig(this.props);
     const { getFieldDecorator } = this.props.form;
+    const newCommissionSolutionFormData = this.props.newCommissionSolutionFormData;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -133,14 +134,16 @@ class BasicForm extends React.Component {
             />
             {
               item.fields.map((subItem) => {
-                // console.log(subItem);
-                if (subItem.dataIndex === "planMode")　{
-                  subItem.render = (
-                    <Select style={{ width: '100%' }}>
-                      <Option value="1">固定金额提成</Option>
-                      {/* <Option value="2">消费比例提成</Option> */}
-                    </Select> 
-                  );
+                // console.log(newCommissionSolutionFormData);
+                if (subItem.dataIndex === "planMode") {
+                  // debugger;
+                  if ((newCommissionSolutionFormData.planType && newCommissionSolutionFormData.planType.value) == 2) {
+                    subItem.render = (
+                      <Select style={{ width: '100%' }}>
+                        <Option value="1">固定金额提成</Option>
+                      </Select> 
+                    );
+                  }
                 }
                 return (
                   <FormItem
