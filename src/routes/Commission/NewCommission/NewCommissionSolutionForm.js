@@ -133,6 +133,15 @@ class BasicForm extends React.Component {
             />
             {
               item.fields.map((subItem) => {
+                // console.log(subItem);
+                if (subItem.dataIndex === "planMode")　{
+                  subItem.render = (
+                    <Select style={{ width: '100%' }}>
+                      <Option value="1">固定金额提成</Option>
+                      {/* <Option value="2">消费比例提成</Option> */}
+                    </Select> 
+                  );
+                }
                 return (
                   <FormItem
                     {...formItemLayout}
