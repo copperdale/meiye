@@ -5,6 +5,7 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 // import QueryForm from './QueryForm';
 // import SerachResult from './SearchResult';
 import AddEmployeeModal from './AddEmployeeModal';
+import { hasAuthrity } from '../../utils/authority'
 
 @connect((state) => ({
   // productList: state.employee.productList,
@@ -99,8 +100,14 @@ export default class ProductTypeLayout extends Component {
             <Spin spinning={this.props.loading}>
               <Card bordered={false}>
                 <div style={{ lineHeight: '32px', height: '32px' }}>
+                  <span style={{ fontWeight: 'bold' }}>
                   员工角色管理
-                  <Button type="primary" style={{ float: 'right' }} onClick={() => { this.toggleAddEmployeeModal()}}>创建角色</Button>
+                  </span>
+                  {
+                    hasAuthrity('CONFIG_ROLE')
+                    &&
+                    <Button type="primary" style={{ float: 'right' }} onClick={() => { this.toggleAddEmployeeModal()}}>创建角色</Button>
+                  }
                 </div>
                 <List
                   size="small"
@@ -112,7 +119,13 @@ export default class ProductTypeLayout extends Component {
                   dataSource={this.props.EmployeeRoleList}
                   renderItem={(subItem) => (
                     <List.Item actions={[
-                      <a href="javascript:void(0)" onClick={() => { this.toggleAddEmployeeModal(true, subItem)}}>编辑</a>,
+                      hasAuthrity('CONFIG_ROLE')
+                      ?
+                      <a href="javascript:void(0)" onClick={() => { this.toggleAddEmployeeModal(true, subItem)}}>编辑</a>
+                      :
+                      '',
+                      hasAuthrity('CONFIG_ROLE')
+                      ?
                       <Popconfirm
                         title="确定要删除这个角色吗?"
                         onConfirm={() => { this.deleteEmployeeRole(subItem.id) }}
@@ -123,7 +136,8 @@ export default class ProductTypeLayout extends Component {
                           href="javascript:void(0)"
                         >删除
                         </a>
-                      </Popconfirm>,
+                      </Popconfirm>:
+                      '',
                     ]}
                     >
                       <span
