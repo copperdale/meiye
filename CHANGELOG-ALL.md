@@ -1,5 +1,9 @@
-## <small>1.4.4 (2019-03-31)</small>
+## 2.0.0 (2019-03-31)
 
+* style: 修复了表格左右额外的margin样式的问题，主要影响了size是small的表格的样式 ([e5022d9](https://github.com/copperdale/meiye/commit/e5022d9))
+* ci: 增加了commitlint已经生成changelog的脚本 ([78414bc](https://github.com/copperdale/meiye/commit/78414bc))
+* feat: 在品项首页增加了一个tab，用于和货源管理切换 ([9149494](https://github.com/copperdale/meiye/commit/9149494))
+* feat: 添加了货源管理的首页,包括表单和查询结果以及跳转 ([cde18dc](https://github.com/copperdale/meiye/commit/cde18dc))
 * ' ([95f49ed](https://github.com/copperdale/meiye/commit/95f49ed))
 * 1. add deleteDishShop delete; 2. fixed eslint issue; ([94ebfb4](https://github.com/copperdale/meiye/commit/94ebfb4))
 * ad ([b3b1f65](https://github.com/copperdale/meiye/commit/b3b1f65))
