@@ -1,4 +1,26 @@
 <a name="2.0.0"></a>
+# [2.0.0](https://github.com/copperdale/meiye/compare/2.0.1...2.0.0) (2019-04-01)
+
+
+### Features
+
+* 增加了货源管理的删除，新增和更新功能 ([debcd1d](https://github.com/copperdale/meiye/commit/debcd1d))
+* 增加了货源管理的删除，新增和更新功能 ([de828f3](https://github.com/copperdale/meiye/commit/de828f3))
+
+
+
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/copperdale/meiye/compare/2.0.0...2.0.1) (2019-03-31)
+
+
+### Bug Fixes
+
+* 修正package.json中的版本信息，使其与tag的信息保持一致 ([afb7085](https://github.com/copperdale/meiye/commit/afb7085))
+* 在git忽略配置中，增加dist目录 ([052bd66](https://github.com/copperdale/meiye/commit/052bd66))
+
+
+
+<a name="2.0.0"></a>
 # [2.0.0](https://github.com/copperdale/meiye/compare/9149494...2.0.0) (2019-03-31)
 
 
