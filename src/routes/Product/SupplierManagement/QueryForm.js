@@ -2,6 +2,7 @@ import {
   Form, Icon, Input, Button,
 } from 'antd';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -64,16 +65,29 @@ class HorizontalLoginForm extends React.Component {
         <Button
             type="primary"
             htmlType="submit"
-            disabled={hasErrors(getFieldsError())}
           >
             查询
           </Button>
           <Button
             className="primary-blue primary-blue-button"
-            htmlType="submit"
-            disabled={hasErrors(getFieldsError())}
             icon="plus"
             style={{ marginLeft: 8 }}
+            onClick={() => {
+              this.props.dispatch({
+                type: 'supplier-new/updateState',
+                payload: {
+                  formData: {
+                    name: { value: '' },
+                    contacts: { value: '' },
+                    contactsPhone: { value: '' },
+                    address: { value: '' }
+                  }
+                }
+              })
+              this.props.dispatch(routerRedux.push({
+                pathname: '/supplier-new',
+              }));
+            }}
           >
             新建
           </Button>

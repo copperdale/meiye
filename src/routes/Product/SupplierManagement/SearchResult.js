@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Divider, Popconfirm } from 'antd';
 import { connect } from 'dva';
-import { Link } from 'dva/router';
+import { routerRedux } from 'dva/router';
 
 @connect((state) => {
   return {
@@ -53,16 +53,28 @@ export default class SearchResult extends Component {
           >查看
           </Link>
           <Divider type="vertical" /> */}
-          <Link
+          <a
             className="primary-blue"
             href="javascript:;"
-            to={{
-              pathname: '/supplier-new',
-              search: `id=${record.id}`,
+            onClick={() => {
+              this.props.dispatch({
+                type: 'supplier-new/updateState',
+                payload: {
+                  formData: {
+                    name: { value: record.name },
+                    contacts: { value: record.contacts },
+                    contactsPhone: { value: record.contactsPhone },
+                    address: { value: record.address }
+                  }
+                }
+              })
+              this.props.dispatch(routerRedux.push({
+                pathname: '/supplier-new',
+                search: `id=${record.id}`
+              }))
             }}
-          >
-          编辑
-          </Link>
+          >编辑
+          </a>
           <Divider type="vertical" />
           <Popconfirm
             title="确定要删除这条记录吗?"
