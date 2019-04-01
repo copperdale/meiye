@@ -6,7 +6,8 @@ import { Link } from 'dva/router';
 @connect((state) => {
   return {
     queryResult: state.product.queryResult,
-    loading: !!state.loading.effects['product/getProductList'],
+    loading: !!state.loading.effects['product/getProductList']
+      || state.loading.effects['product/deleteSupplier'],
     selecteDishTypeId: state.product.selecteDishTypeId,
   }
 })

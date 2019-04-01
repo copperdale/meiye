@@ -92,6 +92,9 @@ export const getRouterData = app => {
     '/supplier': {
       component: dynamicWrapper(app, ['supplier'], () => import('../routes/Product/SupplierManagement/index')),
     },
+    '/supplier-new': {
+      component: dynamicWrapper(app, ['supplier', 'supplier-new'], () => import('../routes/Product/SupplierManagement/NewItem/index')),
+    },
     '/employee': {
       component: dynamicWrapper(app, ['employee'], () => import('../routes/Employee/index.js')),
     },
