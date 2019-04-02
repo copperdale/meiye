@@ -40,7 +40,9 @@ class basicForm extends React.Component {
           {...formItemLayout}
           label="货源名称"
         >
-          {getFieldDecorator('name', {})(
+          {getFieldDecorator('name', {
+            rules: [{ required: true, max: 50, message: '请输入货源名称(最多50个字符)' }],
+          })(
             <Input />
           )}
         </Form.Item>
@@ -48,7 +50,9 @@ class basicForm extends React.Component {
           {...formItemLayout}
           label="货源地址"
         >
-          {getFieldDecorator('address', {})(
+          {getFieldDecorator('address', {
+            rules: [{ max: 50, message: '请输入货源地址(最多50个字符)' }],
+          })(
             <Input />
           )}
         </Form.Item>
@@ -56,7 +60,9 @@ class basicForm extends React.Component {
           {...formItemLayout}
           label="货源联系人"
         >
-          {getFieldDecorator('contacts', {})(
+          {getFieldDecorator('contacts', {
+            rules: [{ max: 10, message: '请输入货源联系人(最多10个字符)' }],
+          })(
             <Input />
           )}
         </Form.Item>
