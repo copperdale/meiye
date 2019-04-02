@@ -10,6 +10,9 @@ import {
   getSetById, 
   querySingleProductItems 
 } from '../services/product-new';
+import {
+  getSupplierList
+} from '../services/supplier';
 import { checkIsValid10_2Number } from '../utils/utils.js';
 
 const checkSetData = (setFormdata) => {
@@ -86,6 +89,13 @@ export default {
       unit: { value: '' },
       // addons: [{ name: '测试名字', price: '测试价格' }],
       addons: [],
+      purchaseAndSaleBo: {
+        type: '1',                //1为进货,2为销货
+        sourceId: '',              //type为1时需要，2不需要
+        sourceName: '',    //type为1时需要，2不需要
+        number: '',              
+        purchasePrice: '' 
+      }
     },
     SetFormBottomAddModalFormData: {
       name: { value: '' },
@@ -126,6 +136,13 @@ export default {
         //   }],
         // },
       ],
+      purchaseAndSaleBo: {
+        type: '1',                //1为进货,2为销货
+        sourceId: '',              //type为1时需要，2不需要
+        sourceName: '',    //type为1时需要，2不需要
+        number: '',              
+        purchasePrice: '' 
+      }
     },
     selectedSetProductType: {},
     showSetFormBottomRightAddModal: false,
@@ -136,6 +153,7 @@ export default {
     singleProductList: [],
     selectedSingleProductList: [],
     selectedSingleProducKeytList: [],
+    supplierList: []
   },
 
   effects: {
@@ -232,6 +250,7 @@ export default {
     },
     *getProductInfo({ payload: { id } }, { call, put, select }) {
       const response = yield call(getProductById, id);
+      const purchaseAndSaleBo = yield select(state => state['product-new'].singleFormData.purchaseAndSaleBo)
       // if (response.data)
       yield put({
         type: 'product-new/updateState',
@@ -244,6 +263,7 @@ export default {
             amount: { value: response.data.dishQty },
             unit: { value: response.data.unitName },
             addons: response.data.dishPropertyBos,
+            purchaseAndSaleBo
           }),
         },
       });
@@ -287,7 +307,8 @@ export default {
           unitName: singleFormdata.unit.value,
           dishQty: singleFormdata.amount.value,
           dishPropertyBos: singleFormdata.addons,
-          enabledFlag: '1'
+          enabledFlag: '1',
+          purchaseAndSaleBo: singleFormdata.purchaseAndSaleBo
         };
         if (selecteDishTypeId) {
           param.dishTypeId = selecteDishTypeId
@@ -315,7 +336,8 @@ export default {
           unitName: setFormdata.unit.value,
           dishQty: setFormdata.amount.value,
           // dishTypeId: selecteDishTypeId,
-          enabledFlag: '1'
+          enabledFlag: '1',
+          purchaseAndSaleBo: setFormdata.purchaseAndSaleBo
         });
         if (selecteDishTypeId) {
           param.dishTypeId = selecteDishTypeId
@@ -349,6 +371,8 @@ export default {
           unitName: singleFormdata.unit.value,
           dishQty: singleFormdata.amount.value,
           dishPropertyBos: singleFormdata.addons,
+          dishPropertyBos: singleFormdata.addons,
+          purchaseAndSaleBo: singleFormdata.purchaseAndSaleBo
         };
         if (selecteDishTypeId) {
           param.dishTypeId = selecteDishTypeId
@@ -389,6 +413,7 @@ export default {
           marketPrice: setFormdata.price.value,
           unitName: setFormdata.unit.value,
           dishQty: setFormdata.amount.value,
+          purchaseAndSaleBo: setFormdata.purchaseAndSaleBo
         });
         if (selecteDishTypeId) {
           param.dishTypeId = selecteDishTypeId
@@ -417,6 +442,19 @@ export default {
       }
       yield put(routerRedux.push('/product'));
     },
+    *getSupplierList(_, { call, put, select }) {
+
+      const response = yield call(getSupplierList, {});
+    //   if (!response) {
+    //     response = {"data":[{"aliasName":"","brandIdenty":1,"creatorId":0,"creatorName":"","dishBrandTypeBoList":[{"aliasName":"","brandIdenty":1,"creatorId":0,"creatorName":"","dishBrandTypeBoList":[],"dishTypeDesc":"","enabledFlag":1,"id":5,"isCure":2,"isOrder":1,"name":"肾部保养","parentId":11,"serverCreateTime":1534338859756,"serverUpdateTime":1534338859756,"sort":900000,"statusFlag":1,"typeCode":"123456","updatorId":0,"updatorName":"","uuid":"f45c07c6-1445-4412-b5af-f610bd2f461c"},{"aliasName":"","brandIdenty":1,"creatorId":0,"creatorName":"","dishBrandTypeBoList":[],"dishTypeDesc":"","enabledFlag":1,"id":6,"isCure":2,"isOrder":1,"name":"肾部保养","parentId":11,"serverCreateTime":1534341921890,"serverUpdateTime":1534341921890,"sort":800000,"statusFlag":1,"typeCode":"123456","updatorId":0,"updatorName":"","uuid":"6f9cab11-58ab-4f00-90d0-b5335f221618"},{"aliasName":"","brandIdenty":1,"creatorId":0,"creatorName":"","dishBrandTypeBoList":[],"dishTypeDesc":"","enabledFlag":1,"id":1,"isCure":2,"isOrder":1,"name":"肾部保养","parentId":11,"serverCreateTime":1534168060069,"serverUpdateTime":1534168060069,"sort":700000,"statusFlag":1,"typeCode":"123456","updatorId":0,"updatorName":"","uuid":"eae49042-0c88-47d8-8d8f-70f4b1d40910"},{"aliasName":"","brandIdenty":1,"creatorId":0,"creatorName":"","dishBrandTypeBoList":[],"dishTypeDesc":"","enabledFlag":1,"id":3,"isCure":2,"isOrder":1,"name":"肾部保养","parentId":11,"serverCreateTime":1534259632792,"serverUpdateTime":1534259632792,"sort":600000,"statusFlag":1,"typeCode":"123456","updatorId":0,"updatorName":"","uuid":"f9896b55-27fe-407c-8a0a-7298cc4f534b"},{"aliasName":"","brandIdenty":1,"creatorId":0,"creatorName":"","dishBrandTypeBoList":[],"dishTypeDesc":"","enabledFlag":1,"id":7,"isCure":2,"isOrder":1,"name":"肾部保养","parentId":11,"serverCreateTime":1534345162250,"serverUpdateTime":1534345162250,"sort":300000,"statusFlag":1,"typeCode":"123456","updatorId":0,"updatorName":"","uuid":"213d2c03-c2ff-4cd6-a550-77117757ed9d"},{"aliasName":"","brandIdenty":1,"creatorId":0,"creatorName":"","dishBrandTypeBoList":[],"dishTypeDesc":"","enabledFlag":1,"id":15,"isCure":2,"isOrder":1,"name":"String","parentId":11,"serverCreateTime":1534082241089,"serverUpdateTime":1534429989860,"sort":300000,"statusFlag":1,"typeCode":"ffff","updatorId":0,"updatorName":"","uuid":"b956a567-2f63-4566-8422-fa16b887408f"},{"aliasName":"","brandIdenty":1,"creatorId":0,"creatorName":"","dishBrandTypeBoList":[],"dishTypeDesc":"","enabledFlag":1,"id":2,"isCure":2,"isOrder":1,"name":"肾部保养","parentId":11,"serverCreateTime":1534168678267,"serverUpdateTime":1534168678267,"sort":200000,"statusFlag":1,"typeCode":"123456","updatorId":0,"updatorName":"","uuid":"81ea563a-e1f6-468c-814e-a27e134877ac"},{"aliasName":"","brandIdenty":1,"creatorId":0,"creatorName":"","dishBrandTypeBoList":[],"dishTypeDesc":"","enabledFlag":1,"id":4,"isCure":2,"isOrder":1,"name":"肾部保养","parentId":11,"serverCreateTime":1534259705102,"serverUpdateTime":1534259705102,"sort":200000,"statusFlag":1,"typeCode":"123456","updatorId":0,"updatorName":"","uuid":"acbafa01-74ef-4312-a479-ddc3ff69fb0d"}],"dishTypeDesc":"","enabledFlag":1,"id":11,"isCure":2,"isOrder":1,"name":"保健","parentId":0,"serverCreateTime":1534079891779,"serverUpdateTime":1534079891779,"sort":500000,"statusFlag":1,"typeCode":"123456","updatorId":0,"updatorName":"","uuid":"8bd17894-38df-49bf-9ad2-72c02509cbff"},{"aliasName":"","brandIdenty":1,"creatorId":0,"creatorName":"","dishBrandTypeBoList":[],"dishTypeDesc":"","enabledFlag":1,"id":8,"isCure":2,"isOrder":1,"name":"护肤类","parentId":0,"serverCreateTime":1534077078830,"serverUpdateTime":1534077078830,"sort":300000,"statusFlag":1,"typeCode":"123456","updatorId":0,"updatorName":"","uuid":"19d76e88-f84b-47f2-a55d-3c52b61e9a58"}],"message":"","messageType":"ignore","statusCode":200}
+    //   }
+      yield put({
+        type: 'updateState',
+        payload: {
+          supplierList: response.data.content || [],
+        },
+      });
+    },
   },
 
   reducers: {
@@ -433,6 +471,9 @@ export default {
       return history.listen(({ pathname, search }) => {
         // console.log(searchParam);
         if (pathname !== '/product-new') return; 
+        dispatch({
+          type: 'getSupplierList'
+        });
         let result = {};
         const searchParam = parse(search, { ignoreQueryPrefix: true });
         if (searchParam.addtype) {

@@ -3,6 +3,7 @@ import { Form, Input, Select, Button } from 'antd';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import styles from './index.less'
+import SupplierInfoInput from './SupplierInfoInput';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -108,20 +109,11 @@ class BasicForm extends React.Component {
           {...formItemLayout}
           label="库存数量"
         >
-          {getFieldDecorator('amount', {
-            // rules: [{ required: true, message: '请输入售卖价格' }],
-          })(
-            <Input type="number" style={{width: '120px'}} disabled={this.props.isView} />
-            )}
-          <span style={{ float: 'right' }}>
-            单位&nbsp;
-            {getFieldDecorator('unit', {
-              // rules: [{ required: true, message: '请输入售卖价格' }],
-            })(
-              <Input style={{width: '120px'}} disabled={this.props.isView} />
-              )}
-          </span>
+          {this.props.amount && this.props.amount.value}
+          &nbsp;
+          {this.props.unit && this.props.unit.value}
         </FormItem>
+        <SupplierInfoInput {...this.props} formItemLayout={formItemLayout} />
         <FormItem
           {...formItemLayout}
           label={
