@@ -1,3 +1,24 @@
+## <small>2.0.1 (2019-04-02)</small>
+
+
+
+
+## <small>2.0.2 (2019-04-02)</small>
+
+* feat: 增加了货源管理的删除，新增和更新功能 ([debcd1d](https://github.com/copperdale/meiye/commit/debcd1d))
+* feat: 增加了货源管理的删除，新增和更新功能 ([de828f3](https://github.com/copperdale/meiye/commit/de828f3))
+* feat: 新建或更新品项时候，需要更新货源信息 ([c57ddbf](https://github.com/copperdale/meiye/commit/c57ddbf))
+* docs: 新增changlog，更新package.json的版本到2.0.1 ([d9b909a](https://github.com/copperdale/meiye/commit/d9b909a))
+
+
+
+## <small>2.0.1 (2019-03-31)</small>
+
+* fix: 修正package.json中的版本信息，使其与tag的信息保持一致 ([afb7085](https://github.com/copperdale/meiye/commit/afb7085))
+* fix: 在git忽略配置中，增加dist目录 ([052bd66](https://github.com/copperdale/meiye/commit/052bd66))
+
+
+
 ## 2.0.0 (2019-03-31)
 
 * style: 修复了表格左右额外的margin样式的问题，主要影响了size是small的表格的样式 ([e5022d9](https://github.com/copperdale/meiye/commit/e5022d9))
