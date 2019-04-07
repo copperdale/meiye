@@ -64,9 +64,7 @@ export default class AddProductModal extends Component {
               });
             },
             getCheckboxProps: (record) =>　{
-              debugger;
               const result = (props.selectedSetProductType.dishSetmealBos || []).some(item => {
-                debugger;
                 return item.childDishId == record.id;
               });
               return { disabled: result };

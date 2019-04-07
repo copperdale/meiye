@@ -36,7 +36,6 @@ export default class NewItem extends Component {
   deleteProductType = (index) => {
     let setFormData = JSON.parse(JSON.stringify(this.props.setFormData));
     setFormData.dishSetmealGroupBos = setFormData.dishSetmealGroupBos.filter((item, cIndex) => cIndex !== index);
-    debugger;
     this.props.dispatch({
       type: 'product-new/updateState',
       payload: {

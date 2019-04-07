@@ -13,7 +13,6 @@ import SetFormBottomRightAddModal from './SetFormBottomRightAddModal'
 export default class SearchResult extends Component {
   
   updatetableCell = (value, item, dataIndex) => {
-    // debugger;
     const selectedSetProductType = JSON.parse(JSON.stringify(this.props.selectedSetProductType));
     const setFormData = JSON.parse(JSON.stringify(this.props.setFormData));
     selectedSetProductType.dishSetmealBos.forEach((cItem) => {
@@ -39,7 +38,6 @@ export default class SearchResult extends Component {
   }
 
   getSingleProductItemById = (id) => {
-    // debugger
     return this.props.singleProductList.filter(item => item.id === id)[0] || {};
   }
 
