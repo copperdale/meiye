@@ -1,5 +1,21 @@
 <a name="2.0.1"></a>
-## [2.0.1](https://github.com/copperdale/meiye/compare/2.0.2...2.0.1) (2019-04-02)
+## [2.0.1](https://github.com/copperdale/meiye/compare/2.0.3...2.0.1) (2019-04-07)
+
+
+
+<a name="2.0.3"></a>
+## [2.0.3](https://github.com/copperdale/meiye/compare/2.0.2...2.0.3) (2019-04-07)
+
+
+### Bug Fixes
+
+* 修复了套餐添加子品项分组的bug ([d9d9a1d](https://github.com/copperdale/meiye/commit/d9d9a1d))
+* 增加了新建货源时候的前端校验 ([253a1ad](https://github.com/copperdale/meiye/commit/253a1ad))
+
+
+### Features
+
+* 添加了新增、编辑单品和套餐时候的出库入库日志记录功能 ([4861b65](https://github.com/copperdale/meiye/commit/4861b65))
 
 
 
