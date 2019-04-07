@@ -271,7 +271,6 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
         validator: (rule, value = '', callback) => {
           // console.log('###########', props.form.getFieldsValue(['password', 'passwordNum']));
           const params = props.form.getFieldsValue(['password', 'passwordNum']);
-          debugger;
           if (params.password !== params.passwordNum) {
             callback('登录密码和确认密码需要一致')
           } else {

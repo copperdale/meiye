@@ -8,7 +8,6 @@ export async function getProductList() {
 }
 
 export async function deleteProduct(id) {
-    debugger;
     return request(`${prefix}MeiYe/public/api/part/deleteBrandType/${id}?token=${getToken()}`, { method: 'GET' });
 }
 

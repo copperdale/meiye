@@ -13,6 +13,23 @@ class BasicForm extends React.Component {
     e.preventDefault();
 
     this.props.form.validateFields((err, fieldsValue) => {
+      if (!fieldsValue.purchaseAndSaleBo_type.length) {
+        delete err.purchaseAndSaleBo_sourceId;
+        delete err.purchaseAndSaleBo_purchasePrice;
+        delete err.purchaseAndSaleBo_number;
+        if (!Object.keys(err).length) {
+          err = false;
+        }
+      }
+      
+      if (fieldsValue.purchaseAndSaleBo_type[0] === '2') {
+        delete err.purchaseAndSaleBo_sourceId;
+        delete err.purchaseAndSaleBo_purchasePrice;
+        if (!Object.keys(err).length) {
+          err = false;
+        }
+      }
+
       if (!err) {
         if (this.props.isEdit) {
           this.props.dispatch({
@@ -109,9 +126,7 @@ class BasicForm extends React.Component {
           {...formItemLayout}
           label="库存数量"
         >
-          {this.props.amount && this.props.amount.value}
-          &nbsp;
-          {this.props.unit && this.props.unit.value}
+          {this.props.setFormData.amount && this.props.setFormData.amount.value}
         </FormItem>
         <SupplierInfoInput {...this.props} formItemLayout={formItemLayout} />
         <FormItem
@@ -131,6 +146,9 @@ class BasicForm extends React.Component {
 const SetForm = Form.create({
   onFieldsChange(props, changedFields) {
     const setFormData = props.setFormData;
+    if (changedFields.purchaseAndSaleBo_type && changedFields.purchaseAndSaleBo_type.value.length === 2) {
+      changedFields.purchaseAndSaleBo_type.value.splice(0, 1);
+    }
     Object.keys(changedFields).forEach((key) => {
       setFormData[key] = changedFields[key];
     })
@@ -142,12 +160,12 @@ const SetForm = Form.create({
     })
   },
   mapPropsToFields(props) {
-    const fields = 'name code type price unit amount'.split(' ');
+    const fields = 'name code type price unit amount purchaseAndSaleBo_purchasePrice purchaseAndSaleBo_number purchaseAndSaleBo_sourceName purchaseAndSaleBo_sourceId purchaseAndSaleBo_type'.split(' ');
     const result = {};
     fields.forEach((key) => {
       result[key] = Form.createFormField({
         ...props.setFormData[key],
-        value: props.setFormData[key].value,
+        value: props.setFormData[key] &&　props.setFormData[key].value || '',
       })
     })
     return result;

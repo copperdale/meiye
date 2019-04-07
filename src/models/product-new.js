@@ -15,16 +15,16 @@ import {
 } from '../services/supplier';
 import { checkIsValid10_2Number } from '../utils/utils.js';
 
-const checkSetData = (setFormdata) => {
+const checkSetData = (setFormData) => {
 
   let result = true;
-  if (!setFormdata.dishSetmealGroupBos) {
+  if (!setFormData.dishSetmealGroupBos) {
     result = false;
   }
-  if (!setFormdata.dishSetmealGroupBos.length) {
+  if (!setFormData.dishSetmealGroupBos.length) {
     result = false;
   }
-  setFormdata.dishSetmealGroupBos.forEach((item) => {
+  setFormData.dishSetmealGroupBos.forEach((item) => {
     if (!item.dishSetmealBos) result = false;
     if (!item.dishSetmealBos.length) result = false;
   });
@@ -33,7 +33,7 @@ const checkSetData = (setFormdata) => {
       message: '新建套餐时需要至少添加一个非空的子品项分组'
     })
   }
-  setFormdata.dishSetmealGroupBos.forEach((item) => {
+  setFormData.dishSetmealGroupBos.forEach((item) => {
     let min = `${item.orderMin}`;
     let max = `${item.orderMax}`;
     let integerReg = /^\D$/;
@@ -89,13 +89,11 @@ export default {
       unit: { value: '' },
       // addons: [{ name: '测试名字', price: '测试价格' }],
       addons: [],
-      purchaseAndSaleBo: {
-        type: '1',                //1为进货,2为销货
-        sourceId: '',              //type为1时需要，2不需要
-        sourceName: '',    //type为1时需要，2不需要
-        number: '',              
-        purchasePrice: '' 
-      }
+      purchaseAndSaleBo_type: { value: [] },             //1为进货,2为销货
+      purchaseAndSaleBo_sourceId: { value: '' },              //type为1时需要，2不需要
+      purchaseAndSaleBo_sourceName: { value: '' },    //type为1时需要，2不需要
+      purchaseAndSaleBo_number: { value: '' },              
+      purchaseAndSaleBo_purchasePrice: { value: '' }
     },
     SetFormBottomAddModalFormData: {
       name: { value: '' },
@@ -136,13 +134,11 @@ export default {
         //   }],
         // },
       ],
-      purchaseAndSaleBo: {
-        type: '1',                //1为进货,2为销货
-        sourceId: '',              //type为1时需要，2不需要
-        sourceName: '',    //type为1时需要，2不需要
-        number: '',              
-        purchasePrice: '' 
-      }
+      purchaseAndSaleBo_type: { value: [] },             //1为进货,2为销货
+      purchaseAndSaleBo_sourceId: { value: '' },              //type为1时需要，2不需要
+      purchaseAndSaleBo_sourceName: { value: '' },    //type为1时需要，2不需要
+      purchaseAndSaleBo_number: { value: '' },              
+      purchaseAndSaleBo_purchasePrice: { value: '' } 
     },
     selectedSetProductType: {},
     showSetFormBottomRightAddModal: false,
@@ -192,6 +188,8 @@ export default {
     // 添加子品项组下面的子项
     *addSubTypeItems(_, { call, put, select }) {
       const selectedSingleProductList = yield select(state => state['product-new'].selectedSingleProductList);
+      let setFormData = yield select(state =>state['product-new'].setFormData);
+      let selectedSetProductType = yield select(state =>state['product-new'].selectedSetProductType);
       let addedItems = selectedSingleProductList.map((item) => {
         return {
           childDishId: item.id,
@@ -202,17 +200,14 @@ export default {
           leastCellNum: 1,
         };
       });
-      let setFormData = yield select(state =>state['product-new'].setFormData);
-      let selectedSetProductType = yield select(state =>state['product-new'].selectedSetProductType);
       setFormData = JSON.parse(JSON.stringify(setFormData));
       selectedSetProductType = JSON.parse(JSON.stringify(selectedSetProductType));
       
       selectedSetProductType.dishSetmealBos = selectedSetProductType.dishSetmealBos.concat(addedItems);
-      setFormData.dishSetmealGroupBos = setFormData.dishSetmealGroupBos.map((item, index) => {
+      setFormData.dishSetmealGroupBos.forEach((item, index) => {
         if (item.name === selectedSetProductType.name) {
           setFormData.dishSetmealGroupBos[index] = JSON.parse(JSON.stringify(selectedSetProductType));
         }
-        return item;
       });
       // console.log(selectedSetProductType, setFormData, addedItems);
       yield put({
@@ -250,7 +245,13 @@ export default {
     },
     *getProductInfo({ payload: { id } }, { call, put, select }) {
       const response = yield call(getProductById, id);
-      const purchaseAndSaleBo = yield select(state => state['product-new'].singleFormData.purchaseAndSaleBo)
+      // const {
+      //   purchaseAndSaleBo_type,                //1为进货,2为销货
+      //   purchaseAndSaleBo_sourceId,              //type为1时需要，2不需要
+      //   purchaseAndSaleBo_sourceName,    //type为1时需要，2不需要
+      //   purchaseAndSaleBo_number,              
+      //   purchaseAndSaleBo_purchasePrice 
+      // } = yield select(state => state['product-new'].singleFormData)
       // if (response.data)
       yield put({
         type: 'product-new/updateState',
@@ -263,13 +264,25 @@ export default {
             amount: { value: response.data.dishQty },
             unit: { value: response.data.unitName },
             addons: response.data.dishPropertyBos,
-            purchaseAndSaleBo
+            purchaseAndSaleBo_type: { value: [] },             //1为进货,2为销货
+            purchaseAndSaleBo_sourceId: { value: '' },              //type为1时需要，2不需要
+            purchaseAndSaleBo_sourceName: { value: '' },    //type为1时需要，2不需要
+            purchaseAndSaleBo_number: { value: '' },              
+            purchaseAndSaleBo_purchasePrice: { value: '' } 
           }),
+          selecteDishTypeId: response.data.dishTypeId
         },
       });
     },
     *getSetInfo({ payload: { id } }, { call, put, select }) {
       const response = yield call(getSetById, id);
+      // const {
+      //   purchaseAndSaleBo_type,                //1为进货,2为销货
+      //   purchaseAndSaleBo_sourceId,              //type为1时需要，2不需要
+      //   purchaseAndSaleBo_sourceName,    //type为1时需要，2不需要
+      //   purchaseAndSaleBo_number,              
+      //   purchaseAndSaleBo_purchasePrice 
+      // } = yield select(state => state['product-new'].setFormData)
       // if (response.data)
       yield put({
         type: 'product-new/updateState',
@@ -281,7 +294,13 @@ export default {
             price: { value: response.data.marketPrice },
             amount: { value: response.data.dishQty },
             unit: { value: response.data.unitName },
+            purchaseAndSaleBo_type: { value: [] },             //1为进货,2为销货
+            purchaseAndSaleBo_sourceId: { value: '' },              //type为1时需要，2不需要
+            purchaseAndSaleBo_sourceName: { value: '' },    //type为1时需要，2不需要
+            purchaseAndSaleBo_number: { value: '' },              
+            purchaseAndSaleBo_purchasePrice: { value: '' }
           }),
+          selecteDishTypeId: response.data.dishTypeId
         },
       });
     },
@@ -296,24 +315,46 @@ export default {
     },
     *new(_, { call, put, select }) {
       const addtype = yield select(state => state['product-new'].addtype);
-      const selecteDishTypeId = yield select(state => state['product-new'].selecteDishTypeId)
+      const selecteDishTypeId = yield select(state => state['product-new'].selecteDishTypeId);
+      const supplierList = yield select(state => state['product-new'].supplierList);
       if (addtype === '0') {
-        const singleFormdata = yield select(state => state['product-new'].singleFormData);
+        const singleFormData = yield select(state => state['product-new'].singleFormData);
+        const {
+          purchaseAndSaleBo_type,                //1为进货,2为销货
+          purchaseAndSaleBo_sourceId,              //type为1时需要，2不需要
+          purchaseAndSaleBo_sourceName,    //type为1时需要，2不需要
+          purchaseAndSaleBo_number,              
+          purchaseAndSaleBo_purchasePrice
+        } = singleFormData
+        let purchaseAndSaleBoWrapper = {};
+        if (purchaseAndSaleBo_type && purchaseAndSaleBo_type.value.length) {
+          let sourceName = supplierList.filter(item => `${item.id}` === `${purchaseAndSaleBo_sourceId.value}`)[0]
+            && supplierList.filter(item => `${item.id}` === `${purchaseAndSaleBo_sourceId.value}`)[0].name || '';
+          purchaseAndSaleBoWrapper = {
+            purchaseAndSaleBo: {
+              type: purchaseAndSaleBo_type.value[0],                //1为进货,2为销货
+              sourceId: purchaseAndSaleBo_sourceId.value,              //type为1时需要，2不需要
+              sourceName,
+              number: purchaseAndSaleBo_number.value,              
+              purchasePrice: purchaseAndSaleBo_purchasePrice.value, 
+            }
+          }
+        }
         const param = {
           type: addtype,
-          name: singleFormdata.name.value,
-          dishCode: singleFormdata.code.value,
-          marketPrice: singleFormdata.price.value,
-          unitName: singleFormdata.unit.value,
-          dishQty: singleFormdata.amount.value,
-          dishPropertyBos: singleFormdata.addons,
+          name: singleFormData.name.value,
+          dishCode: singleFormData.code.value,
+          marketPrice: singleFormData.price.value,
+          unitName: singleFormData.unit.value,
+          dishQty: singleFormData.amount.value || 0,
+          dishPropertyBos: singleFormData.addons,
           enabledFlag: '1',
-          purchaseAndSaleBo: singleFormdata.purchaseAndSaleBo
+          ...purchaseAndSaleBoWrapper
         };
         if (selecteDishTypeId) {
           param.dishTypeId = selecteDishTypeId
         }
-        if (!checkSingleAddonIsValid(singleFormdata.addons)) {
+        if (!checkSingleAddonIsValid(singleFormData.addons)) {
           return;
         }
         const response = yield call(newSingleProduct, param);
@@ -321,23 +362,43 @@ export default {
           return;
         }
         notification.success({
-          message: `创建${singleFormdata.name.value}成功`
+          message: `创建${singleFormData.name.value}成功`
         })
       } else if (addtype === '1') {
-        const setFormdata = yield select(state => state['product-new'].setFormData);
+        const setFormData = yield select(state => state['product-new'].setFormData);
 
-        if (!checkSetData(setFormdata)) return;
-        // debugger;
-        const param = Object.assign({}, setFormdata, {
+        if (!checkSetData(setFormData)) return;
+        const {
+          purchaseAndSaleBo_type,                //1为进货,2为销货
+          purchaseAndSaleBo_sourceId,              //type为1时需要，2不需要
+          purchaseAndSaleBo_sourceName,    //type为1时需要，2不需要
+          purchaseAndSaleBo_number,              
+          purchaseAndSaleBo_purchasePrice
+        } = yield select(state => state['product-new'].setFormData)
+        let purchaseAndSaleBoWrapper = {};
+        if (purchaseAndSaleBo_type.value.length) {
+          let sourceName = supplierList.filter(item => `${item.id}` === `${purchaseAndSaleBo_sourceId.value}`)[0]
+            && supplierList.filter(item => `${item.id}` === `${purchaseAndSaleBo_sourceId.value}`)[0].name || '';
+          purchaseAndSaleBoWrapper = {
+            purchaseAndSaleBo: {
+              type: purchaseAndSaleBo_type.value[0],                //1为进货,2为销货
+              sourceId: purchaseAndSaleBo_sourceId.value,              //type为1时需要，2不需要
+              sourceName,
+              number: purchaseAndSaleBo_number.value,              
+              purchasePrice: purchaseAndSaleBo_purchasePrice.value, 
+            }
+          }
+        }
+        const param = Object.assign({}, setFormData, {
           type: addtype,
-          name: setFormdata.name.value,
-          dishCode: setFormdata.code.value,
-          marketPrice: setFormdata.price.value,
-          unitName: setFormdata.unit.value,
-          dishQty: setFormdata.amount.value,
+          name: setFormData.name.value,
+          dishCode: setFormData.code.value,
+          marketPrice: setFormData.price.value,
+          unitName: setFormData.unit.value,
+          dishQty: setFormData.amount.value || 0,
           // dishTypeId: selecteDishTypeId,
           enabledFlag: '1',
-          purchaseAndSaleBo: setFormdata.purchaseAndSaleBo
+          ...purchaseAndSaleBoWrapper
         });
         if (selecteDishTypeId) {
           param.dishTypeId = selecteDishTypeId
@@ -348,7 +409,7 @@ export default {
           return;
         }
         notification.success({
-          message: `创建${setFormdata.name.value}成功`
+          message: `创建${setFormData.name.value}成功`
         })
       }
       yield put({
@@ -360,24 +421,46 @@ export default {
       const addtype = yield select(state => state['product-new'].addtype);
       const selecteDishTypeId = yield select(state => state['product-new'].selecteDishTypeId)
       const id = yield select(state => state['product-new'].id);
+      const supplierList = yield select(state => state['product-new'].supplierList);
       if (addtype === '0') {
-        const singleFormdata = yield select(state => state['product-new'].singleFormData);
+        const singleFormData = yield select(state => state['product-new'].singleFormData);
+        const {
+          purchaseAndSaleBo_type,                //1为进货,2为销货
+          purchaseAndSaleBo_sourceId,              //type为1时需要，2不需要
+          // purchaseAndSaleBo_sourceName,    //type为1时需要，2不需要
+          purchaseAndSaleBo_number,              
+          purchaseAndSaleBo_purchasePrice
+        } = singleFormData
+        let purchaseAndSaleBoWrapper = {};
+        if (purchaseAndSaleBo_type && purchaseAndSaleBo_type.value.length) {
+          let sourceName = supplierList.filter(item => `${item.id}` === `${purchaseAndSaleBo_sourceId.value}`)[0]
+            && supplierList.filter(item => `${item.id}` === `${purchaseAndSaleBo_sourceId.value}`)[0].name || '';
+          purchaseAndSaleBoWrapper = {
+            purchaseAndSaleBo: {
+              type: purchaseAndSaleBo_type.value[0],                //1为进货,2为销货
+              sourceId: purchaseAndSaleBo_sourceId.value,              //type为1时需要，2不需要
+              sourceName,
+              number: purchaseAndSaleBo_number.value,              
+              purchasePrice: purchaseAndSaleBo_purchasePrice.value, 
+            }
+          }
+        }
         const param = {
           id,
           type: addtype,
-          name: singleFormdata.name.value,
-          dishCode: singleFormdata.code.value,
-          marketPrice: singleFormdata.price.value,
-          unitName: singleFormdata.unit.value,
-          dishQty: singleFormdata.amount.value,
-          dishPropertyBos: singleFormdata.addons,
-          dishPropertyBos: singleFormdata.addons,
-          purchaseAndSaleBo: singleFormdata.purchaseAndSaleBo
+          name: singleFormData.name.value,
+          dishCode: singleFormData.code.value,
+          marketPrice: singleFormData.price.value,
+          unitName: singleFormData.unit.value,
+          dishQty: singleFormData.amount.value || 0,
+          dishPropertyBos: singleFormData.addons,
+          dishPropertyBos: singleFormData.addons,
+          ...purchaseAndSaleBoWrapper
         };
         if (selecteDishTypeId) {
           param.dishTypeId = selecteDishTypeId
         }
-        if (!checkSingleAddonIsValid(singleFormdata.addons)) {
+        if (!checkSingleAddonIsValid(singleFormData.addons)) {
           return;
         }
         const response = yield call(updateSingleProduct, param);
@@ -402,18 +485,38 @@ export default {
           }
         });
       } else if (addtype === '1') {
-        const setFormdata = yield select(state => state['product-new'].setFormData);
+        const setFormData = yield select(state => state['product-new'].setFormData);
+        if (!checkSetData(setFormData)) return;
+        const {
+          purchaseAndSaleBo_type,                //1为进货,2为销货
+          purchaseAndSaleBo_sourceId,              //type为1时需要，2不需要
+          purchaseAndSaleBo_sourceName,    //type为1时需要，2不需要
+          purchaseAndSaleBo_number,              
+          purchaseAndSaleBo_purchasePrice
+        } = setFormData;
+        let purchaseAndSaleBoWrapper = {};
+        if (purchaseAndSaleBo_type.value.length) {
+          let sourceName = supplierList.filter(item => `${item.id}` === `${purchaseAndSaleBo_sourceId.value}`)[0]
+            && supplierList.filter(item => `${item.id}` === `${purchaseAndSaleBo_sourceId.value}`)[0].name || '';
+          purchaseAndSaleBoWrapper = {
+            purchaseAndSaleBo: {
+              type: purchaseAndSaleBo_type.value[0],                //1为进货,2为销货
+              sourceId: purchaseAndSaleBo_sourceId.value,              //type为1时需要，2不需要
+              sourceName,
+              number: purchaseAndSaleBo_number.value,              
+              purchasePrice: purchaseAndSaleBo_purchasePrice.value, 
+            }
+          }
+        }
 
-        if (!checkSetData(setFormdata)) return;
-
-        const param = Object.assign({}, setFormdata, {
+        const param = Object.assign({}, setFormData, {
           type: addtype,
-          name: setFormdata.name.value,
-          dishCode: setFormdata.code.value,
-          marketPrice: setFormdata.price.value,
-          unitName: setFormdata.unit.value,
-          dishQty: setFormdata.amount.value,
-          purchaseAndSaleBo: setFormdata.purchaseAndSaleBo
+          name: setFormData.name.value,
+          dishCode: setFormData.code.value,
+          marketPrice: setFormData.price.value,
+          unitName: setFormData.unit.value,
+          dishQty: setFormData.amount.value || 0,
+          ...purchaseAndSaleBoWrapper
         });
         if (selecteDishTypeId) {
           param.dishTypeId = selecteDishTypeId

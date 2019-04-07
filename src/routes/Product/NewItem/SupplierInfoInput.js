@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
-import { Form, Input, Select, Radio } from 'antd';
+import { Form, Input, Select, Checkbox } from 'antd';
 import { connect } from 'dva';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-const RadioGroup = Radio.Group;
+const CheckboxGroup = Checkbox.Group;
 
 @connect((state) => ({
   supplierList: state['product-new'].supplierList || [],
@@ -40,96 +40,88 @@ class SupplierInfoInput extends React.Component {
     }
   }
 
-  getIsSingle = () => this.props.addtype === '0';
+  getIsSingle = () => {
+    return this.props.addtype === '0';
+  };
 
   render() {
+    const { getFieldDecorator } = this.props.form;
     const isSingle = this.getIsSingle();
     let formData = isSingle
       ?
-      this.props.singleFormData.purchaseAndSaleBo
+      this.props.singleFormData
       :
-      this.props.setFormData.purchaseAndSaleBo;
-    const { purchasePrice, number, sourceName, sourceId, type } = formData || {};
+      this.props.setFormData;
+    const { purchaseAndSaleBo_type = { value: '' } } = formData || {};
     return (
       <Fragment>
         <FormItem
           {...this.props.formItemLayout}
           label=" "
         >
-          <RadioGroup
-            value={type}
-            onChange={(e) => {
-              this.onChange({ type: e.target.value });
-            }}
-          >
-            <Radio value={'1'}>进货</Radio>
-            <Radio value={'2'}>销货</Radio>
-          </RadioGroup>
+          {getFieldDecorator('purchaseAndSaleBo_type', {
+          })(
+            <CheckboxGroup
+              options={[
+                { label: '进货', value: '1' },
+                { label: '销货', value: '2' },
+              ]}
+            />
+          )}
         </FormItem>
         <FormItem
+          required={true}
           style={{
-            display: type === '1' ? 'block' : 'none'
+            display: purchaseAndSaleBo_type.value[0] === '1' ? 'block' : 'none'
           }}
           {...this.props.formItemLayout}
           label="货源厂商"
         >
-          <Select
-            value={sourceId}
-            onChange={(value) => {
-              this.onChange({ sourceId: value });
-            }}
-          >
-            {
-              this.props.supplierList.map((item) => {
-                return (
-                  <Option key={item.id}>{item.name}</Option>
-                );
-              })
-            }
-          </Select>
+          {getFieldDecorator('purchaseAndSaleBo_sourceId', {
+            rules: [{ required: true, message: '请选择货源厂商' }],
+          })(
+            <Select
+            >
+              {
+                this.props.supplierList.map((item) => {
+                  return (
+                    <Option key={item.id}>{item.name}</Option>
+                  );
+                })
+              }
+            </Select>
+            )}
+          
         </FormItem>
         <FormItem
+          required={true}
           style={{
-            display: type === '1' ? 'block' : 'none'
+            display: purchaseAndSaleBo_type.value[0] === '1' ? 'block' : 'none'
           }}
           {...this.props.formItemLayout}
           label="进货价格"
         >
-          <Input
-            value={purchasePrice}
-            onChange={(e) => {
-              this.onChange({ purchasePrice: e.target.value });
-            }}
-          />
+          {getFieldDecorator('purchaseAndSaleBo_purchasePrice', {
+            rules: [{ required: true, type: 'number', message: '请输入数字', transform: value => Number(value) || '' }],
+          })(
+            <Input />
+            )}
         </FormItem>
         <FormItem
+          required={true}
           style={{
-            display: type === '1' ? 'block' : 'none'
+            display: purchaseAndSaleBo_type.value[0] ? 'block' : 'none'
           }}
           {...this.props.formItemLayout}
-          label="进货数量"
+          label={purchaseAndSaleBo_type.value[0] === '1' ? "进货数量" : "销货数量"}
         >
-          <Input
-            value={number}
-            onChange={(e) => {
-              this.onChange({ number: e.target.value });
-            }}
-          />
+          {getFieldDecorator('purchaseAndSaleBo_number', {
+            rules: [{ required: true, type: 'number', message: '请输入整数', transform: value => Number(value) || '' }],
+          })(
+            <Input />
+            )}
         </FormItem>
-        <FormItem
-          style={{
-            display: type === '2' ? 'block' : 'none'
-          }}
-          {...this.props.formItemLayout}
-          label="销货数量"
-        >
-          <Input
-            value={number}
-            onChange={(e) => {
-              this.onChange({ number: e.target.value });
-            }}
-          />
-        </FormItem>
+
       </Fragment>
     );
   }

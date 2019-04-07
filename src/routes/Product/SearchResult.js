@@ -36,7 +36,7 @@ export default class SearchResult extends Component {
       dataIndex: 'marketPrice',
     }, {
       title: '库存',
-      dataIndex: 'currRemainTotal',
+      dataIndex: 'dishQty',
     }, {
       title: '单位',
       dataIndex: 'unitName',
