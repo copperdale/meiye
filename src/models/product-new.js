@@ -543,6 +543,9 @@ export default {
           }
         });
       }
+      yield put({
+        type: 'product/queryProductType'
+      })
       yield put(routerRedux.push('/product'));
     },
     *getSupplierList(_, { call, put, select }) {

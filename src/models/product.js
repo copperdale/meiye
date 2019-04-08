@@ -131,9 +131,9 @@ export default {
           dispatch({
             type: 'product/getProductList',
           });
-          dispatch({
-            type: 'product/queryProductType',
-          });
+          // dispatch({
+          //   type: 'product/queryProductType',
+          // });
         }
 
         if (pathname !== '/product-new') {
