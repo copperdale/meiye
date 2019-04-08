@@ -1,5 +1,12 @@
-## <small>2.0.1 (2019-04-07)</small>
+## <small>2.0.1 (2019-04-08)</small>
 
+
+
+
+## <small>2.0.4 (2019-04-08)</small>
+
+* fixed: 修复了进入品项首页多余的查询，应该在新建和更新品项之后重新查询。 ([dcd50d8](https://github.com/copperdale/meiye/commit/dcd50d8))
+* docs: 增加了changelog ([9f46246](https://github.com/copperdale/meiye/commit/9f46246))
 
 
 
