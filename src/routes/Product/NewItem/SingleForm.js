@@ -168,9 +168,16 @@ class BasicForm extends React.Component {
           {...formItemLayout}
           label="库存数量"
         >
-          {this.props.singleFormData.amount && this.props.singleFormData.amount.value}
+          <span
+            style={{ width: '120px', display: 'inline-block' }}
+          >{this.props.singleFormData.amount && this.props.singleFormData.amount.value}</span>
           &nbsp;
-          {this.props.unit && this.props.unit.value}
+          单位&nbsp;
+          {getFieldDecorator('unit', {
+            rules: [{ max: 4, message: '最多输入4个字符' }],
+          })(
+            <Input style={{width: '120px'}} disabled={this.props.isView} />
+            )}
         </FormItem>
         <SupplierInfoInput {...this.props} formItemLayout={formItemLayout} />
         <FormItem
