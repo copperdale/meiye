@@ -366,7 +366,6 @@ export default {
         })
       } else if (addtype === '1') {
         const setFormData = yield select(state => state['product-new'].setFormData);
-
         if (!checkSetData(setFormData)) return;
         const {
           purchaseAndSaleBo_type,                //1为进货,2为销货
@@ -376,7 +375,7 @@ export default {
           purchaseAndSaleBo_purchasePrice
         } = yield select(state => state['product-new'].setFormData)
         let purchaseAndSaleBoWrapper = {};
-        if (purchaseAndSaleBo_type.value.length) {
+        if (purchaseAndSaleBo_type &&　purchaseAndSaleBo_type.value　&& purchaseAndSaleBo_type.value.length) {
           let sourceName = supplierList.filter(item => `${item.id}` === `${purchaseAndSaleBo_sourceId.value}`)[0]
             && supplierList.filter(item => `${item.id}` === `${purchaseAndSaleBo_sourceId.value}`)[0].name || '';
           purchaseAndSaleBoWrapper = {
@@ -391,11 +390,11 @@ export default {
         }
         const param = Object.assign({}, setFormData, {
           type: addtype,
-          name: setFormData.name.value,
-          dishCode: setFormData.code.value,
-          marketPrice: setFormData.price.value,
-          unitName: setFormData.unit.value,
-          dishQty: setFormData.amount.value || 0,
+          name: setFormData.name && setFormData.name.value,
+          dishCode: setFormData.code && setFormData.code.value,
+          marketPrice: setFormData.price && setFormData.price.value,
+          unitName: setFormData.unit && setFormData.unit.value,
+          dishQty: setFormData.amount && setFormData.amount.value || 0,
           // dishTypeId: selecteDishTypeId,
           enabledFlag: '1',
           ...purchaseAndSaleBoWrapper
@@ -403,7 +402,7 @@ export default {
         if (selecteDishTypeId) {
           param.dishTypeId = selecteDishTypeId
         }
-        // debugger;
+    
         const response = yield call(newSetProduct, param);
         if (response.messageType !== 'ignore') {
           return;
