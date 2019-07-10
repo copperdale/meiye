@@ -74,3 +74,7 @@ export const customerSetting = () => {
 export const commissionCalculate = () => {
 	return `${iframeUrlPrefix}/internal/salary/userSalary?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
 }
+
+export const getProductURL = () => {
+	return `${iframeUrlPrefix}/dishShopType/dishShopMainPage?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
+}
