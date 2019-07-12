@@ -76,5 +76,5 @@ export const commissionCalculate = () => {
 }
 
 export const getProductURL = () => {
-	return `${iframeUrlPrefix}/dishShopType/dishShopMainPage?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
+	return `${iframeUrlPrefix}/internal/dishShopType/dishShopMainPage?brandIdenty=${getBrandIdenty()}&shopIdenty=${getShopIdenty()}&creatorId=${getCreatorId()}&creatorName=${getCreatorName()}`;
 }
