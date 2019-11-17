@@ -29,7 +29,7 @@ const getCreatorId = () => {
 	return getUserInfo() && getUserInfo().user && getUserInfo().user && getUserInfo().user.id;
 }
 
-export const prefix = window.PREFIX || 'http://b.zhongmeiyunfu.com/';
+export const prefix = window.PREFIX || 'http://b.ziranyukj.com/';
 // export const prefix = '/';
 
 const iframeUrlPrefix = 'http://mk.zhongmeiyunfu.com/marketing';
