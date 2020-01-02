@@ -161,6 +161,7 @@ export default {
               type: 'employee-new/updateState',
               payload: {
                 newEmployeeFormData: cloneDeep(initNewEmployeeFormData),
+                id: false
               },
             });
           }

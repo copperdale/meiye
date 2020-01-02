@@ -32,7 +32,7 @@ const getCreatorId = () => {
 export const prefix = window.PREFIX || 'http://b.ziranyukj.com/';
 // export const prefix = '/';
 
-const iframeUrlPrefix = 'http://mk.zhongmeiyunfu.com/marketing';
+const iframeUrlPrefix = 'http://mk.ziranyukj.com/marketing';
 
 // 首页
 export const homePage = () => {
