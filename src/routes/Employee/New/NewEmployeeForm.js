@@ -145,7 +145,7 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
           {
             (props.EmployeeRoleList || []).map(role => {
               return (
-                <Option value={role.id}>{role.name}</Option>
+                <Option value={`${role.id}`}>{role.name}</Option>
               );
             })
           }
@@ -203,13 +203,25 @@ export const getFieldsConfig = (props = { latestEmployee: {} }) => {
       label: '基本工资',
       placeholder: '请输入基本工资',
       dataIndex: 'salaryBase',
-      rules: [{ required: true, validator: checkPriceIsValid }],
+      rules: [{ required: true, validator: (rule, value, callback) => {
+        if (value && Number(value) === 0) {
+          callback();
+          return;
+        }
+        checkPriceIsValid(rule, value, callback);
+      } }],
       render:<Input maxLength={10} addonBefore="￥" />,
     }, {
       label: '岗位工资',
       placeholder: '请输入岗位工资',
       dataIndex: 'salaryPost',
-      rules: [{ required: true, validator: checkPriceIsValid }],
+      rules: [{ required: true, validator: (rule, value, callback) => {
+        if (value && Number(value) === 0) {
+          callback();
+          return;
+        }
+        checkPriceIsValid(rule, value, callback);
+      } }],
       render:<Input maxLength={10} addonBefore="￥" />,
     }],
   },{
