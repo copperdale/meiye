@@ -1,7 +1,7 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import { notification } from 'antd';
-import { login, getVerifyCode } from '../services/api';
+import { login, getVerifyCode, loginBrand } from '../services/api';
 import { setUserInfo, setToken, removeToken, removeUserInfo } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 import { getPageQuery } from '../utils/utils';
@@ -45,8 +45,6 @@ export default {
         return;
       }
       const response = yield call(login, payload);
-      // debugger;
-      // Login successfully
       if (response.statusCode === 200 && response.messageType === 'ignore') {
         yield put({
           type: 'changeLoginStatus',
@@ -73,6 +71,23 @@ export default {
         }
         yield put(routerRedux.replace(redirect || '/home'));
       }
+    },
+    *loginBrand({ payload }, { call, put }) {
+      const response = yield call(loginBrand, payload);
+      // loginBrand(payload).then((d) => {
+      //   console.log('d', d);
+      // });
+      // console.log('response', response);
+      if (response.message === 'OK') {
+        window.open(response.content.homeUrl, '_self');
+      }
+      // if (response.statusCode === 200 && response.messageType === 'ignore') {
+      //   yield put({
+      //     type: 'changeLoginStatus',
+      //     payload: response,
+      //   });
+        
+      // }
     },
     *logout(_, { put }) {
       removeToken();
